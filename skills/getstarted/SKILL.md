@@ -1,58 +1,60 @@
 ---
 name: getstarted
-description: First-time onboarding for employees new to the Claude platform
-disable-model-invocation: true
+description: First-time onboarding — new employees and platform introduction
 ---
 
 # /getstarted — Employee Onboarding
 
-Welcome to the Claude platform at Evermore. This skill is the entry point for employees
-using Claude for the first time.
+This skill is the entry point for employees using Claude for the first time at Evermore.
+It identifies the user via the MCP server and loads the appropriate onboarding prompt.
 
 ## Step 1: Identify the User
 
 Call the `get_my_profile` MCP tool to retrieve the caller's profile.
 
-### If the tool succeeds (Mode A — known user with profile):
+### If the tool succeeds:
 
-Greet the user by name using the profile data returned.
+Note the user's name, role, team, and manager from the returned profile data.
 
-> "Hey [name]! Welcome — I've got your profile loaded. You're [role] on [team]. Let's
-> get you set up."
+Greet the user by name:
 
-Then load the engage prompt and route to the appropriate mode:
+> "Hey [name]! Welcome — I've got your profile loaded. You're [role] on [team].
+> Let's get you set up."
 
-```
-Read and follow ~/code/company-context/prompts/engage.md
-```
+### If the tool fails:
 
-Use the profile data to determine which mode applies:
-- **New hire** (recent start date, first-time flag) → Mode A
-- **Existing employee** (established, exploring Claude) → Mode B
-- If unclear, start with Phase 0 (routing) from the engage prompt — it will sort it out.
+The MCP server may be unavailable or the profile may not exist yet. That is fine —
+note that the profile is unavailable and proceed. You will ask the user for context
+in Step 2 fallback.
 
-### If the tool fails (Mode B1 — cold start, no MCP):
+## Step 2: Get the Onboarding Prompt
 
-The agent MCP server may be unavailable, or the profile may not exist yet. That is fine —
-fall back to a manual introduction.
+Call the `run_prompt` MCP tool to get the onboarding prompt for this user.
 
-> "Hey — welcome to Claude at Evermore. I wasn't able to pull your profile automatically,
-> so let me get a bit of context from you.
+### If the tool succeeds:
+
+Follow the returned prompt instructions exactly, passing through any profile data
+from Step 1. The prompt contains the full onboarding flow — phases, questions,
+outputs — tailored to the user's department.
+
+### If the tool fails:
+
+Fall back to a basic welcome. Ask the user:
+
+> "I wasn't able to load the onboarding materials automatically. Let me get
+> some context from you instead.
 >
-> What's your name, and what team are you on? And are you new to Evermore, or have you
-> been here a while and are just getting started with Claude?"
+> What's your name, your role, and what team are you on? Are you new to
+> Evermore, or have you been here a while and are getting started with Claude?"
 
-Once you have their name, role, and situation, load the engage prompt:
-
-```
-Read and follow ~/code/company-context/prompts/engage.md
-```
-
-Route to the appropriate mode based on their answers. The engage prompt's Phase 0 handles
-all routing.
+Then provide a basic orientation:
+- Explain that Evermore uses Claude across the organization for work automation
+- Ask about their focus areas and what they'll primarily be working on
+- Suggest they reach out to their manager or IT for the full onboarding experience
 
 ## What This Skill Does NOT Do
 
-- It does not run a full session on its own — it hands off to the engage prompt.
-- It does not write to any files or make system changes (Tier 1 — read + plan only).
-- It does not require a terminal or Claude Code — it works in the Claude desktop app.
+- It does not run a full session on its own — it hands off to the prompt from `run_prompt`.
+- It does not read local files or require any repos to be cloned.
+- It does not write to any files or make system changes.
+- It works in Claude Code with the evermore MCP server configured.
