@@ -10,7 +10,7 @@ It identifies the user via the MCP server and loads the appropriate onboarding p
 
 ## Step 1: Identify the User
 
-Call the `get_my_profile` MCP tool to retrieve the caller's profile.
+Call the `get_content` MCP tool with path `people/me` to retrieve the caller's profile.
 
 ### If the tool succeeds:
 
@@ -29,7 +29,8 @@ in Step 2 fallback.
 
 ## Step 2: Get the Onboarding Prompt
 
-Call the `run_prompt` MCP tool to get the onboarding prompt for this user.
+Call the `get_content` MCP tool with path `prompts/onboarding` to get the onboarding
+prompt for this user.
 
 ### If the tool succeeds:
 
@@ -54,7 +55,7 @@ Then provide a basic orientation:
 
 ## What This Skill Does NOT Do
 
-- It does not run a full session on its own — it hands off to the prompt from `run_prompt`.
+- It does not run a full session on its own — it hands off to the prompt from `get_content`.
 - It does not read local files or require any repos to be cloned.
 - It does not write to any files or make system changes.
 - It works in Claude Code with the evermore MCP server configured.
