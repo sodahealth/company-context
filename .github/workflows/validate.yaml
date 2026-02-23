@@ -1,0 +1,78 @@
+name: Validate Content
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: "**/*.md"
+          config: ".markdownlint.json"
+
+      - name: Check for broken internal links
+        run: |
+          echo "Checking for broken internal links in markdown files..."
+          exit_code=0
+          for file in $(find . -name "*.md" -not -path "./.git/*"); do
+            # Extract markdown links that point to local files (not URLs)
+            links=$(grep -oP '\[.*?\]\((?!https?://|mailto:|#)([^)]+)\)' "$file" 2>/dev/null | grep -oP '\(([^)]+)\)' | tr -d '()')
+            for link in $links; do
+              # Strip any anchor fragment
+              target="${link%%#*}"
+              if [ -n "$target" ]; then
+                # Resolve relative to the file's directory
+                dir=$(dirname "$file")
+                if [ ! -f "$dir/$target" ] && [ ! -d "$dir/$target" ]; then
+                  echo "::error file=$file::Broken link: $link (target not found)"
+                  exit_code=1
+                fi
+              fi
+            done
+          done
+          if [ $exit_code -eq 0 ]; then
+            echo "All internal links are valid."
+          fi
+          exit $exit_code
+
+      - name: Check file naming convention
+        run: |
+          echo "Checking file naming conventions..."
+          exit_code=0
+          for file in $(find knowledge skills prompts -name "*.md" -not -path "./.git/*" 2>/dev/null); do
+            basename=$(basename "$file")
+            # Check for uppercase or underscores in filenames (except CLAUDE.md, README.md, SKILL.md)
+            if echo "$basename" | grep -qP '[A-Z]' && ! echo "$basename" | grep -qP '^(CLAUDE|README|SKILL|LICENSE)\.md$'; then
+              echo "::warning file=$file::Filename contains uppercase characters. Convention is lowercase with hyphens."
+              exit_code=1
+            fi
+            if echo "$basename" | grep -q '_'; then
+              echo "::warning file=$file::Filename contains underscores. Convention is lowercase with hyphens."
+              exit_code=1
+            fi
+          done
+          if [ $exit_code -eq 0 ]; then
+            echo "All filenames follow conventions."
+          fi
+          exit $exit_code
+
+      - name: Check data classification
+        run: |
+          echo "Checking for potential data classification violations..."
+          exit_code=0
+          # Check for patterns that might indicate restricted content
+          for file in $(find . -name "*.md" -not -path "./.git/*" -not -path "./.github/*"); do
+            # Check for potential secrets/credentials patterns
+            if grep -qiP '(api[_-]?key|secret[_-]?key|password|bearer\s+[a-z0-9]|token\s*[:=]\s*["\x27][a-z0-9])' "$file" 2>/dev/null; then
+              echo "::warning file=$file::Possible credential or secret detected. Verify this is a placeholder, not a real value."
+            fi
+          done
+          echo "Data classification check complete."
