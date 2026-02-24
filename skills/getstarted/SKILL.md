@@ -140,23 +140,27 @@ List the skills and prompts available for their department. Pull this from the d
 context repo if available, or use the general set:
 
 **For all departments:**
+
 - `/getstarted` — Start here each session (this skill — shows status, quick launch)
 
 **Department-specific examples (adapt based on their actual department):**
 
 For **People Operations:**
+
 - "Ask me about any HR process — I have your team's workflows documented"
 - "Tell me about a process you'd like to improve and I'll help you think through it"
 - "Ask a research question — 'What's our headcount by department?'"
 - "Need help preparing a board deck section? Just describe what you need."
 
 For **Finance / Accounting:**
+
 - "Ask about vendor contracts — 'When does the Vonage agreement expire?'"
 - "Describe a manual workflow and I'll help you document and improve it"
 - "Ask about financial processes — I know your tools and how they connect"
 - "Need to look something up? I can search across company knowledge."
 
 For **Engineering / Product:**
+
 - "Ask about architecture — 'How does Harmony's auth flow work?'"
 - "Describe a feature or project you want to plan and I'll help decompose it"
 - "Ask about engineering processes, deployment, or infrastructure"
@@ -248,6 +252,7 @@ patterns, communication patterns — and generate their top 3 pain point suggest
 with honest confidence levels.
 
 **Confidence level definitions:**
+
 - **High** — Based on explicit data from a discovery session or their own prior statements.
   You have direct evidence this is a pain point.
 - **Medium** — Based on patterns in their department access map, app usage, or
@@ -411,6 +416,7 @@ Offer to start working:
 > "What would you like to work on?"
 
 Show their most-used workflows as quick-access options. Pull these from:
+
 - Prior enrichment data (what they have worked on before)
 - Department-specific common workflows
 - Any incomplete items from Step 4
@@ -418,6 +424,7 @@ Show their most-used workflows as quick-access options. Pull these from:
 Present as a short list:
 
 > Options:
+
 > - Continue [specific task from last session]
 > - [Common workflow 1 for their department]
 > - [Common workflow 2 for their department]
@@ -437,6 +444,7 @@ but replaces Steps 5-6 with company and team introduction.
 ### Steps 1-4: Same as Mode 1
 
 Run Mode 1 Steps 1 through 4 exactly as described:
+
 1. Gather context (people/me, department context, discovery profile)
 2. Platform introduction (vision statement, personalized relevance)
 3. Available commands (department-specific examples)
@@ -450,6 +458,7 @@ After setup is complete, shift to helping the new hire understand the company.
 > and your team."
 
 **Company overview:**
+
 - Search for company overview and mission documents via the `search` MCP tool (Knower).
   Look for documents about what Evermore does, the product (Harmony), health plans,
   EBT programs.
@@ -459,6 +468,7 @@ After setup is complete, shift to helping the new hire understand the company.
   you know from context.
 
 **Team introduction:**
+
 - From the profile data: name their manager and explain their role briefly.
 - List team members and their roles: "You'll be working with [name] ([role]),
   [name] ([role]), and [name] ([role])."
@@ -468,6 +478,7 @@ After setup is complete, shift to helping the new hire understand the company.
   with them.
 
 **Department context:**
+
 - "Here's how [department] fits into the company:"
 - Summarize the department's mission, key responsibilities, and how their work
   connects to the company's goals.
@@ -502,6 +513,7 @@ search or department context). For each tool in their expected stack:
    specific role.
 
 **If access gaps are found:**
+
 - Compile a list of missing or uncertain tool access.
 - Offer to route to IT: "Would you like me to flag these for the IT team to set up?"
 - If they agree, note the gap in the enrichment data and, if the `search` MCP tool

@@ -214,9 +214,10 @@ channels their team is actually active in:
 - Works -> move on
 - Broken -> myapps -> Atlassian tile. If still broken, flag for IT.
 
-**4. Rippling (HR)**
+#### 4. Rippling (HR)
 > "Rippling is where your pay stubs and PTO live. Have you gotten an invite?
 > It comes to your personal email, not work."
+
 - Received -> move on
 - Not received -> check personal email and spam. Note as pending if missing.
 
@@ -276,7 +277,8 @@ After the task:
 > company like Evermore" -> walk through the output together.
 
 **First week checklist — give this after the Claude use, not instead of it:**
-```
+
+```text
 [ ] Connect with your manager — ask: "What's my one priority this week?"
 [ ] Complete your IT onboarding call (if not done)
 [ ] Accept your Rippling invite (check personal email)
@@ -535,7 +537,8 @@ what happens next.
 > session. This helps prioritize what gets built for your team."
 
 Share the notes:
-```
+
+```text
 What I heard about your work:
 - Workflows: [what they described]
 - Where the time goes: [pain points]
@@ -631,6 +634,7 @@ Their focus area shapes which parts of the platform to emphasize.
 ### C2: Prerequisite Check
 
 Walk through the tools their role requires:
+
 - Source control (GitHub) — account, org access, SSH key, CLI auth
 - Cloud access (if applicable) — Azure, AWS, or whatever the team uses
 - Development environment — language runtimes, package managers, editor
@@ -786,12 +790,14 @@ For the **top 3 workstreams** by time investment or pain:
 ### D3: Quick Wins
 
 All three criteria required:
+
 1. **Low complexity** — buildable in less than a day
 2. **High visibility** — person immediately feels it
 3. **Low risk** — read-only or non-critical path
 
 Per quick win:
-```
+
+```text
 Quick win: {name}
 Workstream: {which workflow}
 What it does: {input -> output in one sentence}
@@ -803,7 +809,8 @@ Success signal: {what changes — metric or behavior}
 ### D4: Automation Roadmap
 
 **Baseline snapshot — record before anything is built:**
-```
+
+```text
 Baseline: {date}
 - [workstream]: ~{X} hrs/week, {Y} manual steps
 Re-run engagement in 60 days to measure delta.
