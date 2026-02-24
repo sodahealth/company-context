@@ -1,0 +1,328 @@
+name: PR Review (Content)
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+jobs:
+  # ─────────────────────────────────────────────────────────
+  # Job 1: Security Review
+  # ─────────────────────────────────────────────────────────
+  security-review:
+    if: >-
+      !github.event.pull_request.draft &&
+      !contains(github.event.pull_request.labels.*.name, 'no-review')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          use_sticky_comment: true
+          allowed_bots: "github-actions[bot],claude"
+          claude_args: >-
+            --max-turns 25
+            --model claude-sonnet-4-20250514
+            --allowedTools "Read,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*)"
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR TITLE: ${{ github.event.pull_request.title }}
+            PR AUTHOR: ${{ github.event.pull_request.user.login }}
+
+            You are the Security Reviewer. Perform a security review of this PR.
+            The PR branch is already checked out.
+
+            This is a **company-wide content repo** — it contains knowledge articles,
+            onboarding skills, and session prompts. No application code or scripts.
+
+            ## Step 1: Get the diff
+
+            ```bash
+            gh pr diff ${{ github.event.pull_request.number }}
+            ```
+
+            ## Step 2: Classify the change
+
+            Determine which checklist sections apply based on the changed files:
+            - **Workflows** (`.github/workflows/*`): Sections 1, 8, 9, 21
+            - **Knowledge / Skills / Prompts** (`knowledge/*`, `skills/*`, `prompts/*`): Section 1, 20 only
+            - **Other docs** (`*.md`): Section 20 only
+
+            ## Step 3: Apply the checklist
+
+            For a content repo, most sections will be N/A. Focus on:
+
+            ### OWASP Top 10:2021
+
+            **1. Secrets & Credentials** (A02, A07)
+            - No hardcoded secrets/tokens/API keys/passwords in any file
+            - No real credentials in examples (use placeholders)
+            - No real API endpoints or internal URLs that should be private
+
+            **8. Data Integrity** (A08)
+            - CI/CD actions pinned to versions
+
+            **9. Dependency Security** (A06)
+            - GitHub Actions pinned to versions
+
+            ### Evermore Compliance
+
+            **20. Data Residency** — No sensitive PII (real employee details, salaries,
+            SSNs) in knowledge articles or prompts.
+
+            **21. Platform Governance** — Branch protection, CI/CD pinned
+
+            ## Step 4: Determine verdict
+
+            - **PASS**: 0 Critical findings, 0 High findings
+            - **CONDITIONAL**: 0 Critical, 1+ High
+            - **FAIL**: 1+ Critical
+
+            ## Step 5: Post as PR comment
+
+            Post your findings using `gh pr comment`. The comment MUST include the verdict
+            HTML comment line exactly as shown — the PR Reviewer parses it programmatically.
+
+            ```bash
+            gh pr comment ${{ github.event.pull_request.number }} --body "$(cat <<'COMMENT_EOF'
+            ## Security Review — {VERDICT}
+            <!-- sec-review-verdict: {PASS|CONDITIONAL|FAIL} -->
+            <!-- sec-review-timestamp: {ISO-8601-NOW} -->
+
+            ### Summary
+            - **Critical:** N | **High:** N | **Medium:** N | **Low:** N
+            - Sections reviewed: N/21 | Items checked: N
+
+            ### Findings
+            {findings grouped by severity, or "No findings" if clean}
+
+            ### Checklist Coverage
+            - OWASP: N/9 | Evermore: N/4
+            COMMENT_EOF
+            )"
+            ```
+
+            Only post GitHub comments — do not submit review text as messages.
+
+  # ─────────────────────────────────────────────────────────
+  # Job 2: PR Review (Content Quality)
+  # ─────────────────────────────────────────────────────────
+  pr-review:
+    needs: [security-review]
+    if: >-
+      always() &&
+      !github.event.pull_request.draft &&
+      !contains(github.event.pull_request.labels.*.name, 'no-review')
+    runs-on: ubuntu-latest
+    permissions:
+      checks: read
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          use_sticky_comment: true
+          allowed_bots: "github-actions[bot],claude"
+          claude_args: >-
+            --max-turns 35
+            --model claude-sonnet-4-20250514
+            --allowedTools "Read,Edit,Write,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr checks:*),Bash(gh pr review:*),Bash(gh api:*),Bash(gh pr merge:*),Bash(git:*)"
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR TITLE: ${{ github.event.pull_request.title }}
+            PR AUTHOR: ${{ github.event.pull_request.user.login }}
+
+            You are the PR Reviewer. Review this PR for content quality and consistency.
+            The PR branch is already checked out.
+
+            **EFFICIENCY RULES — minimize tool calls:**
+            - Combine Steps 1 + 2 into a SINGLE tool call where possible.
+            - Get the diff and analyze it in the same response — don't make separate calls.
+            - Do NOT read CLAUDE.md or other repo files unless the diff references something
+              you need to verify.
+            - Post findings in ONE `gh pr comment` call.
+            - Target: 5-8 tool calls total.
+
+            This is a **company-wide content repo** containing:
+            - `knowledge/` — company-wide reference documents
+            - `skills/` — Claude skills invoked via `/command`
+            - `prompts/` — session prompts for structured Claude interactions
+
+            ## Step 1: Check security review verdict
+
+            Check for the security review comment:
+
+            ```bash
+            gh pr view ${{ github.event.pull_request.number }} --json comments \
+              --jq '.comments[] | select(.body | contains("sec-review-verdict")) | .body' \
+              | head -5
+            ```
+
+            Parse the verdict from `<!-- sec-review-verdict: PASS|CONDITIONAL|FAIL -->`:
+            - **PASS** → proceed with review
+            - **CONDITIONAL** → proceed, but note the High findings in your assessment
+            - **FAIL** → stop. Post a comment noting the PR is blocked by security review
+            - **No comment found** → note the gap in your review. Proceed but flag it.
+
+            ## Step 2: Check CI status
+
+            ```bash
+            gh pr checks ${{ github.event.pull_request.number }}
+            ```
+
+            This is a **hard gate**:
+            - CI **failing** → verdict is automatically Changes Requested
+            - CI **pending** → note it; the review can proceed but flag uncertainty
+            - CI **passing** → proceed
+
+            ## Step 3: Get the diff and review
+
+            ```bash
+            gh pr diff ${{ github.event.pull_request.number }}
+            ```
+
+            Apply this checklist:
+
+            ### Work Plan Alignment
+            - Does the PR implement what the title/description specifies?
+            - Does it stay in scope or introduce unplanned changes?
+
+            ### Content Quality
+            - Markdown well-formed and consistent with existing style
+            - Knowledge articles are factually accurate and up to date
+            - Skills follow the SKILL.md convention
+            - Prompts have clear structure and instructions
+            - No broken internal links or cross-references
+
+            ### Data Classification
+            - All content appropriate for `public` classification
+            - No department-restricted or IT-restricted content
+            - No PII, credentials, or internal URLs
+
+            ### Escalation Triggers
+            Flag for manual review if the PR:
+            - Modifies GitHub Actions workflows
+            - Changes CLAUDE.md (repo root config)
+
+            ## Step 4: Determine verdict
+
+            - **APPROVE**: All checks pass, no blockers
+            - **APPROVE_WITH_NOTES**: Passes but has non-blocking observations
+            - **CHANGES_REQUESTED**: Has blockers that must be fixed
+            - **ESCALATION**: Matches escalation triggers, needs Umang's manual review
+
+            If security review FAIL → automatically CHANGES_REQUESTED.
+            If CI failing → automatically CHANGES_REQUESTED.
+
+            ## Step 5: Post as PR comment
+
+            ```bash
+            gh pr comment ${{ github.event.pull_request.number }} --body "$(cat <<'COMMENT_EOF'
+            ## PR Review — {VERDICT}
+            <!-- pr-review-verdict: {APPROVE|APPROVE_WITH_NOTES|CHANGES_REQUESTED|ESCALATION} -->
+            <!-- pr-review-timestamp: {ISO-8601-NOW} -->
+
+            ### Security Review Gate
+            - Verdict: {PASS/CONDITIONAL/FAIL/MISSING/SKIPPED}
+            {if CONDITIONAL or FAIL, note the findings}
+
+            ### CI Status
+            - {PASSING/FAILING/PENDING} {details if failing}
+
+            ### Findings
+            **Blockers** (must fix):
+            {blockers with file:line references, or "None"}
+
+            **Should Fix** (recommended):
+            {issues, or "None"}
+
+            **Notes** (informational):
+            {observations, or "None"}
+
+            ### Deployment Impact
+            {what happens when this merges — content synced to employee devices via context_sync}
+            COMMENT_EOF
+            )"
+            ```
+
+            Only post GitHub comments — do not submit review text as messages.
+
+            ## Step 6: Auto-merge or fix
+
+            Based on your verdict from Step 4:
+
+            ### If APPROVE or APPROVE_WITH_NOTES:
+
+            Check these gates before merging:
+            1. PR does NOT have the `no-auto-merge` label
+            2. Security review verdict is PASS or CONDITIONAL (not FAIL or MISSING)
+            3. CI checks are not failing (pending is OK — `--auto` waits for checks)
+            4. PR does NOT modify any of: `.github/workflows/*`, `CLAUDE.md`
+
+            If ALL gates pass, submit a GitHub review approval and enable auto-merge:
+            ```bash
+            gh pr review ${{ github.event.pull_request.number }} --approve --body "Automated approval — all review gates passed."
+            gh pr merge ${{ github.event.pull_request.number }} --auto --squash --delete-branch
+            ```
+
+            If any gate fails, do NOT approve or merge. Add a note to your PR comment
+            explaining why auto-merge was skipped.
+
+            ### If CHANGES_REQUESTED:
+
+            Attempt to fix the issues ONLY if ALL of these are true:
+            1. The issues are mechanical (formatting, typo, broken link)
+            2. You can identify the exact file and location to change
+            3. The PR does NOT match any escalation trigger
+            4. Security review verdict is PASS (not CONDITIONAL or FAIL)
+            5. The most recent commit was NOT authored by `github-actions[bot]` (loop prevention)
+
+            If fix conditions are met:
+            1. Make the fixes using the Write tool
+            2. Commit and push:
+               ```bash
+               git add -A
+               git commit -m "fix: address PR review feedback (#${{ github.event.pull_request.number }})"
+               git push
+               ```
+            3. Post a comment listing what was fixed
+            4. Do NOT merge — the push triggers a new workflow run
+
+            If fix conditions are NOT met, just post the CHANGES_REQUESTED comment and stop.
+
+            ### If ESCALATION:
+
+            Do NOT merge. Do NOT attempt fixes. The comment from Step 5 is sufficient.
+
+            ## Step 7: Safety guardrails
+
+            NEVER merge a PR if ANY of these are true:
+            - Security review verdict is FAIL
+            - CI checks are failing
+            - PR has the `no-auto-merge` label
+            - Your verdict is ESCALATION or CHANGES_REQUESTED
+            - PR modifies `.github/workflows/` files
+            - PR modifies `CLAUDE.md`
+
+            NEVER attempt a fix if the most recent commit was authored by `github-actions[bot]`.

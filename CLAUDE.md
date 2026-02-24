@@ -8,7 +8,7 @@ All Evermore employees. This is not an IT-internal or department-specific repo. 
 
 ## What This Repo Contains
 
-```
+```text
 company-context/
 ├── knowledge/       # Company-wide reference docs (policies, org structure, shared guides)
 ├── skills/          # Shared skills (e.g., /getstarted onboarding)

@@ -27,6 +27,7 @@ from the employee intelligence pipeline. This data includes:
 - **Prior enrichment:** self-reported data from previous sessions (challenges, processes, friction points, tools, focus areas)
 
 **Use this data to personalize the conversation:**
+
 - Don't ask questions you already know the answer to
 - Reference their department, team, and tools naturally — as if you already work together
 - Build on prior enrichment data if it exists ("Last time we talked, you mentioned...")
@@ -190,18 +191,23 @@ example, if sign-in data shows they authenticated to Outlook yesterday, you can 
 Only skip verification for accounts with clear sign-in evidence. For everything else,
 walk through normally.
 
-**1. Email (Outlook)**
+#### 1. Email (Outlook)
+
 > "Can you open Outlook, or go to myapps.microsoft.com and find the Outlook tile?"
+
 - Works -> move on
 - Broken -> walk through `myapps.microsoft.com` -> Outlook tile. If still broken, note
   for IT.
 
-**2. Slack**
+#### 2. Slack
+
 > "Open Slack — you should be in the Evermore workspace. Can you see it?"
+
 - Works -> ask them to confirm they can see `#general`
 - Broken -> walk through SSO login via myapps -> Slack tile
 
 Channels to join (suggest based on role):
+
 - Everyone: `#general`, `#random`, `#coffee-club`
 - Ask: "What team are you on? I'll tell you which channels to add."
 
@@ -209,18 +215,23 @@ If the profile includes communication patterns (active Slack channels), suggest
 channels their team is actually active in:
 > "Your team is active in [channels from profile] — I'd add those to your sidebar too."
 
-**3. Confluence and Jira**
+#### 3. Confluence and Jira
+
 > "Try sodahealth.atlassian.net — does it let you in?"
+
 - Works -> move on
 - Broken -> myapps -> Atlassian tile. If still broken, flag for IT.
 
-**4. Rippling (HR)**
+#### 4. Rippling (HR)
+
 > "Rippling is where your pay stubs and PTO live. Have you gotten an invite?
 > It comes to your personal email, not work."
+
 - Received -> move on
 - Not received -> check personal email and spam. Note as pending if missing.
 
-**5. Role-specific systems**
+#### 5. Role-specific systems
+
 Ask what systems their manager mentioned or their role typically uses. Help them verify
 access to each one. If something is broken, don't defer — note it and flag to IT.
 
@@ -276,7 +287,8 @@ After the task:
 > company like Evermore" -> walk through the output together.
 
 **First week checklist — give this after the Claude use, not instead of it:**
-```
+
+```text
 [ ] Connect with your manager — ask: "What's my one priority this week?"
 [ ] Complete your IT onboarding call (if not done)
 [ ] Accept your Rippling invite (check personal email)
@@ -535,8 +547,10 @@ what happens next.
 > session. This helps prioritize what gets built for your team."
 
 Share the notes:
-```
+
+```text
 What I heard about your work:
+
 - Workflows: [what they described]
 - Where the time goes: [pain points]
 - Data sources involved: [tools they mentioned]
@@ -631,6 +645,7 @@ Their focus area shapes which parts of the platform to emphasize.
 ### C2: Prerequisite Check
 
 Walk through the tools their role requires:
+
 - Source control (GitHub) — account, org access, SSH key, CLI auth
 - Cloud access (if applicable) — Azure, AWS, or whatever the team uses
 - Development environment — language runtimes, package managers, editor
@@ -786,12 +801,14 @@ For the **top 3 workstreams** by time investment or pain:
 ### D3: Quick Wins
 
 All three criteria required:
+
 1. **Low complexity** — buildable in less than a day
 2. **High visibility** — person immediately feels it
 3. **Low risk** — read-only or non-critical path
 
 Per quick win:
-```
+
+```text
 Quick win: {name}
 Workstream: {which workflow}
 What it does: {input -> output in one sentence}
@@ -803,7 +820,8 @@ Success signal: {what changes — metric or behavior}
 ### D4: Automation Roadmap
 
 **Baseline snapshot — record before anything is built:**
-```
+
+```text
 Baseline: {date}
 - [workstream]: ~{X} hrs/week, {Y} manual steps
 Re-run engagement in 60 days to measure delta.
