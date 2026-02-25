@@ -406,6 +406,7 @@ exists for the current week):
 > "Let's set up your week. What do you want to accomplish?"
 
 Route to the plan week flow. Follow the `plan week` session prompt:
+
 - If a previous week's plan exists, start at Step 2 (Last Week Retrospective)
 - If no previous plan exists, start at Step 3 (What Do You Want to Accomplish?)
 
