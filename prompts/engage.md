@@ -494,6 +494,90 @@ is part of how we figure out what to build next for your role.
 
 ### B3: Do It Now — First Real Use
 
+Before proceeding to the standard "do something now" experience, check whether this
+person is on a **planning cadence**. If they are, the planning flow replaces the
+generic first-use demo entirely -- their "do it now" IS the planning session.
+
+#### Planning Cadence Detection
+
+Check two signals, in order:
+
+1. **Velocity file exists:** Does a file matching `plans/velocity-{username}.md` exist
+   in the user's department context repo (e.g., `~/code/it-ops-context/plans/` for IT)?
+   If yes, this person has run `plan week` before and is on the planning cadence.
+
+2. **Department config includes planning:** Does the person's department configuration
+   (from their department context repo or profile data) indicate `planning_cadence: true`?
+   For example, IT/Security team members are always on the planning cadence.
+
+If **either signal is true**, this person is on a planning cadence. Proceed to the
+planning routing logic below.
+
+If **neither signal is true**, skip the planning section entirely and proceed to the
+standard B3 experience ("Let's not just talk about it...") below.
+
+#### Planning Routing Logic
+
+Once you have confirmed the person is on a planning cadence, determine which flow
+to route them into based on the day and their plan state.
+
+**Is this their first time ever?**
+
+Check whether a weekly plan file exists for them (any `plans/week-*-{username}.md`
+file). If NO plan has ever been created:
+
+> "Your team uses weekly planning to organize work through Claude. Each Monday you
+> set the week's agenda, and each morning you get a quick standup that focuses your
+> day against that plan. Let's set up your first week."
+
+Then route to the plan week flow (Step 3 onward from the `plan week` session prompt).
+Skip the retrospective on this first run since there is no prior week to review.
+
+**Is it Monday, or does no plan exist for this week?**
+
+If today is Monday, OR if no plan file exists for the current week (the most recent
+plan is from a previous week):
+
+> "Let's set up your week. What do you want to accomplish?"
+
+Route to the plan week flow (Step 3 onward from the `plan week` session prompt).
+If a previous week's plan exists, include the retrospective (Step 2). If this is
+their first week, skip directly to Step 3.
+
+**Is it any other day (Tuesday through Sunday) with a current week plan?**
+
+> "Good morning. Here's what's on your plate today."
+
+Route to the standup flow (Step 2 onward from the `standup` session prompt). Load
+the current week's plan and present overnight updates, today's focus items, and
+the adjustment prompt.
+
+#### How Planning Routing Connects to Existing Prompts
+
+The planning flows are defined in their own session prompts (`plan week` and `standup`).
+When `/getstarted` routes a user into a planning flow, follow the referenced steps
+from those prompts directly. The user does not need to know they have been "routed" --
+the experience is seamless.
+
+Department-specific context loading (MAILBOX messages, Work Tracker items, project
+docs, etc.) happens within the planning prompts themselves, not here. This engage
+prompt only handles the detection and routing decision.
+
+People on a planning cadence can still use `plan week` and `standup` directly as
+standalone session shortcuts if they prefer. The `/getstarted` integration makes the
+planning flow the default path, but it does not replace the standalone entry points.
+
+After the planning flow completes (plan saved or standup finished), skip directly
+to B5 (Show Them What You Captured) and B7 (Enrichment Collection). B4 (How to Get
+Back In) is not needed for planning users since they already know the platform.
+
+---
+
+#### Standard B3: For Non-Planning Users
+
+If the person is NOT on a planning cadence, proceed with the standard first-use
+experience below.
+
 Don't describe what they could try. Do it with them, in this session.
 
 > "Let's not just talk about it — let's actually use it on something real right now.
