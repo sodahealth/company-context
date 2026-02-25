@@ -26,9 +26,14 @@ company-context/
 
 ## How This Repo Is Deployed
 
-This repo is deployed to employee Macs via the `context_sync` command in `evermore-agent`. After sync, the repo lands at `~/code/company-context/` on each device. Skills are additionally deployed to `~/.claude/skills/` so Claude discovers them automatically.
+Content from this repo reaches employee devices through two mechanisms:
 
-Content in this repo is indexed by Knower for semantic search across the knowledge base.
+1. **`deploy_file` agent commands** — Skills (`SKILL.md`), `CLAUDE.md`, and `settings.json` are pushed to employee Macs by `evermore-agent` at first boot and on update. Skills land in `~/.claude/skills/` so Claude discovers them automatically.
+2. **Knowledge gateway** — Knowledge docs and prompts are served at runtime via the knowledge gateway HTTP API. Claude accesses them through MCP tools (`get_content`, `search_content`) — no local copy of the repo is needed.
+
+No git, GitHub access, or SSH keys are required on employee devices. The repo is a source-of-truth for authors; employees consume content through the gateway and agent-deployed files.
+
+Content in this repo is also indexed by Knower for semantic search across the knowledge base.
 
 ## Data Classification
 
