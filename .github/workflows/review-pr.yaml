@@ -261,7 +261,7 @@ jobs:
             {observations, or "None"}
 
             ### Deployment Impact
-            {what happens when this merges — content synced to employee devices via context_sync}
+            {what happens when this merges — skills deployed to devices via deploy_file; knowledge served via gateway API}
             COMMENT_EOF
             )"
             ```

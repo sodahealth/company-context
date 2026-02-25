@@ -730,10 +730,10 @@ Their focus area shapes which parts of the platform to emphasize.
 
 Walk through the tools their role requires:
 
-- Source control (GitHub) — account, org access, SSH key, CLI auth
+- Source control (GitHub) — account, org access, CLI auth (`gh auth login`)
 - Cloud access (if applicable) — Azure, AWS, or whatever the team uses
 - Development environment — language runtimes, package managers, editor
-- Repos cloned — the repos relevant to their team
+- Team repos accessible — verify GitHub org membership and repo permissions for their team
 
 For each gap: note it, provide the fix or point to setup docs, and move on.
 Don't block the rest of the session on tool setup.
@@ -776,7 +776,7 @@ Share any relevant onboarding docs, checklists, or escalation contacts.
 
 ## Setup Status
 - [Tool]: [OK / pending: what's needed]
-- Repos cloned: [count / list]
+- GitHub repo access: [confirmed / pending: what's needed]
 
 ## What We Covered
 - Platform mental model and key systems
