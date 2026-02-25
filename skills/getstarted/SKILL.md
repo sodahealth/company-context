@@ -361,7 +361,79 @@ Determine how recently the user last ran a session. Use these signals:
 
 If you cannot determine when they last ran a session, default to the full brief.
 
+### Step 2b — Planning Cadence Detection
+
+Before proceeding to the standard status update, check whether this person is on a
+**planning cadence**. If they are, the planning flow replaces the standard Mode 2
+experience entirely -- their `/getstarted` IS the standup (or weekly planner on Mondays).
+
+**Check two signals, in order:**
+
+1. **Velocity file exists:** Check whether a file matching `plans/velocity-{username}.md`
+   exists in the user's department context repo (e.g., `~/code/it-ops-context/plans/`
+   for IT team members). Use the Read tool to check. If the file exists, this person
+   has run `plan week` before and is on the planning cadence.
+
+2. **Department config includes planning:** Check whether the person's department
+   configuration (from their department context repo or profile data) indicates
+   `planning_cadence: true`. For example, IT/Security team members are always on the
+   planning cadence.
+
+**If NEITHER signal is true:** This person is not on a planning cadence. Skip to
+Step 3 (standard status update) and continue the normal Mode 2 flow.
+
+**If EITHER signal is true:** This person is on a planning cadence. Apply the routing
+logic below. Do NOT proceed to Steps 3-5 -- the planning flow replaces them.
+
+#### First-Time Planning User
+
+If the person is on a planning cadence but NO weekly plan file has ever been created
+for them (no `plans/week-*-{username}.md` files exist):
+
+> "Your team uses weekly planning to organize work through Claude. Each Monday you
+> set the week's agenda, and each morning you get a quick standup that focuses your
+> day against that plan. Let's set up your first week."
+
+Route to the plan week flow. Follow the `plan week` session prompt starting at Step 3
+(What Do You Want to Accomplish This Week?). Skip the retrospective since there is no
+prior week to review.
+
+#### Monday (or No Plan for This Week)
+
+If today is Monday, OR if the most recent plan file is from a previous week (no plan
+exists for the current week):
+
+> "Let's set up your week. What do you want to accomplish?"
+
+Route to the plan week flow. Follow the `plan week` session prompt:
+- If a previous week's plan exists, start at Step 2 (Last Week Retrospective)
+- If no previous plan exists, start at Step 3 (What Do You Want to Accomplish?)
+
+#### Tuesday Through Sunday (Current Week Plan Exists)
+
+If today is not Monday AND a plan exists for the current week:
+
+> "Good morning. Here's what's on your plate today."
+
+Route to the standup flow. Follow the `standup` session prompt starting at Step 2
+(Overnight Update). The standup prompt handles frequency adaptation (standard vs.
+catch-up vs. comprehensive) based on when the plan was last modified.
+
+#### After Planning Flow Completes
+
+Once the planning flow finishes (plan saved or standup complete), the session is done.
+The planning prompts handle their own output and Work Tracker syncing. Do not proceed
+to the standard Mode 2 steps (3-5) after a planning flow.
+
+If enrichment data was collected during the planning flow, write it back via
+`write_employee_enrichment` as in any other mode.
+
+---
+
 ### Step 3 — Status Update (skip if already ran today)
+
+*This step runs only for non-planning users. If Step 2b routed to a planning flow,
+this step is skipped.*
 
 Compile a brief status update from available sources. Present it as a concise bulleted
 list, not a wall of text.
@@ -394,6 +466,8 @@ Do NOT fabricate status updates. Only report what you can verify from available 
 
 ### Step 4 — Pending Tasks
 
+*This step runs only for non-planning users.*
+
 Check for incomplete work from previous sessions:
 
 - **From enrichment data:** focus_areas, in-progress items mentioned in prior sessions
@@ -410,6 +484,8 @@ If there are pending items:
 If no pending items are detected, skip this section entirely.
 
 ### Step 5 — Quick Launch
+
+*This step runs only for non-planning users.*
 
 Offer to start working:
 
