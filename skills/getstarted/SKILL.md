@@ -330,6 +330,31 @@ user about enrichment mechanics.
 This mode runs when an already-onboarded user starts a new session. It is a quick
 status briefing and launch pad, not a re-onboarding. Keep it efficient.
 
+### Step 0 — Onboarding-Complete Detection
+
+Before anything else in Mode 2, check the `onboarding_complete` flag in the user's
+enrichment data. This determines which flow the user enters.
+
+**How to check:** The `get_employee_profile` MCP tool (called during Phase 0, Check 2)
+returns enrichment data. Look for `onboarding_complete` in the enrichment fields.
+
+**Routing:**
+
+- If `onboarding_complete` is **true** in the enrichment data: **load the problem-mapping
+  flow.** Fetch `prompts/problem-mapping.md` via the `get_content` MCP tool (path:
+  `prompts/problem-mapping.md`) and follow that prompt as the session instructions.
+  Do NOT proceed to Step 1 or any other Mode 2 step -- the problem-mapping prompt
+  handles the full session from greeting through enrichment writeback.
+
+- If `onboarding_complete` is **false**, **missing**, or **not present** in the
+  enrichment data: continue with the standard Mode 2 flow below (Step 1 onward).
+  This means the user has been on the platform before but has not completed the full
+  onboarding -- they get the returning-user session launcher as before.
+
+This check MUST happen before Step 1. It is the first thing Mode 2 evaluates.
+
+---
+
 ### Step 1 — Identify and Greet
 
 Use the profile data from Phase 0 (Check 2). Greet the user by first name.
