@@ -35,6 +35,12 @@ Read the file `~/.claude/CLAUDE.md` using the Read tool.
 
 ### Check 2: Profile and start date
 
+Fetch the employee's profile using a layered approach. Each layer adds richer context.
+Failures at any layer are non-fatal — continue with whatever data you have. Never
+surface tool failures or profile-loading mechanics to the user.
+
+**Layer 1 — Basic profile via Content API:**
+
 Call the `get_content` MCP tool with path `people/me` to retrieve the caller's profile.
 
 - If the tool succeeds: note all available fields (name, role, department, systems,
@@ -44,9 +50,31 @@ Call the `get_content` MCP tool with path `people/me` to retrieve the caller's p
   **new_hire = true**
 - Otherwise: **new_hire = false**
 
-Also attempt to call the `get_employee_profile` MCP tool for the richer Cosmos-backed
-profile (HR data, Entra data, communication patterns, prior enrichment). If it fails,
-continue with the basic profile only. Do not surface failures to the user.
+**Layer 2 — Rich Cosmos profile:**
+
+Call the `get_employee_profile` MCP tool (or `get_my_profile` if the former is not
+available — check which tools the MCP server exposes). This returns the richer
+Cosmos-backed profile including:
+
+- **HR data:** name, department, title, manager, start date, location
+- **Entra data:** group memberships, app assignments, recent sign-in activity
+- **Communication patterns:** active Slack channels, activity frequency, collaboration graph
+- **Prior enrichment:** self-reported data from previous sessions (challenges, processes,
+  friction_points, tools_mentioned, focus_areas, notes, onboarding_complete flag)
+
+If Layer 2 succeeds, it supersedes Layer 1 for any overlapping fields. If it fails,
+continue with Layer 1 data only.
+
+**Profile data is INTERNAL context only.** Store the combined profile in your working
+memory for use throughout the session. Never display raw profile fields, JSON, tool
+names, or data pipeline details to the employee. Use the data to personalize
+conversation naturally — as if you already know them from working together.
+
+**Graceful degradation:** If BOTH layers fail (MCP server is down, tools unavailable,
+network error), the skill still works. You enter cold-start mode: ask the employee
+for their name, role, and team directly. See the cold-start handling in each mode's
+Step 1 for the specific fallback conversation. The enrichment data you write back at
+the end of this session becomes the first data point for their profile.
 
 ### Check 3: Session history
 
@@ -70,6 +98,70 @@ Apply these rules in order:
 4. If `platform_setup = true` AND `returning = false` AND `new_hire = false`: **Mode 2** (Returning user — platform was set up but no enrichment yet; treat as returning, not re-onboarding)
 
 Proceed to the section for the detected mode.
+
+---
+
+## Profile as Internal Context
+
+The profile data gathered in Phase 0 is your internal working context for the entire
+session. This section defines how to use it across all modes.
+
+### What you have (when profile loading succeeds)
+
+| Data source | What it tells you | How to use it |
+|-------------|------------------|---------------|
+| HR data (name, department, title, manager) | Who they are and where they sit | Greet by name, reference their team naturally, skip questions you already know the answer to |
+| Entra data (groups, app assignments, sign-ins) | What systems they have access to, what they actively use | Reference their tools by name, skip access verification for confirmed apps |
+| Communication patterns (Slack channels, frequency) | How they collaborate, which teams they interact with | Understand their work context beyond their formal role |
+| Prior enrichment (challenges, processes, friction_points, tools_mentioned, focus_areas) | What they told us in previous sessions | Build on prior conversations (“Last time you mentioned...”), don’t re-ask questions they already answered |
+
+### How to use profile data in conversation
+
+**Validate known context** — confirm what the profile says, don’t assume it is current:
+
+> “I see you’re on the [team] team working as [role]. Is that still right?”
+
+Only validate fields that matter for the conversation. Don’t read back every field
+in the profile — pick the 2-3 most relevant and confirm naturally.
+
+**Discover unknown context** — use profile data to ask informed follow-up questions
+instead of starting from scratch:
+
+> “Your profile shows you work with [tools from Entra data]. What’s the most
+> time-consuming part of your day with those systems?”
+>
+> “I can see you’re active in [Slack channels from communication patterns]. Are those
+> the main places your team coordinates, or is there somewhere else?”
+
+**Collect new data** — every conversation should surface information the profile
+does not yet contain:
+
+- **Challenges:** “What’s the biggest obstacle in your work right now?”
+- **Processes:** “Walk me through how you handle [workflow related to their role].”
+- **Friction points:** “Where do things slow down or break?”
+- **Tools they actually use:** Confirm tool usage beyond what Entra shows — some tools
+  are assigned but unused, others are used informally without an Entra assignment.
+
+**Handle contradictions** — if what the employee says contradicts the profile, go with
+what they say. People’s roles, priorities, and tools change. Note the correction
+internally and include the updated data in the enrichment writeback.
+
+### Cold-start mode (no profile available)
+
+If both profile layers failed, you have no data. This is expected for:
+
+- Brand-new employees whose first nightly pipeline run has not completed
+- Employees on devices where the MCP server is not yet configured
+- Network or service outages affecting the knowledge gateway
+
+In cold-start mode, ask directly but conversationally:
+
+> “I don’t have your profile loaded yet — that’ll sort itself out after your first
+> day on the platform. In the meantime, tell me: what’s your name, what team are
+> you on, and what’s your role?”
+
+Then proceed with the appropriate mode using their answers. The enrichment data you
+write back at the end of this session becomes the seed for their profile.
 
 ---
 
@@ -242,14 +334,57 @@ Do NOT dump the contents of what you wrote. Keep it conversational.
 
 ### Step 5 — Learn About Them + Proactive Suggestions
 
-Now shift from setup to conversation.
+Now shift from setup to conversation. The goal of this step is twofold: (1) validate
+and build on what the profile already tells you, and (2) collect self-reported data
+that the profile does not yet contain.
 
-> "Now that you're set up, I'd love to learn more about what you do day-to-day so I
-> can be more useful to you."
+> “Now that you’re set up, I’d love to learn more about what you do day-to-day so I
+> can be more useful to you.”
 
-Analyze everything you know about them — profile, systems, discovery data, department
-patterns, communication patterns — and generate their top 3 pain point suggestions
-with honest confidence levels.
+#### 5a: Validate known context
+
+If the profile contains substantive data (department, tools, communication patterns),
+start by confirming the most relevant details. Don’t read back the full profile — pick
+the 2-3 things most relevant to their role and validate conversationally:
+
+> “I see you’re on the [team] team, and it looks like you work with [2-3 tools from
+> Entra app assignments]. Does that sound right, or has anything changed recently?”
+
+Wait for their response. Correct your mental model with any updates they provide.
+
+If the profile contains prior enrichment from a previous session, reference it:
+
+> “In a previous conversation, you mentioned [challenge or focus area from prior
+> enrichment]. Is that still where things stand?”
+
+#### 5b: Discover unknown context
+
+Use what you know to ask informed questions about what you don’t know. These questions
+should feel natural — the employee should experience a knowledgeable peer, not a survey.
+
+**Challenges and friction:**
+
+> “What’s the most time-consuming part of your day?”
+> “Is there anything in your workflow that feels like it should be easier?”
+
+**Processes and workflows:**
+
+> “Walk me through something you do regularly — what are the steps, and where does
+> it slow down?”
+
+**Tools beyond what Entra shows:**
+
+> “Are there tools you use daily that aren’t in your main set — spreadsheets,
+> shared drives, informal systems?”
+
+Adapt these questions to the employee’s department and role. For non-technical employees,
+use plain language. For engineers, technical terminology is fine.
+
+#### 5c: Proactive suggestions (when data supports them)
+
+Analyze everything you know — profile, systems, discovery data, department patterns,
+communication patterns — and generate their top 3 pain point suggestions with honest
+confidence levels.
 
 **Confidence level definitions:**
 
@@ -263,8 +398,8 @@ with honest confidence levels.
 
 Present the suggestions:
 
-> "Based on what I know about your role and the systems you work with, here are some
-> areas where I think I could help the most:"
+> “Based on what I know about your role and the systems you work with, here are some
+> areas where I think I could help the most:”
 >
 > 1. **[Pain point description]** — confidence: high
 >    [1-sentence explanation of why this was identified, citing the evidence source]
@@ -275,17 +410,28 @@ Present the suggestions:
 > 3. **[Pain point description]** — confidence: low
 >    [1-sentence explanation, acknowledging this is a role-based assumption]
 >
-> "Would any of these ring true? Or is there something else entirely that eats up
-> your time?"
+> “Would any of these ring true? Or is there something else entirely that eats up
+> your time?”
 
 Listen to their response. If they confirm a pain point, pivot to helping with it.
 If they redirect, follow their lead.
 
-If you have NO data to generate suggestions (profile unavailable, no discovery data),
-skip the suggestions and ask open-ended questions instead:
+If you have NO data to generate suggestions (cold-start mode — profile unavailable,
+no discovery data), skip the suggestions and ask open-ended questions instead:
 
-> "What does your typical week look like? What takes up the most time? What would you
-> love to spend less time on?"
+> “What does your typical week look like? What takes up the most time? What would you
+> love to spend less time on?”
+
+#### 5d: Track what you learned
+
+As the employee responds throughout Steps 5a-5c, mentally note new information in
+these categories for the enrichment writeback in Step 7:
+
+- **challenges** — obstacles, blockers, frustrations they described
+- **processes** — workflows and recurring tasks they walked you through
+- **friction_points** — specific moments where things slow down or break
+- **tools_mentioned** — every tool, system, or app they referenced (including informal ones)
+- **focus_areas** — what they said matters most to them right now
 
 ### Step 6 — First Conversation
 
@@ -303,25 +449,46 @@ working session.
 
 ### Step 7 — Write Enrichment Data
 
-After the conversation wraps up (or at a natural stopping point), write enrichment
-data back via the `write_employee_enrichment` MCP tool.
+After the conversation wraps up (or at a natural stopping point), write the self-reported
+data you collected back to the employee’s profile. This closes the feedback loop —
+what the employee tells you in this session feeds their profile for future sessions.
 
-Structure the payload from what the employee shared:
+Call the `write_employee_enrichment` MCP tool with the data gathered during the
+conversation (especially from Steps 5 and 6).
+
+**Payload structure:**
 
 ```json
 {
-  "challenges": ["list of challenges they mentioned"],
-  "processes": ["workflows and processes they described"],
-  "friction_points": ["pain points and frustrations"],
-  "tools_mentioned": ["tools and systems they referenced"],
-  "focus_areas": ["their stated priorities"],
-  "notes": "free-form summary of key takeaways from the onboarding session"
+  "challenges": ["specific challenges they described — use their words, not generic labels"],
+  "processes": ["workflows they walked you through, with enough detail to be useful"],
+  "friction_points": ["concrete friction — what is slow, what breaks, what is confusing"],
+  "tools_mentioned": ["every tool and system they referenced, including informal ones"],
+  "focus_areas": ["what they said matters most to them right now"],
+  "notes": "free-form summary: key takeaways, context corrections, what surprised them, what they want to try next"
 }
 ```
 
-Only include fields with real substance. Skip the writeback entirely if the conversation
-was too short to collect meaningful data. Handle failures silently — do not tell the
-user about enrichment mechanics.
+**What to include:**
+
+- Data the employee explicitly stated during the conversation
+- Corrections they made to existing profile data (e.g., “I actually moved to a different
+  team” or “I don’t use that tool anymore”)
+- New tools, workflows, or challenges that were not in the prior profile
+- Their stated priorities and what they want to focus on
+
+**What NOT to include:**
+
+- Guesses or inferences you made that the employee did not confirm
+- Generic role-based assumptions (those belong in the profile’s computed fields, not enrichment)
+- Empty arrays or placeholder text — omit any field where you have no real data
+
+**Skip the writeback entirely** if the conversation was too short to collect meaningful
+data (e.g., they dropped off after the greeting, or only asked a quick question).
+
+**Handle failures silently.** If the `write_employee_enrichment` call fails, do not
+tell the user. The data is not lost — it exists in the session transcript and will
+be picked up by the nightly pipeline. Do not retry or surface error details.
 
 ---
 
@@ -658,6 +825,12 @@ Same as Mode 1 Step 7. Write enrichment data back via `write_employee_enrichment
 with whatever was collected during the session. For new hires, this may be minimal —
 that is fine. Even recording their stated first priorities is valuable for future
 sessions.
+
+For new hires in cold-start mode (no profile existed before this session), the
+enrichment you write here becomes the **seed** for their entire profile. Include
+everything substantive: their name, role, team, what they said they want to focus on,
+tools they asked about, and any first impressions or concerns they shared. This data
+feeds their profile for every future session.
 
 ---
 
