@@ -64,6 +64,50 @@ jobs:
           fi
           exit $exit_code
 
+      - name: Validate skills manifest freshness
+        run: |
+          echo "Validating skills/manifest.json matches skill file contents..."
+          exit_code=0
+          manifest="skills/manifest.json"
+
+          if [ ! -f "$manifest" ]; then
+            echo "::error::skills/manifest.json not found"
+            exit 1
+          fi
+
+          # Iterate over each skill entry in the manifest
+          skills=$(python3 -c "
+          import json, sys
+          with open('$manifest') as f:
+              m = json.load(f)
+          for name, info in m.get('skills', {}).items():
+              print(name, info['file'], info['sha256'])
+          ")
+
+          while IFS=' ' read -r skill_name skill_file expected_sha; do
+            if [ -z "$skill_name" ]; then continue; fi
+            if [ ! -f "$skill_file" ]; then
+              echo "::error::Manifest references missing file: $skill_file (skill: $skill_name)"
+              exit_code=1
+              continue
+            fi
+            actual_sha=$(sha256sum "$skill_file" | awk '{print $1}')
+            if [ "$actual_sha" != "$expected_sha" ]; then
+              echo "::error file=$skill_file::Manifest SHA-256 mismatch for skill '$skill_name'."
+              echo "  Expected: $expected_sha"
+              echo "  Actual:   $actual_sha"
+              echo "  Run 'scripts/update-manifest.sh' or update skills/manifest.json to fix."
+              exit_code=1
+            else
+              echo "  ✓ $skill_name ($skill_file)"
+            fi
+          done <<< "$skills"
+
+          if [ $exit_code -eq 0 ]; then
+            echo "All skill manifests are fresh."
+          fi
+          exit $exit_code
+
       - name: Check data classification
         run: |
           echo "Checking for potential data classification violations..."

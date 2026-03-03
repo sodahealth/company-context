@@ -1,0 +1,11 @@
+{
+  "manifest_version": "1.0.0",
+  "updated": "2026-03-03",
+  "skills": {
+    "getstarted": {
+      "version": "2.0.0",
+      "file": "skills/getstarted/SKILL.md",
+      "sha256": "ee228f8a47d60ca48c71ca68596fe0c90dfd77d75d0ea6aa30c3595aca3984c6"
+    }
+  }
+}
