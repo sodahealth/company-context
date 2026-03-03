@@ -1,5 +1,6 @@
 ---
 name: getstarted
+version: "2.0.0"
 description: Platform front door — detects mode (first-time, returning, new hire) and routes to the appropriate onboarding or session flow
 ---
 
