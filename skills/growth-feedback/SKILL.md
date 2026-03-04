@@ -63,7 +63,7 @@ Using the user's responses from Steps 1 and 2, build a GitHub issue and show a p
 
 Generate a short UUID (8 characters) and create the title:
 
-```
+```text
 FEEDBACK-{uuid8}: {one-line summary of the feedback}
 ```
 
