@@ -4,7 +4,7 @@ classification: public
 updated: 2026-03-03
 ---
 
-## Overview
+# Skill Versioning Convention
 
 Skills in this repo are versioned to enable safe deployment tracking and rollback signalling.
 
