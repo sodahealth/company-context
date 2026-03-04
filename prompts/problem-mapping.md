@@ -99,6 +99,7 @@ Do not rush to a solution -- understand the problem first.
 > "What's going on? Walk me through it."
 
 Listen for:
+
 - A specific broken thing ("X isn't working")
 - A process that is slow or painful ("Every time I need to do Y, it takes forever")
 - A request for something new ("I need access to Z" or "We should have a way to do W")
@@ -205,7 +206,7 @@ Call `POST /api/jira/create-issue` (via the Knowledge Gateway or direct HTTP) wi
 If the API call succeeds, confirm to the user:
 
 > "Filed as [ticket key]. The IT team will pick this up. You can track it at
-> https://sodahealth.atlassian.net/browse/[ticket key]."
+> `https://sodahealth.atlassian.net/browse/[ticket key]`."
 
 **Fallback -- manual filing:**
 
@@ -213,7 +214,7 @@ If the gateway endpoint is not accessible, the API call fails, or the tool is no
 available in this environment:
 
 > "I wasn't able to file this automatically. Here's your structured request --
-> paste it into the Jira portal at https://sodahealth.atlassian.net/servicedesk
+> paste it into the Jira portal at `https://sodahealth.atlassian.net/servicedesk`
 > and select 'Service Request' as the type."
 
 Then output the full structured doc from Step 4 in a copy-friendly format.
@@ -320,6 +321,7 @@ between Salesforce and Jira"]`.
 Salesforce into a new Jira project when a deal closes. Can you file that?"
 
 **Expected behavior:**
+
 - Greets Sarah by name, does not re-explain the platform.
 - Acknowledges her prior challenge with Salesforce-Jira data entry.
 - Still walks through the mapping: "That makes sense given what you've mentioned
@@ -343,6 +345,7 @@ onboarding. Prior enrichment is minimal: `focus_areas: ["onboarding new hires"]`
 **Opening message:** "Something is off with how we handle PTO. I keep getting confused."
 
 **Expected behavior:**
+
 - Greets Marcus by name, notes he is on the People Ops team.
 - Acknowledges limited prior enrichment: "I know you're focused on new hire onboarding
   and work with Rippling and Slack. Tell me more about the PTO issue."
@@ -375,6 +378,7 @@ now I'm checking SharePoint for the contract files, Confluence for the review no
 and a spreadsheet for the renewal dates. Every month something slips through."
 
 **Expected behavior:**
+
 - Greets Dev by name, references his prior challenges naturally: "You've mentioned
   the contract tracking pain before. Let's get this mapped properly."
 - Identifies three systems involved (SharePoint, Confluence, Excel/spreadsheet).
