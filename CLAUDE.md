@@ -10,6 +10,8 @@ All Evermore employees. This is not an IT-internal or department-specific repo. 
 
 ```text
 company-context/
+├── departments/     # Department-specific context (access-controlled via frontmatter)
+│   └── hps/         # Health Plan Solutions department
 ├── knowledge/       # Company-wide reference docs (policies, org structure, shared guides)
 ├── skills/          # Shared skills (e.g., /getstarted onboarding)
 │   └── getstarted/  # First-time onboarding skill for new Claude users
@@ -20,6 +22,7 @@ company-context/
 
 | Directory | What goes here |
 |-----------|---------------|
+| `departments/` | Department-specific knowledge, prompts, and people profiles — scoped by frontmatter metadata |
 | `knowledge/` | Company-wide reference documents — policies, org structure, product context, shared playbooks |
 | `skills/` | Claude skills invoked via `/command` — each skill lives in its own subdirectory with a `SKILL.md` |
 | `prompts/` | Session prompts that guide structured Claude interactions for company-wide use cases |
@@ -37,14 +40,18 @@ Content in this repo is also indexed by Knower for semantic search across the kn
 
 ## Data Classification
 
-**Default classification: `public`** — all content in this repo is visible to every employee.
+This repo uses a unified context library model (per ADR-b5bd9aaf). Classification depends on where content lives:
 
-Do NOT place department-restricted, role-restricted, or IT-restricted content here. Use the appropriate scoped repo instead:
+- **Top-level directories** (`knowledge/`, `skills/`, `prompts/`): Default classification is `public` — visible to every employee.
+- **Department directories** (`departments/{name}/`): Classification is `internal` or department-scoped, controlled via YAML frontmatter metadata on each file (e.g., `classification: internal`, `departments: [hps]`).
+- **Access control** is enforced by the Content API at runtime based on frontmatter — not by repo visibility. The repo itself remains accessible to authors and CI, but the gateway only serves content to users who match the frontmatter access rules.
+
+IT-restricted content (security configs, risk registers, people profiles with restricted data) still belongs in `it-ops-context/`.
 
 | Classification | Where it belongs |
 |----------------|-----------------|
-| `public` | This repo (`company-context`) |
-| `dept:{name}` | `dept-{name}-context/` |
+| `public` | Top-level dirs in this repo (`knowledge/`, `skills/`, `prompts/`) |
+| `internal` / `dept:{name}` | `departments/{name}/` in this repo (frontmatter-controlled) |
 | `restricted` | `it-ops-context/` |
 
 ## Conventions
