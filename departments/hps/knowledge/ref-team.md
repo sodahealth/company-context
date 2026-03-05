@@ -20,7 +20,7 @@ Health Plan Solutions (HPS) manages the implementation and ongoing relationship 
 
 Ariane Grazian (SVP, Health Plan Solutions) reports to Robby Knight (CEO).
 
-```
+```text
 Ariane Grazian (SVP, Health Plan Solutions)
   ├── Tal Topf (Associate Director -- Implementation Lead)
   ├── Diane Borton (Senior Manager)

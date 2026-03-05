@@ -152,18 +152,18 @@ The task inventory has been assessed for automation potential. The highest-value
 
 ### High Automation Value
 
-4. **Eligibility Pipeline (16 tasks)** -- Benthos configuration, SFTP setup, file processing. Already partially automated; pipeline is code-driven.
+1. **Eligibility Pipeline (16 tasks)** -- Benthos configuration, SFTP setup, file processing. Already partially automated; pipeline is code-driven.
 
-5. **FIS/Kit Configuration (19 tasks)** -- Package IDs, APLs, subprogram configuration. FIS integration plus Harmony API.
+2. **FIS/Kit Configuration (19 tasks)** -- Package IDs, APLs, subprogram configuration. FIS integration plus Harmony API.
 
-6. **SFTP, Access, Programs, Customers/Brands** -- Small task sets that can be fully automated via APIs.
+3. **SFTP, Access, Programs, Customers/Brands** -- Small task sets that can be fully automated via APIs.
 
 ### Medium Automation Value
 
-7. **Physical Materials (27+ tasks)** -- Vendor coordination and approval workflows limit full automation.
-8. **Digital Materials (14 tasks)** -- Content creation is manual, but distribution can be automated.
+1. **Physical Materials (27+ tasks)** -- Vendor coordination and approval workflows limit full automation.
+2. **Digital Materials (14 tasks)** -- Content creation is manual, but distribution can be automated.
 
 ### Low Automation Value
 
-9. **Contracting (2 tasks)** -- Legal and human process.
-10. **Milestones (24 tasks)** -- Status tracking only; value is in auto-updating from downstream task completion.
+1. **Contracting (2 tasks)** -- Legal and human process.
+2. **Milestones (24 tasks)** -- Status tracking only; value is in auto-updating from downstream task completion.

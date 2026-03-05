@@ -21,6 +21,7 @@ This document describes the end-to-end lifecycle for implementing a new health p
 When Evermore onboards a new health plan sponsor, hundreds of configuration tasks are executed across dozens of systems. The implementation lifecycle typically spans 4-6 months, running from initial kick-off through go-live and the first card mailed to members.
 
 The process involves two parallel tracks:
+
 1. **Customer-facing track** (managed in OnRamp): Structured forms, approvals, and milestones that the health plan completes
 2. **Internal operations track** (managed across Harmony, Strapi, Iterable, FIS, etc.): System configuration that the Evermore team executes
 
@@ -31,6 +32,7 @@ The process involves two parallel tracks:
 **Goal**: Establish the relationship, define program structure, and collect initial requirements.
 
 **Key activities**:
+
 - Kick-off call with the health plan sponsor
 - Solutions meetings covering benefits, member experience, eligibility, and add-on products
 - Collect points of contact (typically 6+ contacts with roles and titles)
@@ -48,6 +50,7 @@ The process involves two parallel tracks:
 **Goal**: Complete legal agreements and bank due diligence.
 
 **Key activities**:
+
 - Draft and finalize MSA / SOW / BAA
 - Customer security review (if applicable)
 - Bank due diligence: entity information, controller/manager information, ultimate beneficial owners, litigation attestation
@@ -62,6 +65,7 @@ The process involves two parallel tracks:
 **Goal**: Configure the benefit and rewards structure for the sponsor.
 
 **Key activities**:
+
 - Program configuration decisions: qualified benefits, disenrollment behavior, grace period, reimbursement mode, EGWPs, sub-PBP differentiation, rewards
 - Download and submit Benefit Input Grid (DRAFT)
 - Customer and IM review and approval of DRAFT
@@ -80,6 +84,7 @@ The process involves two parallel tracks:
 **Goal**: Configure all member-facing content and materials per brand.
 
 This is the richest data collection phase, with 24 form steps per brand covering:
+
 - Marketing name, threshold languages, plan logo, brand guidelines
 - Disclaimers (physical, digital, additional)
 - Sample member ID card
@@ -98,16 +103,19 @@ This is the richest data collection phase, with 24 form steps per brand covering
 This is the largest block of internal work, involving:
 
 **Harmony** (~57 tasks): Benefits, kits, rewards, factors, programs, approval profiles
+
 - Benefits created as test versions, tested, then promoted to final
 - Kit configuration including FIS package IDs, bloblang assignment, UAT
 - Rewards and surveys configured with factors and qualification rules
 
 **Strapi** (~28 tasks): Online experience configuration
+
 - Brand pages, logo lockups, card art, disclaimers per brand
 - Common questions, benefit flavors, shopping categories per language
 - OTC catalog components, brand benefits, reward content per language
 
 **Iterable** (~53 tasks): Email and SMS setup
+
 - Email templates for onboarding sequences, per brand, per language
 - SMS library configuration, journey creation for reload/reminder/reward/CSAT
 - Data requirements for audience segmentation
@@ -121,6 +129,7 @@ This is the largest block of internal work, involving:
 **Goal**: Establish the eligibility file pipeline and validate data flows.
 
 **Key activities**:
+
 - Customer provides eligibility data mapping document
 - Customer provides SSH public key for SFTP access
 - SFTP credentials and connection established
@@ -140,6 +149,7 @@ This is the largest block of internal work, involving:
 **Goal**: Design, print, and ship physical materials to the card vendor.
 
 **Key activities**:
+
 - Design review with print vendors (carrier, catalog, CHA, NOA)
 - Multiple rounds of internal review (HPS, M&P, Legal and Compliance)
 - Multiple rounds of customer review
@@ -160,6 +170,7 @@ This is the largest block of internal work, involving:
 **Goal**: End-to-end validation before go-live.
 
 **Key activities**:
+
 - Benefit testing started
 - VIP swipe UAT (physical card test)
 - Internal OX UAT (parts 1 and 2)
@@ -176,6 +187,7 @@ This is the largest block of internal work, involving:
 **Goal**: Final preparations for member-facing launch.
 
 **Key activities**:
+
 - Call center ready for training
 - Fund transfer complete
 - First eligibility file committed
@@ -192,6 +204,7 @@ This is the largest block of internal work, involving:
 **Goal**: Cards reach members, call center is live.
 
 **Key activities**:
+
 - Cards mailed to members (target: ~November 17 for January 1 delivery)
 - Call center takes first call (target: ~December 1)
 - Last eligibility files for 1/1 delivery (target: ~December 8)
@@ -221,6 +234,7 @@ For a January 1 go-live date, the typical timeline follows this pattern:
 The implementation process is currently highly manual, with IMs logging into 10+ tools to execute configuration tasks. The "Implementation 2.0" initiative is working to automate the most repetitive elements:
 
 **Highest automation targets**:
+
 1. Strapi OX Configuration (28 repetitive CMS operations)
 2. Harmony Configuration (~57 structured, rule-based tasks)
 3. Iterable Setup (~53 template and journey tasks)

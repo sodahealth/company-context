@@ -100,16 +100,19 @@ Master reference for all health plan sponsor customers. Covers implementation ph
 
 Three brand groups with different product mixes:
 
-**Brand group 1: PMNTX + PMNFL (OTC + Rewards)**
+#### Brand group 1: PMNTX + PMNFL (OTC + Rewards)
+
 - 12 TX programs + 4 FL programs (excluding H7680-012 and H7239-004)
 - Narrow network (no CVS, Medline for online/phone OTC, Walgreens for in-store)
 - OTC Base+, Healthy Foods Base+, Utilities (MCC-based), Rewards (Non-ATFLGC)
 
-**Brand group 2: PMNTX + PMNFL + PMNNV (PHRE package -- Rewards only)**
+#### Brand group 2: PMNTX + PMNFL + PMNNV (PHRE package -- Rewards only)
+
 - 3 specific programs across TX, FL, NV
 - No OTC, no catalog -- rewards self-attestation only
 
-**Brand group 3: PMNNV (OTC + Rewards)**
+#### Brand group 3: PMNNV (OTC + Rewards)
+
 - 8 NV programs
 - Medline Catalog only for OTC, no CVS
 
@@ -177,6 +180,7 @@ Implementations are organized into three cohorts representing staggered launch w
 - **Engineering**: Volume testing
 
 Critical dates typically follow this pattern:
+
 - Kick-off: June-August (varies by cohort)
 - Benefit Configuration Complete: September 30
 - Eligibility File Testing: September 1
