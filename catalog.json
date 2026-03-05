@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-03-05T15:24:13.527781+00:00",
+  "documents": [
+    {
+      "path": "knowledge/ref-skill-versioning.md",
+      "title": "Skill Versioning Convention",
+      "summary": "",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "",
+      "departments": [],
+      "roles": [],
+      "classification": "public",
+      "source_of_truth_for": [],
+      "last_verified": "",
+      "review_cycle_days": 0,
+      "related": [],
+      "word_count": 219,
+      "has_access_markers": false
+    },
+    {
+      "path": "skills/getstarted/SKILL.md",
+      "title": "",
+      "summary": "",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "",
+      "departments": [],
+      "roles": [],
+      "classification": "",
+      "source_of_truth_for": [],
+      "last_verified": "",
+      "review_cycle_days": 0,
+      "related": [],
+      "word_count": 5644,
+      "has_access_markers": false
+    },
+    {
+      "path": "skills/growth-feedback/SKILL.md",
+      "title": "",
+      "summary": "",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "",
+      "departments": [],
+      "roles": [],
+      "classification": "",
+      "source_of_truth_for": [],
+      "last_verified": "",
+      "review_cycle_days": 0,
+      "related": [],
+      "word_count": 730,
+      "has_access_markers": false
+    }
+  ]
+}
