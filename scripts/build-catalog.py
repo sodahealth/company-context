@@ -5,13 +5,20 @@ Build catalog.json from Markdown files with YAML frontmatter.
 Walks all .md files in the repo, parses YAML frontmatter, validates required
 fields, and generates catalog.json at the repo root.
 
+Validation strictness:
+    - Files under departments/ directories MUST have all required frontmatter
+      fields. Missing fields are hard errors that cause exit 1.
+    - Files outside departments/ are treated leniently: partial frontmatter
+      triggers a warning but the file is still included in the catalog with
+      whatever fields it has.
+
 Usage:
     python3 scripts/build-catalog.py
 
 Exit codes:
     0 — catalog generated successfully (warnings are OK)
-    1 — validation errors found in files that have frontmatter but are missing
-        required fields
+    1 — validation errors found in department files that have frontmatter but
+        are missing required fields
 """
 
 import json
@@ -173,6 +180,13 @@ def detect_access_markers(body):
     return "<!-- access:" in body
 
 
+def is_department_file(filepath):
+    """Check if a file is under a departments/ directory."""
+    # Normalize path separators and check for departments/ prefix or /departments/ component
+    parts = filepath.replace("\\", "/").split("/")
+    return "departments" in parts
+
+
 def validate_frontmatter(frontmatter, filepath):
     """
     Validate that all required fields are present in frontmatter.
@@ -218,8 +232,9 @@ def build_catalog_entry(filepath, frontmatter, body):
 def main():
     repo_root = find_repo_root()
     documents = []
-    validation_errors = []
-    warnings = []
+    validation_errors = []  # Hard errors (department files with missing fields)
+    partial_warnings = []   # Non-department files with partial frontmatter (included anyway)
+    warnings = []           # Files skipped entirely (no frontmatter, unreadable)
 
     # Walk all .md files
     for dirpath, dirnames, filenames in os.walk(repo_root):
@@ -254,10 +269,21 @@ def main():
             # Validate required fields
             errors = validate_frontmatter(frontmatter, rel_path)
             if errors:
-                error_msg = f"ERROR: {rel_path}\n" + "\n".join(errors)
-                print(error_msg, file=sys.stderr)
-                validation_errors.append(rel_path)
-                continue
+                if is_department_file(rel_path):
+                    # Strict: department files MUST have all required fields
+                    error_msg = f"ERROR: {rel_path}\n" + "\n".join(errors)
+                    print(error_msg, file=sys.stderr)
+                    validation_errors.append(rel_path)
+                    continue
+                else:
+                    # Lenient: non-department files get a warning but are
+                    # still included in the catalog with whatever fields
+                    # they have
+                    warn_msg = f"WARNING: {rel_path} (partial frontmatter)\n" + "\n".join(
+                        e.replace("missing required", "missing") for e in errors
+                    )
+                    print(warn_msg, file=sys.stderr)
+                    partial_warnings.append(rel_path)
 
             # Build catalog entry
             entry = build_catalog_entry(rel_path, frontmatter, body)
@@ -282,14 +308,23 @@ def main():
     total_md = len(documents) + len(validation_errors) + len(warnings)
     print(f"Scanned {total_md} .md files", file=sys.stderr)
     print(f"  {len(documents)} documents added to catalog", file=sys.stderr)
+    if partial_warnings:
+        print(
+            f"    ({len(partial_warnings)} with partial frontmatter)",
+            file=sys.stderr,
+        )
     print(f"  {len(warnings)} files skipped (no frontmatter)", file=sys.stderr)
-    print(f"  {len(validation_errors)} files with validation errors", file=sys.stderr)
+    print(
+        f"  {len(validation_errors)} department files with validation errors",
+        file=sys.stderr,
+    )
     print(f"Wrote {catalog_path}", file=sys.stderr)
 
-    # Exit with error if there were validation failures
+    # Exit with error only if department files have validation failures
     if validation_errors:
         print(
-            "\nValidation errors found. Fix frontmatter in the files listed above.",
+            "\nValidation errors found in department files. "
+            "Fix frontmatter in the files listed above.",
             file=sys.stderr,
         )
         return 1
