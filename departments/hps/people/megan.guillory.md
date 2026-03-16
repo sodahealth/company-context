@@ -1,9 +1,12 @@
 ---
 title: "Megan Guillory"
+summary: "Senior Manager, HPS — implementation manager for new customer onboarding and eligibility"
+content_type: people
 role: "Senior Manager, Health Plan Solutions -- Implementation Manager"
 department: hps
 classification: internal
 last_verified: "2026-03-05"
+review_cycle_days: 90
 ---
 
 # Megan Guillory
