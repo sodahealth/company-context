@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "path": "~/code/it-ops-context/projects/",
+      "content_type": "project",
+      "source_repo": "it-ops-context"
+    },
+    {
+      "path": "~/code/it-ops-context/decisions/",
+      "content_type": "adr",
+      "source_repo": "it-ops-context"
+    },
+    {
+      "path": "~/code/it-ops-context/contracts/",
+      "content_type": "contract",
+      "source_repo": "it-ops-context"
+    },
+    {
+      "path": "~/code/standards-for-ever-the/registry/",
+      "content_type": "registry",
+      "source_repo": "standards-for-ever-the"
+    }
+  ]
+}

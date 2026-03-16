@@ -1,6 +1,292 @@
 {
-  "generated_at": "2026-03-05T15:24:13.527781+00:00",
+  "generated_at": "2026-03-16T15:35:51.156119+00:00",
   "documents": [
+    {
+      "path": "departments/hps/knowledge/ref-customer-profiles.md",
+      "title": "Customer Profiles",
+      "summary": "Master reference for all health plan sponsor customers -- brands, shortcodes, product mix, care models, and configuration traits",
+      "topics": [
+        "customers",
+        "health-plans",
+        "brands",
+        "products",
+        "benefits",
+        "rewards",
+        "surveys",
+        "implementation"
+      ],
+      "systems": [
+        "Harmony",
+        "OnRamp",
+        "Strapi",
+        "Iterable"
+      ],
+      "people": [
+        "Tal Topf",
+        "Diane Borton",
+        "Megan Guillory",
+        "Ariane Grazian"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1333,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/knowledge/ref-implementation-cycle.md",
+      "title": "Implementation Cycle",
+      "summary": "End-to-end implementation lifecycle for health plan sponsor onboarding, from kick-off through go-live",
+      "topics": [
+        "implementation",
+        "lifecycle",
+        "onboarding",
+        "milestones",
+        "process",
+        "automation"
+      ],
+      "systems": [
+        "Harmony",
+        "OnRamp",
+        "Strapi",
+        "Iterable",
+        "FIS",
+        "SFTP",
+        "Aproove"
+      ],
+      "people": [
+        "Tal Topf",
+        "Diane Borton",
+        "Megan Guillory",
+        "Ariane Grazian"
+      ],
+      "content_type": "process",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1360,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/knowledge/ref-implementation-ops.md",
+      "title": "Implementation Operations",
+      "summary": "Operational patterns, recurring issues, and cross-cutting themes from health plan implementations",
+      "topics": [
+        "implementation",
+        "operations",
+        "eligibility",
+        "benefits",
+        "materials",
+        "care",
+        "sftp",
+        "reporting"
+      ],
+      "systems": [
+        "Harmony",
+        "OnRamp",
+        "Strapi",
+        "Iterable",
+        "FIS",
+        "SFTP"
+      ],
+      "people": [
+        "Tal Topf",
+        "Diane Borton",
+        "Megan Guillory",
+        "Ariane Grazian",
+        "Seth Townsend"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1069,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/knowledge/ref-implementation-tasks.md",
+      "title": "Implementation Task Inventory",
+      "summary": "Complete inventory of ~350+ implementation tasks organized by category with automation potential ratings",
+      "topics": [
+        "implementation",
+        "tasks",
+        "automation",
+        "configuration",
+        "testing",
+        "milestones"
+      ],
+      "systems": [
+        "Harmony",
+        "Strapi",
+        "Iterable",
+        "FIS",
+        "OnRamp",
+        "SFTP"
+      ],
+      "people": [
+        "Tal Topf"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1135,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/knowledge/ref-systems.md",
+      "title": "HPS Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Health Plan Solutions team",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "entra",
+        "groups",
+        "harmony",
+        "onramp",
+        "sftp"
+      ],
+      "systems": [
+        "Harmony",
+        "OnRamp",
+        "SFTP",
+        "Smartsheet",
+        "Strapi",
+        "Hub",
+        "MemberAdmin",
+        "Salesforce"
+      ],
+      "people": [
+        "Tal Topf",
+        "Diane Borton",
+        "Megan Guillory",
+        "Ariane Grazian",
+        "Jordan Savold",
+        "Cori Billings"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 657,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/knowledge/ref-team.md",
+      "title": "HPS Team Structure",
+      "summary": "Health Plan Solutions team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "health-plan-solutions",
+        "implementation",
+        "people"
+      ],
+      "systems": [],
+      "people": [
+        "Tal Topf",
+        "Diane Borton",
+        "Megan Guillory",
+        "Ariane Grazian",
+        "Jordan Savold",
+        "Cori Billings"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 625,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/prompts/assistant.md",
+      "title": "HPS Assistant",
+      "summary": "Assistant prompt for Health Plan Solutions team members with research and automation modes",
+      "topics": [
+        "assistant",
+        "implementation",
+        "health-plans",
+        "automation"
+      ],
+      "systems": [
+        "Harmony",
+        "OnRamp",
+        "Strapi",
+        "Iterable",
+        "FIS",
+        "SFTP"
+      ],
+      "people": [
+        "Tal Topf",
+        "Diane Borton",
+        "Megan Guillory"
+      ],
+      "content_type": "prompt",
+      "departments": [
+        "hps"
+      ],
+      "roles": [
+        "implementation-manager",
+        "hps-leadership"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 879,
+      "has_access_markers": false
+    },
     {
       "path": "knowledge/ref-skill-versioning.md",
       "title": "Skill Versioning Convention",
