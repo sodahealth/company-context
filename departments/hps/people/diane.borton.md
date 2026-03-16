@@ -1,9 +1,12 @@
 ---
 title: "Diane Borton"
+summary: "Senior Manager, HPS — implementation manager for SCAN and SummaCare"
+content_type: people
 role: "Senior Manager, Health Plan Solutions -- Implementation Manager"
 department: hps
 classification: internal
 last_verified: "2026-03-05"
+review_cycle_days: 90
 ---
 
 # Diane Borton

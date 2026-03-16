@@ -1,9 +1,12 @@
 ---
 title: "Tal Topf"
+summary: "Associate Director, HPS — leads implementation coordination, process design, and the Osprey initiative"
+content_type: people
 role: "Associate Director, Health Plan Solutions -- Implementation Lead"
 department: hps
 classification: internal
 last_verified: "2026-03-05"
+review_cycle_days: 90
 ---
 
 # Tal Topf
