@@ -1,0 +1,35 @@
+# CODEOWNERS — company-context
+#
+# Extraction PRs from the Knower pipeline are routed to department leads
+# for accuracy review before merge. Each department folder is owned by
+# the relevant lead; they do not need platform knowledge — they only
+# confirm "yes, this is accurate" or "no, this needs correction."
+#
+# SETUP NOTE: Department lead GitHub handles below are placeholders set to
+# @umangkapadia-sodahealth (IT/Security governance owner) until each
+# department lead is identified and onboarded with GitHub access.
+# Update each entry once the lead's GitHub username is known.
+#
+# See: knowledge/ref-extraction-pr-review.md for the department lead review process.
+
+# Fallback: IT/Security owner covers everything not matched below
+*                                   @umangkapadia-sodahealth
+
+# ── HPS (Health Plan Solutions) ───────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with HPS lead's GitHub handle
+#       once they are onboarded (e.g. @<hps-lead-github-handle>)
+departments/hps/                    @umangkapadia-sodahealth
+
+# ── Growth ────────────────────────────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with Growth lead's GitHub handle
+#       once they are onboarded (e.g. @<growth-lead-github-handle>)
+departments/growth/                 @umangkapadia-sodahealth
+
+# ── Engineering ───────────────────────────────────────────────────────────────
+# Uses the sodahealth/engineering-ad team (Engineering Associate Directors)
+# Update to a specific lead if a single DRI is preferred
+departments/engineering/            @sodahealth/engineering-ad
+
+# ── Shared ────────────────────────────────────────────────────────────────────
+# Shared knowledge is reviewed by IT/Security (governance owner)
+departments/shared/                 @umangkapadia-sodahealth
