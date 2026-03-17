@@ -16,6 +16,7 @@
 *                                   @umangkapadia-sodahealth
 
 # ── HPS (Health Plan Solutions) ───────────────────────────────────────────────
+# Department lead: Ariane Grazian (SVP, HPS) or designated delegate
 # TODO: Replace @umangkapadia-sodahealth with HPS lead's GitHub handle
 #       once they are onboarded (e.g. @<hps-lead-github-handle>)
 departments/hps/                    @umangkapadia-sodahealth
@@ -30,6 +31,10 @@ departments/growth/                 @umangkapadia-sodahealth
 # Update to a specific lead if a single DRI is preferred
 departments/engineering/            @sodahealth/engineering-ad
 
-# ── Shared ────────────────────────────────────────────────────────────────────
-# Shared knowledge is reviewed by IT/Security (governance owner)
+# ── Shared content (IT-owned) ────────────────────────────────────────────────
 departments/shared/                 @umangkapadia-sodahealth
+/knowledge/                         @umangkapadia-sodahealth
+/skills/                            @umangkapadia-sodahealth
+/prompts/                           @umangkapadia-sodahealth
+/config/                            @umangkapadia-sodahealth
+/.github/                           @umangkapadia-sodahealth
