@@ -1,6 +1,134 @@
 {
-  "generated_at": "2026-03-18T22:55:24.397548+00:00",
+  "generated_at": "2026-03-18T22:57:18.240995+00:00",
   "documents": [
+    {
+      "path": "departments/care/knowledge/ref-systems.md",
+      "title": "Care Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Care team",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "care"
+      ],
+      "systems": [],
+      "people": [
+        "Care Lead"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "care"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 80,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/care/knowledge/ref-team.md",
+      "title": "Care Team Structure",
+      "summary": "Care team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "care"
+      ],
+      "systems": [],
+      "people": [
+        "Care Lead"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "care"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 78,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/care/knowledge/ref-tools.md",
+      "title": "Care Tools",
+      "summary": "Tools and integrations used by the Care team",
+      "topics": [
+        "tools",
+        "integrations",
+        "care"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "care"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 53,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/care/people/care.lead.md",
+      "title": "Care Lead",
+      "summary": "Lead, CARE -- department lead",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 34,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/care/prompts/assistant.md",
+      "title": "Care Assistant",
+      "summary": "Assistant prompt for Care team members with research and automation modes",
+      "topics": [
+        "assistant",
+        "care"
+      ],
+      "systems": [],
+      "people": [
+        "Care Lead"
+      ],
+      "content_type": "prompt",
+      "departments": [
+        "care"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 370,
+      "has_access_markers": false
+    },
     {
       "path": "departments/engineering/knowledge/data-model/authz.md",
       "title": "Data Model: Authz",
@@ -882,6 +1010,262 @@
       "has_access_markers": false
     },
     {
+      "path": "departments/finance/knowledge/ref-systems.md",
+      "title": "Finance Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Finance team",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "finance"
+      ],
+      "systems": [],
+      "people": [
+        "Finance Lead"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "finance"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 80,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/finance/knowledge/ref-team.md",
+      "title": "Finance Team Structure",
+      "summary": "Finance team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "finance"
+      ],
+      "systems": [],
+      "people": [
+        "Finance Lead"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "finance"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 78,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/finance/knowledge/ref-tools.md",
+      "title": "Finance Tools",
+      "summary": "Tools and integrations used by the Finance team",
+      "topics": [
+        "tools",
+        "integrations",
+        "finance"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "finance"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 53,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/finance/people/finance.lead.md",
+      "title": "Finance Lead",
+      "summary": "Lead, Finance -- department lead",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 34,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/finance/prompts/assistant.md",
+      "title": "Finance Assistant",
+      "summary": "Assistant prompt for Finance team members with research and automation modes",
+      "topics": [
+        "assistant",
+        "finance"
+      ],
+      "systems": [],
+      "people": [
+        "Finance Lead"
+      ],
+      "content_type": "prompt",
+      "departments": [
+        "finance"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 370,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/growth/knowledge/ref-systems.md",
+      "title": "Growth Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Growth team",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "growth"
+      ],
+      "systems": [],
+      "people": [
+        "Alex Kochanik"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "growth"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 80,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/growth/knowledge/ref-team.md",
+      "title": "Growth Team Structure",
+      "summary": "Growth team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "growth"
+      ],
+      "systems": [],
+      "people": [
+        "Alex Kochanik"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "growth"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 78,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/growth/knowledge/ref-tools.md",
+      "title": "Growth Tools",
+      "summary": "Tools and integrations used by the Growth team",
+      "topics": [
+        "tools",
+        "integrations",
+        "growth"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "growth"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 53,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/growth/people/alex.kochanik.md",
+      "title": "Alex Kochanik",
+      "summary": "Lead, Growth -- department lead",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 34,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/growth/prompts/assistant.md",
+      "title": "Growth Assistant",
+      "summary": "Assistant prompt for Growth team members with research and automation modes",
+      "topics": [
+        "assistant",
+        "growth"
+      ],
+      "systems": [],
+      "people": [
+        "Alex Kochanik"
+      ],
+      "content_type": "prompt",
+      "departments": [
+        "growth"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 370,
+      "has_access_markers": false
+    },
+    {
       "path": "departments/hps/knowledge/ref-customer-profiles.md",
       "title": "Customer Profiles",
       "summary": "Master reference for all health plan sponsor customers -- brands, shortcodes, product mix, care models, and configuration traits",
@@ -1219,6 +1603,262 @@
       "review_cycle_days": 90,
       "related": [],
       "word_count": 879,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/knowledge/ref-systems.md",
+      "title": "Merchants & Payments Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Merchants & Payments team",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "mx"
+      ],
+      "systems": [],
+      "people": [
+        "Jared Dauman"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "mx"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 90,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/knowledge/ref-team.md",
+      "title": "Merchants & Payments Team Structure",
+      "summary": "Merchants & Payments team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "mx"
+      ],
+      "systems": [],
+      "people": [
+        "Jared Dauman"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "mx"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 84,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/knowledge/ref-tools.md",
+      "title": "Merchants & Payments Tools",
+      "summary": "Tools and integrations used by the Merchants & Payments team",
+      "topics": [
+        "tools",
+        "integrations",
+        "mx"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "mx"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 57,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/people/jared.dauman.md",
+      "title": "Jared Dauman",
+      "summary": "Lead, MX -- department lead",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 34,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/prompts/assistant.md",
+      "title": "Merchants & Payments Assistant",
+      "summary": "Assistant prompt for Merchants & Payments team members with research and automation modes",
+      "topics": [
+        "assistant",
+        "mx"
+      ],
+      "systems": [],
+      "people": [
+        "Jared Dauman"
+      ],
+      "content_type": "prompt",
+      "departments": [
+        "mx"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 388,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/peopleops/knowledge/ref-systems.md",
+      "title": "People Operations Systems and Access",
+      "summary": "Systems, tools, and access groups used by the People Operations team",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "peopleops"
+      ],
+      "systems": [],
+      "people": [
+        "Regina Lindsey"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "peopleops"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 85,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/peopleops/knowledge/ref-team.md",
+      "title": "People Operations Team Structure",
+      "summary": "People Operations team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "peopleops"
+      ],
+      "systems": [],
+      "people": [
+        "Regina Lindsey"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "peopleops"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 81,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/peopleops/knowledge/ref-tools.md",
+      "title": "People Operations Tools",
+      "summary": "Tools and integrations used by the People Operations team",
+      "topics": [
+        "tools",
+        "integrations",
+        "peopleops"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "peopleops"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 55,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/peopleops/people/regina.lindsey.md",
+      "title": "Regina Lindsey",
+      "summary": "Lead, Peopleops -- department lead",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 34,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/peopleops/prompts/assistant.md",
+      "title": "People Operations Assistant",
+      "summary": "Assistant prompt for People Operations team members with research and automation modes",
+      "topics": [
+        "assistant",
+        "peopleops"
+      ],
+      "systems": [],
+      "people": [
+        "Regina Lindsey"
+      ],
+      "content_type": "prompt",
+      "departments": [
+        "peopleops"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 379,
       "has_access_markers": false
     },
     {
