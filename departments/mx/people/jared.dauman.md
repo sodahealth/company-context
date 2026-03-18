@@ -2,7 +2,7 @@
 title: "Jared Dauman"
 summary: "Lead, MX -- department lead"
 content_type: "people"
-role: "Lead, Mx"
+role: "Lead, MX"
 department: "mx"
 classification: "internal"
 last_verified: "2026-03-18"
@@ -13,13 +13,13 @@ review_cycle_days: 90
 
 **Title**: Lead
 
-**Department**: Mx
+**Department**: MX
 
 **Reports to**: TBD
 
 ## Role
 
-Jared Dauman leads the Mx department at Evermore.
+Jared Dauman leads the MX department at Evermore.
 
 ## Key Responsibilities
 
