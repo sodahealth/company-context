@@ -1,0 +1,196 @@
+# Harmony Feature Routing Manifest — Sponsor Domain
+# Generated: 2026-02-22
+#
+# This file maps features to the specific files an AI session needs to read
+# and modify. Instead of loading 950K LOC, load the 10-20 files for your feature.
+#
+# Usage: Read the relevant feature block before implementing. It tells you
+# exactly which files to read, which are generated (don't edit), and which
+# tests to run.
+
+domains:
+  sponsor:
+    description: "Health plan sponsor management — plans, brands, benefits, enrollments, programs, funding"
+    tier: 1
+    database: sponsor
+    packages:
+      - pkg/sponsor
+      - pkg/approvalprofileutil
+    api_spec: internal/sponsorapi/sponsorapi.yaml
+    generated:
+      - internal/sponsorapi/chi-server.go      # Route handlers (oapi-codegen)
+      - internal/sponsorapi/client.go          # API client (oapi-codegen)
+      - internal/sponsorapi/types.go           # Request/response types (oapi-codegen)
+      - internal/sponsorapi/spec.go            # Embedded spec (oapi-codegen)
+      - internal/sponsor/db/models.go          # DB types (sqlc)
+      - internal/sponsor/db/querier.go         # Query interface (sqlc)
+      - internal/sponsor/db/db.go              # DB connection (sqlc)
+      - internal/sponsor/db/*.sql.go           # Query implementations (sqlc)
+    hand_written_helpers:
+      - internal/sponsorapi/helpers.go         # Bind() methods for request validation
+      - internal/sponsorapi/benefit_helpers.go # Benefit type predicates
+      - internal/sponsorapi/constants.go       # Enum constants
+    tests:
+      - pkg/sponsor/*_test.go                  # 55 test files
+    migrations: db/sponsor/migrations/
+    queries: db/sponsor/queries/
+
+  member:
+    description: "Member-facing API — benefits, cards, transactions, enrollment (stateless)"
+    tier: 3
+    database: null
+    packages: [pkg/member]
+    api_spec: internal/memberapi/memberapi.yaml
+    generated: [internal/memberapi/gen_*]
+    tests: [pkg/member/*_test.go]
+
+  admin:
+    description: "Internal admin portal — sponsor/benefit/merchant management (stateless)"
+    tier: 3
+    database: null
+    packages: [pkg/admin]
+    api_spec: internal/adminapi/adminapi.yaml
+    generated: [internal/adminapi/gen_*]
+    tests: [pkg/admin/*_test.go]
+
+  hub:
+    description: "Sponsor-facing SSR portal — job tracking, reporting (stateless)"
+    tier: 3
+    database: null
+    packages: [pkg/hub]
+    api_spec: null  # SSR only
+    tests: [pkg/hub/*_test.go]
+
+features:
+  sponsor-creation:
+    description: "Creating a new sponsor (customer + brands) with full configuration"
+    spans: [sponsor, admin]
+    current_process: "Manual via Soda Admin UI + engineer-assisted funding account setup"
+    kestrel_target: true
+    files:
+      # Sponsor service (Tier 1)
+      - pkg/sponsor/api_sponsors.go            # Sponsor CRUD, upsert, hierarchy
+      - pkg/sponsor/api_config.go              # Config patching (RFC 7386)
+      - pkg/sponsor/api_funding_accounts.go    # Funding account linking
+      - pkg/sponsor/api_kits.go                # Kit management
+      - pkg/sponsor/api_emboss_kits.go         # Emboss kit assignment
+      - db/sponsor/queries/sponsor.sql         # Sponsor queries
+      - db/sponsor/queries/funding_account.sql # Funding queries
+      # Admin service (Tier 3 — current UI)
+      - pkg/admin/api_sponsors.go              # Admin sponsor handlers (if exists)
+      # OpenAPI specs
+      - internal/sponsorapi/sponsorapi.yaml    # Sponsor API contract
+      - internal/adminapi/adminapi.yaml        # Admin API contract
+    tests:
+      - pkg/sponsor/api_sponsors_test.go
+      - pkg/sponsor/api_config_test.go
+      - pkg/sponsor/api_funding_accounts_test.go
+    decisions:
+      - decisions/068-Customers-and-Brands.md
+      - decisions/078-sponsor-config-inheritance.md
+
+  benefit-configuration:
+    description: "Creating and configuring benefits (funded, ride, survey, etc.)"
+    spans: [sponsor, admin]
+    kestrel_target: true
+    files:
+      - pkg/sponsor/api_benefits.go            # Benefit CRUD + versioning
+      - pkg/sponsor/benefit_helper.go          # Date calculations, reload logic
+      - pkg/sponsor/api_factors.go             # Factor definitions for conditional rules
+      - db/sponsor/queries/benefit.sql         # Benefit queries
+      - db/sponsor/queries/factors.sql         # Factor queries
+      - internal/sponsorapi/sponsorapi.yaml
+      - internal/sponsorapi/helpers.go         # Benefit Bind() validation
+      - internal/sponsorapi/benefit_helpers.go # Type predicates
+    tests:
+      - pkg/sponsor/api_benefits_test.go
+      - pkg/sponsor/api_factors_test.go
+    decisions:
+      - decisions/067-Benefit-Versioning.md
+
+  benefit-enrollment:
+    description: "Enrolling a member in a benefit plan"
+    spans: [sponsor, member, hub]
+    files:
+      # Sponsor service (Tier 1)
+      - pkg/sponsor/api_enrollments.go
+      - pkg/sponsor/enrollment_qualification.go  # Auto-enrollment rules
+      - db/sponsor/queries/enrollment.sql
+      # Member service (Tier 3)
+      - pkg/member/api_benefits.go
+      # Programs
+      - pkg/sponsor/api_programs.go
+      - db/sponsor/queries/program.sql
+    tests:
+      - pkg/sponsor/api_enrollments_test.go
+      - pkg/member/api_benefits_test.go
+
+  approval-profiles:
+    description: "Merchant spending restrictions for benefits"
+    spans: [sponsor, merchant]
+    files:
+      # Sponsor side (benefit → AP linking)
+      - pkg/sponsor/api_benefits.go
+      - db/sponsor/queries/benefit.sql
+      # Merchant side (AP definitions)
+      - pkg/merchant/api_approval_profiles.go
+      - internal/merchantapi/merchantapi.yaml
+    decisions:
+      - decisions/069-Approval-Profile-Attributes.md
+      - decisions/2026-01-29-Approval-Profile-Item-Targeting.md
+
+  member-card-management:
+    description: "Card issuance, status tracking, embossing"
+    spans: [sponsor, member, ledger]
+    files:
+      - pkg/sponsor/api_cards.go
+      - pkg/sponsor/api_emboss_kits.go
+      - pkg/sponsor/intelligent_kit_assignment.go
+      - db/sponsor/queries/cards.sql
+      - db/sponsor/queries/emboss_kits.sql
+      - pkg/member/api_cards.go
+    external_integrations: [galileo, fis]
+
+  config-inheritance:
+    description: "Sponsor config patching with customer → brand inheritance"
+    spans: [sponsor]
+    files:
+      - pkg/sponsor/api_config.go
+      - db/sponsor/queries/sponsor.sql
+      - internal/sponsorapi/sponsorapi.yaml
+    tests:
+      - pkg/sponsor/api_config_test.go
+    decisions:
+      - decisions/078-sponsor-config-inheritance.md
+
+  program-management:
+    description: "Program creation, benefit association, auto-enrollment"
+    spans: [sponsor, admin]
+    kestrel_target: true
+    files:
+      - pkg/sponsor/api_programs.go
+      - db/sponsor/queries/program.sql
+      - pkg/sponsor/enrollment_qualification.go
+    tests:
+      - pkg/sponsor/api_programs_test.go
+
+  transaction-processing:
+    description: "Real-time transaction auth/clearing via payment processors"
+    spans: [txn, ledger, merchant, sponsor]
+    files:
+      - pkg/txn/                               # Transaction service
+      - pkg/ledger/api_transaction.go          # Transaction persistence
+      - pkg/merchant/api_approval_profiles.go  # Spending rules
+      - internal/txnapi/txnapi.yaml
+      - internal/txnapi/basketapi.yaml
+      - internal/txnapi/merchant_preauthapi.yaml
+    external_integrations: [galileo, fis, e6]
+
+  data-intake:
+    description: "Partner file ingestion (eligibility, members, items, merchants)"
+    spans: [partner, sponsor]
+    files:
+      - pkg/partner/api_job.go
+      - pkg/sponsor/eligibility_intake_processor.go
+      - pkg/sponsor/eligibility_intake_workflow.go
+    external_integrations: [benthos, gcs, sftp]
