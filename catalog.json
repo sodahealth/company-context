@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-16T15:35:51.156119+00:00",
+  "generated_at": "2026-03-18T16:34:55.032015+00:00",
   "documents": [
     {
       "path": "departments/hps/knowledge/ref-customer-profiles.md",
@@ -249,6 +249,60 @@
       "has_access_markers": false
     },
     {
+      "path": "departments/hps/people/diane.borton.md",
+      "title": "Diane Borton",
+      "summary": "Senior Manager, HPS — implementation manager for SCAN and SummaCare",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 226,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/people/megan.guillory.md",
+      "title": "Megan Guillory",
+      "summary": "Senior Manager, HPS — implementation manager for new customer onboarding and eligibility",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 263,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/hps/people/tal.topf.md",
+      "title": "Tal Topf",
+      "summary": "Associate Director, HPS — leads implementation coordination, process design, and the Osprey initiative",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-05",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 342,
+      "has_access_markers": false
+    },
+    {
       "path": "departments/hps/prompts/assistant.md",
       "title": "HPS Assistant",
       "summary": "Assistant prompt for Health Plan Solutions team members with research and automation modes",
@@ -285,6 +339,24 @@
       "review_cycle_days": 90,
       "related": [],
       "word_count": 879,
+      "has_access_markers": false
+    },
+    {
+      "path": "knowledge/ref-extraction-pr-review.md",
+      "title": "How to Review Extraction PRs",
+      "summary": "One-pager guide for department leads reviewing automated knowledge PRs",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "guide",
+      "departments": [],
+      "roles": [],
+      "classification": "public",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-17",
+      "review_cycle_days": 0,
+      "related": [],
+      "word_count": 706,
       "has_access_markers": false
     },
     {
