@@ -1,0 +1,328 @@
+# Harmony Service Map
+# Generated: 2026-02-22
+# Source: Static analysis of cmd/soda-api/main.go, internal/*api/ specs, db/*
+#
+# 16 API services registered in soda-api, 30 batch jobs in soda-job,
+# 2 Angular frontends, 12 CLI tools
+# 6 active databases with 700+ migrations total
+
+services:
+  # === Tier 1: Core / Database Services (M2M auth only) ===
+
+  sponsor:
+    tier: 1
+    description: "Sponsor data structures, member login events, benefits, enrollments, programs"
+    database: sponsor
+    migrations: 266
+    packages: [pkg/sponsor, pkg/approvalprofileutil]
+    api_spec: internal/sponsorapi/sponsorapi.yaml
+    generated:
+      - internal/sponsorapi/gen_*
+      - internal/sponsor/db/*
+    entry_point: cmd/soda-api (--service sponsor)
+    key_files:
+      - pkg/sponsor/api_enrollment.go
+      - pkg/sponsor/api_benefits.go
+      - pkg/sponsor/api_member.go
+    external_integrations: [galileo, fis, auth0]
+    has_pubsub_workers: true
+    notes: "Largest domain. 266 migrations, 70 tables, 22 query files. Config JSON structure is central."
+
+  ledger:
+    tier: 1
+    description: "Double-entry bookkeeping — transaction recording, fund movement, balances"
+    database: ledger
+    migrations: 188
+    packages: [pkg/ledger]
+    api_spec: internal/ledgerapi/ledgerapi.yaml
+    generated:
+      - internal/ledgerapi/gen_*
+      - internal/ledger/db/*
+    entry_point: cmd/soda-api (--service ledger)
+    key_files:
+      - pkg/ledger/api_transaction.go
+      - pkg/ledger/api_book.go
+    external_integrations: [fis, ingo]
+    uses: [redis (distlock), datadog (metrics)]
+    notes: "Financial core. Double-entry bookkeeping with idempotence keys. 51 tables."
+
+  merchant:
+    tier: 1
+    description: "Merchant catalog, approval profiles, MCCs, transaction details"
+    database: merchant
+    migrations: 156
+    packages: [pkg/merchant]
+    api_spec: internal/merchantapi/merchantapi.yaml
+    generated:
+      - internal/merchantapi/gen_*
+      - internal/merchant/db/*
+    entry_point: cmd/soda-api (--service merchant)
+    key_files:
+      - pkg/merchant/api_approval_profiles.go
+    external_integrations: []
+    uses: [vertex_ai, datadog (metrics)]
+    notes: "Approval profiles are the business rules engine for spending restrictions. 32 tables."
+
+  partner:
+    tier: 1
+    description: "Job processing, file ingestion, partner integrations, activity audit logs"
+    database: partner
+    migrations: 75
+    packages: [pkg/partner]
+    api_spec: internal/partnerapi/partnerapi.yaml
+    generated:
+      - internal/partnerapi/gen_*
+      - internal/partner/db/*
+    entry_point: cmd/soda-api (--service partner)
+    key_files:
+      - pkg/partner/api_job.go
+    external_integrations: [benthos, gcs]
+    notes: "Benthos stream configs for declarative data pipelines. 22 job processing types."
+
+  authz:
+    tier: 1
+    description: "Authorization configuration and adjudication — RBAC with hierarchical domains"
+    database: authz
+    migrations: 7
+    packages: [pkg/authz]
+    api_spec: internal/authzapi/authzapi.yaml
+    generated:
+      - internal/authzapi/gen_*
+      - internal/authz/db/*
+    entry_point: cmd/soda-api (--service authz)
+    notes: "5 tables. Hierarchical domains (self-referential). Soft deletes with partial unique indexes."
+
+  # === Tier 2: Integration Services (public-facing for external services) ===
+
+  sms:
+    tier: 2
+    description: "SMS relay and inbound handlers"
+    database: sms
+    migrations: 5
+    packages: [pkg/sms]
+    api_spec: internal/smsapi/smsapi.yaml
+    generated:
+      - internal/smsapi/gen_*
+      - internal/sms/db/*
+    entry_point: cmd/soda-api (--service sms)
+    external_integrations: [twilio, strapi]
+    notes: "3 tables. Session inheritance for threaded conversations."
+
+  external:
+    tier: 2
+    description: "External partner API for webhook recipients"
+    database: null
+    packages: [pkg/external]
+    api_spec: internal/externalapi/externalapi.yaml
+    additional_specs:
+      - internal/externalapi/webhooks-recipientapi.yaml
+    generated:
+      - internal/externalapi/gen_*
+    entry_point: cmd/soda-api (--service external)
+    calls: [sponsor, ledger, member, partner]
+    notes: "Webhooks with exponential backoff (up to 7 retries)."
+
+  txn:
+    tier: 2
+    description: "Real-time transaction processing — Galileo webhooks"
+    database: null
+    packages: [pkg/txn]
+    api_spec: internal/txnapi/txnapi.yaml
+    additional_specs:
+      - internal/txnapi/basketapi.yaml
+      - internal/txnapi/merchant_preauthapi.yaml
+    generated:
+      - internal/txnapi/gen_*
+    entry_point: cmd/soda-api (--service txn)
+    external_integrations: [galileo, ingo, uber]
+    uses: [redis, gcs]
+    notes: "Three sub-APIs: main txn, basket (post-txn substantiation), merchant preauth."
+
+  monitor:
+    tier: 2
+    description: "Health check endpoints for external services"
+    database: null
+    packages: [pkg/monitor]
+    api_spec: internal/monitorapi/monitorapi.yaml
+    generated:
+      - internal/monitorapi/gen_*
+    entry_point: cmd/soda-api (--service monitor)
+    notes: "Checks FIS, Galileo availability."
+
+  # === Tier 3: Web / Frontend Services (public-facing internet) ===
+
+  admin:
+    tier: 3
+    description: "Internal admin portal API"
+    database: null
+    packages: [pkg/admin]
+    api_spec: internal/adminapi/adminapi.yaml
+    generated:
+      - internal/adminapi/gen_*
+    entry_point: cmd/soda-api (--service admin)
+    calls: [ledger, sponsor, partner, merchant, authz, txn]
+    notes: "Aggregation layer — calls most tier 1 services."
+
+  member:
+    tier: 3
+    description: "Member actions (frontend-facing)"
+    database: null
+    packages: [pkg/member]
+    api_spec: internal/memberapi/memberapi.yaml
+    generated:
+      - internal/memberapi/gen_*
+    entry_point: cmd/soda-api (--service member)
+    calls: [ledger, sponsor, merchant, partner, authz]
+    notes: "No database — pure orchestration via M2M calls to tier 1."
+
+  job:
+    tier: 3
+    description: "Job orchestration and coordination"
+    database: null
+    packages: [pkg/job]
+    api_spec: internal/jobapi/jobapi.yaml
+    generated:
+      - internal/jobapi/gen_*
+    entry_point: cmd/soda-api (--service job)
+    calls: [sponsor, partner, merchant]
+
+  ivr:
+    tier: 3
+    description: "IVR (phone menu) API"
+    database: null
+    packages: [pkg/ivr]
+    api_spec: internal/ivrapi/ivrapi.yaml
+    generated:
+      - internal/ivrapi/gen_*
+    entry_point: cmd/soda-api (--service ivr)
+    calls: [ledger, merchant, sponsor, partner, strapi]
+    uses: [redis, twilio]
+
+  log:
+    tier: 3
+    description: "Auth0 and CSP report webhooks"
+    database: null
+    packages: [pkg/log]
+    api_spec: internal/logapi/logapi.yaml
+    generated:
+      - internal/logapi/gen_*
+    entry_point: cmd/soda-api (--service log)
+    calls: [sponsor]
+
+  csrx:
+    tier: 3
+    description: "CSRX portal SSR server"
+    database: null
+    packages: [pkg/csrx]
+    api_spec: null  # No OpenAPI — SSR
+    entry_point: cmd/soda-api (--service csrx)
+    port: 8080
+    notes: "Server-side rendered portal. Chi router + Templ templates."
+
+  hub:
+    tier: 3
+    description: "Hub portal SSR server (customer-facing)"
+    database: null
+    packages: [pkg/hub]
+    api_spec: null  # No OpenAPI — SSR
+    entry_point: cmd/soda-api (--service hub)
+    port: 8080
+    notes: "Server-side rendered portal."
+
+  microportal:
+    tier: 3
+    description: "Mobile portal SSR server"
+    database: null
+    packages: [pkg/microportal]
+    api_spec: null  # No OpenAPI — SSR
+    entry_point: cmd/soda-api (--service microportal)
+    port: 8080
+
+# === Batch Jobs (soda-job) ===
+batch_jobs:
+  runner: cmd/soda-job
+  worker_mode: "soda-job worker (Pub/Sub subscription handlers)"
+  jobs:
+    - abcorp-card-events-job
+    - batch-settlement-job
+    - bigquery-reporting-job
+    - bigquery-sf-data-load-job
+    - closed-loop-preauth-monitor-job
+    - color-dynamics-file-job
+    - core-category-reconciliation-job
+    - cvs-eligibility-file-job
+    - deposit-tracking-job
+    - entra-partner-sync-job
+    - execute-scheduled-actions-job
+    - fdic-funding-report-job
+    - funding-account-balance-job
+    - ingo-ach-initiation-job
+    - ingo-disbursement-job
+    - ingo-funds-transfer-job
+    - load-mastercard-places-job
+    - mele-file-job
+    - panic-job
+    - partner-reference-job
+    - preauth-monitor-job
+    - reporting-job
+    - salesforce-job
+    - scheduled-deactivations-job
+    - sftp-users-job
+    - square-monitor-job
+    - square-preauth-monitor-job
+    - surrender-funds-job
+    - survey-report-email-job
+    - valid-emboss-job
+
+# === Frontends ===
+frontends:
+  soda-admin:
+    path: web/apps/soda-admin
+    framework: Angular (Nx monorepo)
+    description: "Internal admin portal"
+  member-admin:
+    path: web/apps/member-admin
+    framework: Angular (Nx monorepo)
+    description: "Member admin portal"
+  shared:
+    - web/common/       # Shared components
+    - web/internals/    # Nx internals
+    - web/dev-tools/    # Development tools
+    - web/entrypoint/   # App entry points
+
+# === CLI Tools ===
+cli_tools:
+  - cmd/soda-api        # Main API server
+  - cmd/soda-job        # Batch job runner
+  - cmd/soda-cli        # General CLI
+  - cmd/soda-ivr        # IVR CLI
+  - cmd/codeconnect-cli # CodeConnect integration
+  - cmd/extend-cli      # Extend integration
+  - cmd/fis-cli         # FIS integration
+  - cmd/galileo-cli     # Galileo integration
+  - cmd/ingo-cli        # Ingo reimbursement
+  - cmd/lob-cli         # LOB (mail)
+  - cmd/gsm-pubsub-sim  # Pub/Sub simulator
+  - cmd/mcp             # MCP server
+
+# === Shared Specs ===
+shared_specs:
+  - internal/commonapi/commonapi.yaml   # Shared parameter definitions
+  - internal/commonapi/oapi-config.yaml # OpenAPI codegen config
+  - internal/testapi/testapi.yaml       # Test API
+
+# === Architecture Notes ===
+architecture:
+  tier_model: "Three-tier: Tier 1 (core/DB) → Tier 2 (integration) → Tier 3 (web/frontend)"
+  communication: "Services only call lower-tier services. HTTP with M2M auth. Pub/Sub for async."
+  id_strategy: "XID (bytea) for public IDs. Serial BIGINT/INTEGER for internal sequences."
+  databases: "PostgreSQL with pgx driver. 6 databases, no cross-DB foreign keys."
+  auth: "M2M (security package) + Auth0 + Azure Entra ID"
+  async: "Google Cloud Pub/Sub"
+  caching: "Redis (distlock, caching)"
+  observability: "Datadog (tracing, metrics), structured logging (Zap)"
+  storage: "Google Cloud Storage (GCS)"
+  ssr: "Chi router + Templ templates"
+  codegen:
+    api: "oapi-codegen from OpenAPI YAML specs (make api)"
+    db: "sqlc from SQL queries (make queries)"
