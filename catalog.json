@@ -1,6 +1,886 @@
 {
-  "generated_at": "2026-03-18T16:34:55.032015+00:00",
+  "generated_at": "2026-03-18T22:55:24.397548+00:00",
   "documents": [
+    {
+      "path": "departments/engineering/knowledge/data-model/authz.md",
+      "title": "Data Model: Authz",
+      "summary": "Schema reference for the authz database -- RBAC with hierarchical domains, roles, policies, and role grants",
+      "topics": [
+        "data-model",
+        "authz",
+        "rbac",
+        "roles",
+        "policies",
+        "domains",
+        "casbin"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL",
+        "Casbin"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 313,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/data-model/ledger.md",
+      "title": "Data Model: Ledger",
+      "summary": "Schema reference for the ledger database -- double-entry bookkeeping for all financial transactions including settlements, reimbursements, and processor integrations",
+      "topics": [
+        "data-model",
+        "ledger",
+        "transactions",
+        "bookkeeping",
+        "settlement",
+        "reimbursement",
+        "fis",
+        "e6"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 648,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/data-model/merchant.md",
+      "title": "Data Model: Merchant",
+      "summary": "Schema reference for the merchant database -- merchant catalog, product hierarchy, and approval profiles (spending restriction rules engine)",
+      "topics": [
+        "data-model",
+        "merchant",
+        "approval-profiles",
+        "catalog",
+        "mcc",
+        "items",
+        "categories"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 376,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/data-model/partner.md",
+      "title": "Data Model: Partner",
+      "summary": "Schema reference for the partner database -- data integration orchestration, Benthos stream configs, job processing, and activity audit logs",
+      "topics": [
+        "data-model",
+        "partner",
+        "benthos",
+        "jobs",
+        "audit-log",
+        "sftp",
+        "integrations"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL",
+        "Benthos"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 425,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/data-model/sms.md",
+      "title": "Data Model: SMS",
+      "summary": "Schema reference for the sms database -- SMS session state, inbound/outbound message history, and threaded conversations",
+      "topics": [
+        "data-model",
+        "sms",
+        "messaging",
+        "sessions",
+        "twilio"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL",
+        "Twilio"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 231,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/data-model/sponsor.md",
+      "title": "Data Model: Sponsor",
+      "summary": "Schema reference for the sponsor database -- core entities including sponsors, members, benefits, enrollments, programs, and cards across ~70 tables",
+      "topics": [
+        "data-model",
+        "sponsor",
+        "member",
+        "benefit",
+        "enrollment",
+        "program",
+        "card",
+        "schema",
+        "postgresql"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 940,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/deployment.md",
+      "title": "Deployment Flow",
+      "summary": "End-to-end deployment pipeline from PR merge through staging to production via GitHub Actions, GCV, and Flux GitOps",
+      "topics": [
+        "deployment",
+        "ci-cd",
+        "github-actions",
+        "flux",
+        "gitops",
+        "gke",
+        "staging",
+        "production",
+        "canary"
+      ],
+      "systems": [
+        "GitHub Actions",
+        "GCV",
+        "Flux",
+        "GKE",
+        "Docker",
+        "Slack",
+        "Datadog",
+        "Elastic"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 702,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/domain-guides/admin.md",
+      "title": "Domain Guide: Admin",
+      "summary": "Internal admin portal API -- largest Tier 3 service with 138 endpoints, orchestrating all Tier 1 services for sponsor, benefit, and member management",
+      "topics": [
+        "admin",
+        "tier-3",
+        "orchestration",
+        "ssr",
+        "templ",
+        "chi-router"
+      ],
+      "systems": [
+        "Harmony"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 325,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/domain-guides/hub.md",
+      "title": "Domain Guide: Hub",
+      "summary": "Sponsor-facing web portal -- SSR-only service for job tracking, reporting dashboards, and account management",
+      "topics": [
+        "hub",
+        "tier-3",
+        "ssr",
+        "templ",
+        "metabase",
+        "sponsor-portal"
+      ],
+      "systems": [
+        "Harmony",
+        "Metabase",
+        "Redis"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 286,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/domain-guides/member.md",
+      "title": "Domain Guide: Member",
+      "summary": "Member-facing API layer -- Tier 3 orchestration service for benefits, cards, transactions, surveys, and shopping",
+      "topics": [
+        "member",
+        "tier-3",
+        "orchestration",
+        "benefits",
+        "cards",
+        "transactions",
+        "auth0"
+      ],
+      "systems": [
+        "Harmony",
+        "Auth0",
+        "FIS",
+        "Galileo"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 264,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/domain-guides/sponsor.md",
+      "title": "Domain Guide: Sponsor",
+      "summary": "Largest and most complex Harmony domain -- Tier 1 service owning sponsors, members, benefits, enrollments, programs, cards, and funding with 200+ API endpoints",
+      "topics": [
+        "sponsor",
+        "tier-1",
+        "benefits",
+        "enrollments",
+        "programs",
+        "config",
+        "casbin",
+        "versioning",
+        "hierarchy"
+      ],
+      "systems": [
+        "Harmony",
+        "Cloud SQL",
+        "PostgreSQL",
+        "Galileo",
+        "FIS",
+        "E6"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1172,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/infrastructure.md",
+      "title": "Infrastructure",
+      "summary": "GKE clusters, Cloud SQL databases, Valkey caching, Pub/Sub messaging, GCS storage, observability stack, and local development environment",
+      "topics": [
+        "infrastructure",
+        "gke",
+        "cloud-sql",
+        "valkey",
+        "pubsub",
+        "gcs",
+        "datadog",
+        "elastic",
+        "terraform",
+        "flux",
+        "docker"
+      ],
+      "systems": [
+        "GCP",
+        "GKE",
+        "Cloud SQL",
+        "Valkey",
+        "Pub/Sub",
+        "GCS",
+        "Datadog",
+        "Elastic",
+        "Terraform",
+        "Atlantis",
+        "FluxCD",
+        "Docker"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 658,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-business-context.md",
+      "title": "Business Context Reference",
+      "summary": "Customer-facing product semantics mapping customer vocabulary and decisions to code concepts -- essential for Kestrel self-service wizard design",
+      "topics": [
+        "business-context",
+        "sponsor",
+        "benefits",
+        "approval-profiles",
+        "eligibility",
+        "funding",
+        "ssbci",
+        "kestrel"
+      ],
+      "systems": [
+        "Harmony",
+        "SFTP",
+        "FIS",
+        "Galileo",
+        "Avidia Bank",
+        "The Bancorp Bank"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1802,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-engineering-processes.md",
+      "title": "Engineering Processes",
+      "summary": "Engineering workflows including sprint process, PR review, deployment cadence, incident tracking, and decision-making patterns",
+      "topics": [
+        "process",
+        "sprints",
+        "pr-review",
+        "deployment",
+        "incidents",
+        "adrs",
+        "jira"
+      ],
+      "systems": [
+        "GitHub",
+        "Jira",
+        "Confluence",
+        "OpsGenie",
+        "Slack",
+        "Flux"
+      ],
+      "people": [
+        "Chris Brown"
+      ],
+      "content_type": "process",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 863,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-engineering-team.md",
+      "title": "Engineering Team Structure",
+      "summary": "Engineering org structure, squad assignments, reporting chains, GCP access tiers, and AI tooling adoption",
+      "topics": [
+        "team",
+        "squads",
+        "org-structure",
+        "reporting",
+        "gcp-access",
+        "on-call",
+        "ai-tooling"
+      ],
+      "systems": [
+        "GitHub",
+        "Jira",
+        "GCP",
+        "Slack"
+      ],
+      "people": [
+        "Chris Brown",
+        "Charley Shamaly",
+        "Jon Dowdle",
+        "Kevin McHugh",
+        "Umang Kapadia"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 875,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-harmony.md",
+      "title": "Harmony Core Platform Architecture",
+      "summary": "Engineering reference for the Harmony Go monorepo — architecture, services, authentication, authorization, and code organization",
+      "topics": [
+        "harmony",
+        "architecture",
+        "auth",
+        "authz",
+        "casbin",
+        "monorepo",
+        "go",
+        "openapi"
+      ],
+      "systems": [
+        "Harmony",
+        "Auth0",
+        "Entra ID",
+        "Casbin",
+        "GKE"
+      ],
+      "people": [
+        "Chris Brown"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1462,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-implementation-patterns.md",
+      "title": "Implementation Patterns",
+      "summary": "Real customer onboarding data from Osprey -- 27 customers, 2,229 tasks mapping implementation workflows to sponsor domain concepts with confidence-scored defaults",
+      "topics": [
+        "implementation",
+        "onboarding",
+        "osprey",
+        "kestrel",
+        "wizard",
+        "defaults",
+        "patterns"
+      ],
+      "systems": [
+        "Harmony",
+        "Osprey",
+        "OnRamp",
+        "SFTP"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1732,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-kestrel-discovery-session.md",
+      "title": "Kestrel Discovery Session: Benefits",
+      "summary": "Transcript summary from Kestrel requirements scoring session -- cross-team prioritization of self-service benefit configuration features",
+      "topics": [
+        "kestrel",
+        "discovery",
+        "requirements",
+        "prioritization",
+        "benefits",
+        "ebt",
+        "hpms",
+        "pbp"
+      ],
+      "systems": [
+        "Harmony",
+        "Kestrel",
+        "HPMS"
+      ],
+      "people": [
+        "Seth Townsend",
+        "Ariane Grazian",
+        "Tal Topf",
+        "Megan Guillory",
+        "Charley Shamaly",
+        "Laura de Crescenzo",
+        "Peter Barkey-Bircann"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 1004,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-kestrel-revised-plan.md",
+      "title": "Kestrel Revised Plan -- Separate Service Architecture",
+      "summary": "Kestrel demo plan using separate Tier 3 service in ever-the-presenter calling Harmony's sponsor API via local docker-compose",
+      "topics": [
+        "kestrel",
+        "architecture",
+        "demo",
+        "wizard",
+        "hpms",
+        "pbp-import",
+        "ever-the-presenter"
+      ],
+      "systems": [
+        "Harmony",
+        "ever-the-presenter",
+        "FastAPI",
+        "React",
+        "Docker"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 939,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-kestrel.md",
+      "title": "Kestrel -- Self-Service Sponsor Configuration",
+      "summary": "Kestrel project reference -- customer-facing evolution of Evermore Admin for self-service benefit program setup and management",
+      "topics": [
+        "kestrel",
+        "self-service",
+        "sponsor",
+        "configuration",
+        "benefits",
+        "admin",
+        "hub"
+      ],
+      "systems": [
+        "Harmony",
+        "Kestrel",
+        "Soda Admin",
+        "Hub",
+        "Galileo",
+        "FIS",
+        "Iterable",
+        "Vonage",
+        "Benthos"
+      ],
+      "people": [
+        "Chris Brown",
+        "Nick Cruess"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 809,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-okrs.md",
+      "title": "Engineering OKRs",
+      "summary": "Placeholder for engineering OKR tracking -- current state, known structure, and automation opportunity",
+      "topics": [
+        "okrs",
+        "metrics",
+        "automation",
+        "spreadsheets",
+        "sharepoint"
+      ],
+      "systems": [
+        "SharePoint",
+        "Jira",
+        "GitHub",
+        "Datadog",
+        "Greenhouse",
+        "Metabase"
+      ],
+      "people": [
+        "Chris Brown"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 402,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/knowledge/ref-systems.md",
+      "title": "Engineering Systems and Tools",
+      "summary": "Inventory of core systems, tools, and platforms used by the engineering team including development, deployment, monitoring, and collaboration tools",
+      "topics": [
+        "systems",
+        "tools",
+        "infrastructure",
+        "ci-cd",
+        "monitoring",
+        "payments",
+        "collaboration"
+      ],
+      "systems": [
+        "GitHub",
+        "Jira",
+        "Confluence",
+        "GCP",
+        "GKE",
+        "Cloud SQL",
+        "Auth0",
+        "Datadog",
+        "Metabase",
+        "OpsGenie",
+        "FIS",
+        "Galileo",
+        "Slack"
+      ],
+      "people": [
+        "Chris Brown"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 840,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/people/chris.brown.md",
+      "title": "Chris Brown",
+      "summary": "CTO -- hands-on technical leader overseeing engineering org, infrastructure, and product architecture",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "people",
+      "departments": [],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 496,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/engineering/prompts/kestrel-sponsor-creation.md",
+      "title": "AI Playbook: Kestrel Self-Service Sponsor Creation",
+      "summary": "Step-by-step guide for AI-assisted implementation of customer-facing sponsor creation endpoints in Harmony",
+      "topics": [
+        "kestrel",
+        "sponsor-creation",
+        "playbook",
+        "openapi",
+        "casbin",
+        "testing"
+      ],
+      "systems": [
+        "Harmony"
+      ],
+      "people": [],
+      "content_type": "prompt",
+      "departments": [
+        "engineering"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-18",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 656,
+      "has_access_markers": false
+    },
     {
       "path": "departments/hps/knowledge/ref-customer-profiles.md",
       "title": "Customer Profiles",

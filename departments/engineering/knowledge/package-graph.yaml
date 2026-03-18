@@ -1,0 +1,416 @@
+# Harmony monorepo — pkg/ internal dependency graph
+# Module: github.com/sodahealth/harmony
+# Generated: 2026-02-22
+#
+# 75 packages, 555 directed edges (pkg/* → pkg/* only)
+# No stdlib, external modules, or internal/* imports included
+#
+# imports:     other pkg/* packages this package depends on
+# imported_by: other pkg/* packages that depend on this package
+#
+# Key stats:
+#   Leaf packages (no imports): cmdhelp, countlyutil, h, jobutil, multi_errgroup, reimbursementutil, uicomponents
+#   Root packages (nothing imports them): admin, authz, bigquery, entra, external, fismock, glomock, hub, ivr, job, log, mcplaces, monitor, multi_errgroup, sftpgoutil, sms, squareutil, txn, uicomponents
+#   Most depended-on: logging (62), h (51), cmdhelp (41), apiutil (34), testhelp (30), security (24)
+#   Widest importers: worker (28), txn (22), microportal (21), portalutil (19), csrx (19)
+
+packages:
+  # === Foundation layer (leaf packages — no pkg/* imports) ===
+
+  h:
+    description: "Core helper functions — pointer, slice, map, and string utilities"
+    imports: []
+    imported_by: [activitylog, admin, apiutil, assortment, auth0util, authz, cardutil, csrx, dbutil, e6util, emboss, extendutil, external, featuresutil, fisutil, glomock, gloutil, gs1, hub, ingoutil, iterableutil, ivr, job, ledger, log, mcplaces, member, memberutil, merchant, microportal, otchs, partner, portalutil, processorutil, pubsubutil, reporting, security, server, sftp, sms, sponsor, squareutil, strapiutils, testhelp, textutil, tomtomutil, twilioutil, txn, txnutil, uberutil, worker]
+
+  cmdhelp:
+    description: "CLI/environment helpers — env var reading with defaults, config primitives"
+    imports: []
+    imported_by: [admin, auth0util, authz, bigquery, csrx, datadogutil, emboss, extendutil, external, fismock, glomock, hub, ingoutil, iterableutil, ivr, job, kibana, logging, mcplaces, member, microportal, otchs, partner, portalutil, processorutil, pubsubutil, redisutil, reporting, salesforce, security, sftpgoutil, sms, sponsor, ssrutil, strapiutils, testhelp, tomtomutil, twilioutil, txn, uberutil, worker]
+
+  jobutil:
+    description: "Job status helpers — friendly status translation for partner-facing line items"
+    imports: []
+    imported_by: [hub, partner, worker]
+
+  countlyutil:
+    description: "Countly analytics integration client"
+    imports: []
+    imported_by: [ivr, microportal, worker]
+
+  reimbursementutil:
+    description: "Reimbursement case ID generation — deterministic human-readable IDs"
+    imports: []
+    imported_by: [ledger, portalutil, reporting, worker]
+
+  multi_errgroup:
+    description: "Goroutine error group — concurrent subtask coordination"
+    imports: []
+    imported_by: []
+
+  uicomponents:
+    description: "Shared UI component library (Go-side templates)"
+    imports: []
+    imported_by: []
+
+  # === Infrastructure layer ===
+
+  logging:
+    description: "Structured logging framework — context-preserving logger with tracing"
+    imports: [cmdhelp]
+    imported_by: [activitylog, admin, apiutil, approvalprofileutil, assortment, auth0util, authz, bankutil, bigquery, csrx, datadogutil, dbutil, distlockutil, e6util, emboss, entra, extendutil, external, featuresutil, fismock, fisutil, geo, glomock, gloutil, hub, ingoutil, iterableutil, ivr, ledger, lobutil, log, mcplaces, member, memberutil, merchant, microportal, monitor, otchs, partner, portalutil, processorutil, pubsubutil, redisutil, reporting, salesforce, security, server, sftp, sftpgoutil, sms, sponsor, squareutil, ssrutil, strapiutils, tomtomutil, twilioutil, txn, uberutil, vertexaiutil, worker]
+
+  dbutil:
+    description: "Database connection management — Postgres, read replicas, JSONB helpers"
+    imports: [h, logging]
+    imported_by: [activitylog, apiutil, authz, ledger, member, merchant, partner, server, sms, sponsor, testhelp]
+
+  datadogutil:
+    description: "Datadog metrics client — tagged metric emission"
+    imports: [cmdhelp, logging]
+    imported_by: [admin, assortment, authz, bigquery, e6util, emboss, fisutil, ivr, ledger, member, merchant, microportal, partner, portalutil, txn, worker]
+
+  redisutil:
+    description: "Redis client with APM tracing hooks"
+    imports: [cmdhelp, logging]
+    imported_by: [csrx, distlockutil, e6util, hub, ivr, member, microportal, portalutil, txn, worker]
+
+  pubsubutil:
+    description: "Google Cloud Pub/Sub client (v2) — publisher, message types"
+    imports: [cmdhelp, fisutil, h, logging, testhelp]
+    imported_by: [activitylog, admin, csrx, e6util, emboss, external, job, ledger, log, member, merchant, otchs, partner, sms, sponsor, txn, uberutil, worker]
+
+  security:
+    description: "Auth middleware — Auth0 JWT, M2M auth, request context extraction"
+    imports: [apiutil, cmdhelp, h, logging, testhelp]
+    imported_by: [activitylog, admin, authz, csrx, external, featuresutil, hub, ivr, job, ledger, log, mcplaces, member, merchant, microportal, otchs, partner, server, sms, sponsor, strapiutils, testhelp, txn, worker]
+
+  server:
+    description: "HTTP server framework — startup, shutdown, middleware, DB setup"
+    imports: [apiutil, dbutil, h, logging, security]
+    imported_by: [admin, authz, csrx, hub, ivr, job, ledger, log, member, merchant, microportal, partner, sponsor, ssrutil, txn]
+
+  testhelp:
+    description: "Test harness — JWT mocking, DB fixtures, GCS fakes"
+    imports: [cmdhelp, dbutil, h, security]
+    imported_by: [admin, apiutil, authz, bankutil, csrx, distlockutil, e6util, emboss, external, fisutil, hub, ivr, job, ledger, log, member, merchant, microportal, partner, pgputil, portalutil, pubsubutil, security, sms, sponsor, squareutil, txn, uberutil, worker]
+
+  apiutil:
+    description: "Shared API utilities — type conversions, date handling, error formatting"
+    imports: [dbutil, h, logging, testhelp]
+    imported_by: [admin, auth0util, authz, csrx, e6util, entra, external, hub, ingoutil, ivr, job, ledger, lobutil, log, mcplaces, member, memberutil, merchant, microportal, otchs, partner, portalutil, processorutil, reporting, security, server, sms, sponsor, strapiutils, tomtomutil, txn, uberutil, worker]
+
+  featuresutil:
+    description: "Feature flag client — LaunchDarkly-backed flag evaluation"
+    imports: [h, logging, security]
+    imported_by: [admin, e6util, hub, member, microportal, processorutil, sms, txn, worker]
+
+  activitylog:
+    description: "Activity logging — domain objects to flat maps for audit trail via Pub/Sub"
+    imports: [dbutil, h, logging, pubsubutil, security]
+    imported_by: [admin, authz, csrx, external, log, member, merchant, sponsor]
+
+  distlockutil:
+    description: "Distributed locking via Redis — leader election"
+    imports: [logging, redisutil, testhelp]
+    imported_by: [ledger, member, worker]
+
+  # === Domain utility layer ===
+
+  cardutil:
+    description: "Payment card constants and PAN utilities"
+    imports: [h]
+    imported_by: [csrx, gloutil, member, microportal, txn]
+
+  textutil:
+    description: "Text and language utilities — locale-aware string handling"
+    imports: [h]
+    imported_by: [auth0util, microportal, portalutil, salesforce, sms, strapiutils, worker]
+
+  bankutil:
+    description: "Bank account validation and business-day calendar"
+    imports: [logging, testhelp]
+    imported_by: [ledger]
+
+  gs1:
+    description: "GS1 barcode parsing — UPC-A, EAN-13"
+    imports: [h]
+    imported_by: [ledger, merchant, txn]
+
+  txnutil:
+    description: "Transaction utilities — FIS merchant info, display name resolution"
+    imports: [h]
+    imported_by: [txn, worker]
+
+  geo:
+    description: "Geocoding service — postal code and location lookups"
+    imports: [logging]
+    imported_by: [csrx, iterableutil, merchant, microportal, tomtomutil, txn, uberutil]
+
+  pgputil:
+    description: "PGP encryption/decryption utilities"
+    imports: [testhelp]
+    imported_by: [partner]
+
+  approvalprofileutil:
+    description: "Approval profile ID constants and helpers"
+    imports: [logging]
+    imported_by: [ivr, microportal, processorutil]
+
+  memberutil:
+    description: "Member data helpers — address resolution, FIS/Galileo mapping"
+    imports: [apiutil, fisutil, gloutil, h, logging]
+    imported_by: [csrx, external, ivr, member, portalutil, salesforce, worker]
+
+  processorutil:
+    description: "Payment processor utils — enrollment-to-approval-profile mapping"
+    imports: [apiutil, approvalprofileutil, assortment, cmdhelp, featuresutil, h, logging]
+    imported_by: [e6util, txn]
+
+  assortment:
+    description: "Item assortment adjudication — ATF restrictions, Vertex AI classification"
+    imports: [datadogutil, h, logging, vertexaiutil]
+    imported_by: [ledger, merchant, processorutil]
+
+  # === External service clients ===
+
+  auth0util:
+    description: "Auth0 Management API client — member CRUD"
+    imports: [apiutil, cmdhelp, h, logging, textutil]
+    imported_by: [member, microportal, portalutil, worker]
+
+  gloutil:
+    description: "Galileo card/account client — card management, account queries"
+    imports: [cardutil, h, logging]
+    imported_by: [csrx, external, glomock, ivr, ledger, member, memberutil, microportal, portalutil, reporting, sponsor, txn, worker]
+
+  fisutil:
+    description: "FIS payment network types — alerts, card statuses, delegated auth"
+    imports: [datadogutil, h, logging, testhelp]
+    imported_by: [csrx, external, fismock, ivr, ledger, member, memberutil, portalutil, pubsubutil, reporting, sponsor, txn, worker]
+
+  e6util:
+    description: "E6 payment processor — authorization, clearing, deduplication"
+    imports: [apiutil, datadogutil, featuresutil, h, logging, processorutil, pubsubutil, redisutil, testhelp]
+    imported_by: [ledger, txn, worker]
+
+  ingoutil:
+    description: "Ingo Money instant payment client"
+    imports: [apiutil, cmdhelp, h, logging]
+    imported_by: [ledger, microportal, portalutil, txn, worker]
+
+  twilioutil:
+    description: "Twilio API client — voice and SMS operations"
+    imports: [cmdhelp, h, logging]
+    imported_by: [ivr, sms, worker]
+
+  strapiutils:
+    description: "Strapi CMS client — agreement/article content"
+    imports: [apiutil, cmdhelp, h, logging, merchant, security, textutil]
+    imported_by: [admin, csrx, ivr, microportal, portalutil, sms, worker]
+
+  salesforce:
+    description: "Salesforce CRM client — account and contact CRUD"
+    imports: [cmdhelp, logging, memberutil, textutil]
+    imported_by: [worker]
+
+  iterableutil:
+    description: "Iterable marketing platform client"
+    imports: [cmdhelp, geo, h, logging]
+    imported_by: [worker]
+
+  vertexaiutil:
+    description: "Google Vertex AI client for ML product classification"
+    imports: [logging]
+    imported_by: [assortment, merchant]
+
+  tomtomutil:
+    description: "TomTom geocoding API client"
+    imports: [apiutil, cmdhelp, geo, h, logging]
+    imported_by: [merchant]
+
+  lobutil:
+    description: "Lob mail API client — physical mail delivery"
+    imports: [apiutil, logging]
+    imported_by: [worker]
+
+  uberutil:
+    description: "Uber Health ride trip integration"
+    imports: [apiutil, cmdhelp, geo, h, logging, pubsubutil, testhelp]
+    imported_by: [ledger, txn]
+
+  extendutil:
+    description: "Extend AI virtual card operations"
+    imports: [cmdhelp, h, logging]
+    imported_by: [worker]
+
+  squareutil:
+    description: "Square payment processing utilities"
+    imports: [h, logging, testhelp]
+    imported_by: []
+
+  mcplaces:
+    description: "Mastercard Places API client — merchant location data"
+    imports: [apiutil, cmdhelp, h, logging, security]
+    imported_by: []
+
+  entra:
+    description: "Entra ID (Azure AD) security group awareness"
+    imports: [apiutil, logging]
+    imported_by: []
+
+  kibana:
+    description: "Kibana discover URL builder for log deep-linking"
+    imports: [cmdhelp]
+    imported_by: [otchs]
+
+  sftp:
+    description: "SFTP file transfer client"
+    imports: [h, logging]
+    imported_by: [emboss]
+
+  sftpgoutil:
+    description: "SFTP user management via sftpgo API"
+    imports: [cmdhelp, logging]
+    imported_by: []
+
+  # === Shared portal / UI layer ===
+
+  ssrutil:
+    description: "SSR utilities — back nav, HTMX helpers, menu rendering"
+    imports: [cmdhelp, logging, microportal, server]
+    imported_by: [admin, csrx, hub, microportal]
+
+  portalutil:
+    description: "Shared portal logic — agreements, benefits, approval profiles, member lookups"
+    imports: [apiutil, auth0util, cmdhelp, datadogutil, fisutil, gloutil, h, ingoutil, logging, memberutil, merchant, microportal, partner, redisutil, reimbursementutil, sponsor, strapiutils, testhelp, textutil]
+    imported_by: [ivr, microportal]
+
+  # === Tier 1 services (database-backed) ===
+
+  authz:
+    description: "Authorization service — policy-based access decisions, domain management"
+    imports: [activitylog, apiutil, cmdhelp, datadogutil, dbutil, h, logging, security, server, testhelp]
+    imported_by: []
+
+  sponsor:
+    description: "Sponsor service — CRUD, benefit groups, FIS/Galileo program config"
+    imports: [activitylog, apiutil, cmdhelp, dbutil, fisutil, gloutil, h, logging, pubsubutil, security, server, testhelp]
+    imported_by: [admin, external, portalutil]
+
+  ledger:
+    description: "Ledger service — transaction persistence, balance management, reimbursement"
+    imports: [apiutil, assortment, bankutil, datadogutil, dbutil, distlockutil, e6util, fisutil, gloutil, gs1, h, ingoutil, logging, pubsubutil, reimbursementutil, security, server, testhelp, uberutil]
+    imported_by: [csrx, txn]
+
+  merchant:
+    description: "Merchant service — CRUD, approval profiles, item adjudication"
+    imports: [activitylog, apiutil, assortment, datadogutil, dbutil, geo, gs1, h, logging, pubsubutil, security, server, testhelp, tomtomutil, vertexaiutil]
+    imported_by: [admin, portalutil, strapiutils]
+
+  partner:
+    description: "Partner service — data management, PGP file exchange, job orchestration"
+    imports: [apiutil, cmdhelp, datadogutil, dbutil, h, jobutil, logging, pgputil, pubsubutil, security, server, testhelp, worker]
+    imported_by: [portalutil]
+
+  member:
+    description: "Member service — CRUD, card management, enrollment, Auth0 sync"
+    imports: [activitylog, apiutil, auth0util, cardutil, cmdhelp, datadogutil, dbutil, distlockutil, featuresutil, fisutil, gloutil, h, logging, memberutil, pubsubutil, redisutil, security, server, testhelp]
+    imported_by: [reporting]
+
+  sms:
+    description: "SMS service — Twilio inbound/outbound, opt-in/out, templates"
+    imports: [apiutil, cmdhelp, dbutil, featuresutil, h, logging, pubsubutil, security, strapiutils, testhelp, textutil, twilioutil]
+    imported_by: []
+
+  # === Tier 2 services ===
+
+  external:
+    description: "External integration API — partner/FIS/Galileo endpoints"
+    imports: [activitylog, apiutil, cmdhelp, fisutil, gloutil, h, logging, memberutil, pubsubutil, security, sponsor, testhelp]
+    imported_by: []
+
+  txn:
+    description: "Transaction service — real-time auth/clearing, basket adjudication"
+    imports: [apiutil, cardutil, cmdhelp, datadogutil, e6util, featuresutil, fisutil, geo, gloutil, gs1, h, ingoutil, ledger, logging, processorutil, pubsubutil, redisutil, security, server, testhelp, txnutil, uberutil]
+    imported_by: []
+
+  monitor:
+    description: "Monitoring API — health/status endpoints"
+    imports: [logging]
+    imported_by: []
+
+  # === Tier 3 services ===
+
+  admin:
+    description: "Admin portal API — aggregates other services"
+    imports: [activitylog, apiutil, cmdhelp, csrx, datadogutil, emboss, featuresutil, h, logging, merchant, pubsubutil, security, server, sponsor, ssrutil, strapiutils, testhelp]
+    imported_by: []
+
+  hub:
+    description: "Sponsor hub portal — auth, job management, reporting, Metabase"
+    imports: [apiutil, cmdhelp, featuresutil, h, jobutil, logging, redisutil, reporting, security, server, ssrutil, testhelp]
+    imported_by: []
+
+  ivr:
+    description: "IVR service — Twilio voice flows, member agreements, benefit lookup"
+    imports: [apiutil, approvalprofileutil, cmdhelp, countlyutil, datadogutil, fisutil, gloutil, h, logging, memberutil, portalutil, redisutil, security, server, strapiutils, testhelp, twilioutil]
+    imported_by: []
+
+  csrx:
+    description: "CSRX portal — authorization, SSR UI, benefit card flows"
+    imports: [activitylog, apiutil, cardutil, cmdhelp, fisutil, geo, gloutil, h, ledger, logging, memberutil, microportal, pubsubutil, redisutil, security, server, ssrutil, strapiutils, testhelp]
+    imported_by: [admin]
+
+  microportal:
+    description: "Member microportal — SSR benefits UI, card management, multi-language"
+    imports: [apiutil, approvalprofileutil, auth0util, cardutil, cmdhelp, countlyutil, datadogutil, featuresutil, geo, gloutil, h, ingoutil, logging, portalutil, redisutil, security, server, ssrutil, strapiutils, testhelp, textutil]
+    imported_by: [csrx, portalutil, ssrutil]
+
+  job:
+    description: "Job service API — Pub/Sub-triggered async execution"
+    imports: [apiutil, cmdhelp, h, pubsubutil, security, server, testhelp]
+    imported_by: []
+
+  log:
+    description: "Logging service — Auth0, CSP, webhook event ingestion"
+    imports: [activitylog, apiutil, h, logging, pubsubutil, security, server, testhelp]
+    imported_by: []
+
+  # === Async workers ===
+
+  worker:
+    description: "Async worker framework — Auth0 sync, settlement, fulfillment jobs"
+    imports: [apiutil, auth0util, cmdhelp, countlyutil, datadogutil, distlockutil, e6util, extendutil, featuresutil, fisutil, gloutil, h, ingoutil, iterableutil, jobutil, lobutil, logging, memberutil, pubsubutil, redisutil, reimbursementutil, salesforce, security, strapiutils, testhelp, textutil, twilioutil, txnutil]
+    imported_by: [emboss, otchs, partner]
+
+  emboss:
+    description: "Card embossing pipeline — PGP-encrypted files, SFTP delivery"
+    imports: [cmdhelp, datadogutil, h, logging, pubsubutil, sftp, testhelp, worker]
+    imported_by: [admin]
+
+  otchs:
+    description: "OTC Health Solutions — eligibility, Color Dynamics, MELE"
+    imports: [apiutil, cmdhelp, h, kibana, logging, pubsubutil, security, worker]
+    imported_by: []
+
+  bigquery:
+    description: "BigQuery query manager — embedded SQL queries"
+    imports: [cmdhelp, datadogutil, logging]
+    imported_by: []
+
+  reporting:
+    description: "Report generation — balance, card status, funding, email delivery"
+    imports: [apiutil, cmdhelp, fisutil, gloutil, h, logging, member, reimbursementutil]
+    imported_by: [hub]
+
+  # === Mock packages (testing) ===
+
+  fismock:
+    description: "Mock FIS server for local dev/testing"
+    imports: [cmdhelp, fisutil, logging]
+    imported_by: []
+
+  glomock:
+    description: "Mock Galileo client for testing"
+    imports: [cmdhelp, gloutil, h, logging]
+    imported_by: []
