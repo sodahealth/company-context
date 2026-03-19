@@ -58,15 +58,18 @@ You do **not** need to check technical platform details (file formats, frontmatt
 ## Approval: When to Approve, Request Changes, or Escalate
 
 **Approve when:**
+
 - The content accurately reflects your department's knowledge, people, or processes
 - Any minor phrasing differences do not change the meaning
 
 **Request changes when:**
+
 - Facts are incorrect (wrong title, wrong team, outdated process)
 - Sensitive information is present that should not be in the shared knowledge base
 - The content is missing critical context that makes it misleading
 
 **Escalate when:**
+
 - You are unsure whether certain information is appropriate to publish
 - The PR touches multiple departments and you can only speak to your own
 - You suspect the extraction captured something from a confidential source
