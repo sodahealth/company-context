@@ -250,7 +250,7 @@ using the Read tool.
   >
   > "Run this command in your terminal:"
   >
-  > ```
+  > ```bash
   > evermore-agent auth
   > ```
   >
@@ -284,7 +284,7 @@ Provide clear troubleshooting guidance:
 > 2. If you're on a remote/SSH session, the agent will use device code flow instead
 >    — follow the instructions it prints
 > 3. Try clearing cached tokens and re-authenticating:
->    ```
+>    ```bash
 >    evermore-agent auth --clear
 >    evermore-agent auth
 >    ```
