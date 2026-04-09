@@ -1,6 +1,6 @@
 ---
 name: getstarted
-version: "2.0.0"
+version: "2.1.0"
 description: Platform front door — detects mode (first-time, returning, new hire) and routes to the appropriate onboarding or session flow
 ---
 
@@ -223,7 +223,92 @@ as a script — adapt it naturally based on who they are and what department the
 
 Keep this to 30 seconds of reading. Do not over-explain.
 
-### Step 3 — Available Commands
+### Step 3 — Sign In to Evermore Platform
+
+After the platform introduction, prompt the user to sign in with their Evermore
+(Microsoft Entra) identity. This step establishes their verified identity for
+personalized features across the platform.
+
+**Check for cached identity first.** Before prompting, check whether the user already
+has a cached Entra identity on their device. Read the file `~/.evermore/entra-cache.json`
+using the Read tool.
+
+- **If the file exists and contains data:** The user has previously authenticated.
+  Do NOT prompt them to sign in again. Instead, silently note that auth is already
+  complete. If profile data from Phase 0 includes their name and department, confirm
+  naturally:
+
+  > "You're already signed in to the Evermore Platform."
+
+  Proceed to Step 4 (Available Commands).
+
+- **If the file does not exist or is empty:** The user has not yet authenticated.
+  Prompt them to sign in:
+
+  > "One more thing before we dive in — let's sign you in to the Evermore Platform.
+  > This connects your identity so the platform knows who you are across sessions."
+  >
+  > "Run this command in your terminal:"
+  >
+  > ```bash
+  > evermore-agent auth
+  > ```
+  >
+  > "This will open a browser window for Microsoft sign-in. If you're on a managed
+  > device with SSO, it should be one click."
+
+  **Wait for the user to confirm** they have run the command. Do not proceed
+  automatically — the user needs to complete the browser-based sign-in flow.
+
+**After the user confirms sign-in (or says it worked):**
+
+Read `~/.evermore/entra-cache.json` again to verify auth succeeded. If the file now
+exists and contains data:
+
+> "You're signed in as **[display name]** ([department])."
+
+Use the name and department from the cached identity claims. If department is empty
+or not present in the claims, just show the name:
+
+> "You're signed in as **[display name]**."
+
+This is a confirmation moment — keep it brief and positive, then proceed to Step 4.
+
+**If auth fails or the user reports an error:**
+
+Provide clear troubleshooting guidance:
+
+> "No worries — here are a few things to try:"
+>
+> 1. Make sure `evermore-agent` is installed and running: `evermore-agent --version`
+> 2. If you're on a remote/SSH session, the agent will use device code flow instead
+>    — follow the instructions it prints
+> 3. Try clearing cached tokens and re-authenticating:
+>
+>    ```bash
+>    evermore-agent auth --clear
+>    evermore-agent auth
+>    ```
+>
+> 4. If sign-in keeps failing, reach out to IT — we can check your Entra app
+>    assignment
+
+**If the user wants to skip sign-in:**
+
+Auth is not required to continue onboarding. If the user explicitly says they want
+to skip, or if they cannot get auth working after troubleshooting:
+
+> "No problem — we can continue without sign-in for now. Some features will work
+> in a limited way until you're signed in, but everything we're doing today will
+> still work. You can always sign in later by running `evermore-agent auth`."
+
+Proceed to Step 4. Note internally that auth was skipped — this affects the
+enrichment writeback (do not write identity-dependent enrichment fields if auth
+was not completed).
+
+---
+
+### Step 4 — Available Commands
 
 Show them what they can do, tailored to their department.
 
@@ -261,7 +346,7 @@ For **Engineering / Product:**
 
 For **other departments:** Adapt examples to their known systems and workflows.
 
-### Step 4 — Environment Setup
+### Step 5 — Environment Setup
 
 Set up the user's `~/.claude/CLAUDE.md` with the Evermore platform section. This is
 a critical step — it ensures every future session has the right context.
@@ -333,7 +418,7 @@ After writing CLAUDE.md, confirm to the user:
 
 Do NOT dump the contents of what you wrote. Keep it conversational.
 
-### Step 5 — Learn About Them + Proactive Suggestions
+### Step 6 — Learn About Them + Proactive Suggestions
 
 Now shift from setup to conversation. The goal of this step is twofold: (1) validate
 and build on what the profile already tells you, and (2) collect self-reported data
@@ -342,7 +427,7 @@ that the profile does not yet contain.
 > “Now that you’re set up, I’d love to learn more about what you do day-to-day so I
 > can be more useful to you.”
 
-#### 5a: Validate known context
+#### 6a: Validate known context
 
 If the profile contains substantive data (department, tools, communication patterns),
 start by confirming the most relevant details. Don’t read back the full profile — pick
@@ -358,7 +443,7 @@ If the profile contains prior enrichment from a previous session, reference it:
 > “In a previous conversation, you mentioned [challenge or focus area from prior
 > enrichment]. Is that still where things stand?”
 
-#### 5b: Discover unknown context
+#### 6b: Discover unknown context
 
 Use what you know to ask informed questions about what you don’t know. These questions
 should feel natural — the employee should experience a knowledgeable peer, not a survey.
@@ -381,7 +466,7 @@ should feel natural — the employee should experience a knowledgeable peer, not
 Adapt these questions to the employee’s department and role. For non-technical employees,
 use plain language. For engineers, technical terminology is fine.
 
-#### 5c: Proactive suggestions (when data supports them)
+#### 6c: Proactive suggestions (when data supports them)
 
 Analyze everything you know — profile, systems, discovery data, department patterns,
 communication patterns — and generate their top 3 pain point suggestions with honest
@@ -423,10 +508,10 @@ no discovery data), skip the suggestions and ask open-ended questions instead:
 > “What does your typical week look like? What takes up the most time? What would you
 > love to spend less time on?”
 
-#### 5d: Track what you learned
+#### 6d: Track what you learned
 
-As the employee responds throughout Steps 5a-5c, mentally note new information in
-these categories for the enrichment writeback in Step 7:
+As the employee responds throughout Steps 6a-6c, mentally note new information in
+these categories for the enrichment writeback in Step 8:
 
 - **challenges** — obstacles, blockers, frustrations they described
 - **processes** — workflows and recurring tasks they walked you through
@@ -434,7 +519,7 @@ these categories for the enrichment writeback in Step 7:
 - **tools_mentioned** — every tool, system, or app they referenced (including informal ones)
 - **focus_areas** — what they said matters most to them right now
 
-### Step 6 — First Conversation
+### Step 7 — First Conversation
 
 Whatever they want to work on becomes their first real session. Route to the appropriate
 mode:
@@ -443,19 +528,19 @@ mode:
   department context.
 - If they describe a process to improve: interview them about it, document it, and
   explain that you can route an automation request to the platform team.
-- If they want to explore: suggest trying one of the examples from Step 3.
+- If they want to explore: suggest trying one of the examples from Step 4.
 
 This is a natural handoff — the onboarding is complete and the user is now in a
 working session.
 
-### Step 7 — Write Enrichment Data
+### Step 8 — Write Enrichment Data
 
 After the conversation wraps up (or at a natural stopping point), write the self-reported
 data you collected back to the employee’s profile. This closes the feedback loop —
 what the employee tells you in this session feeds their profile for future sessions.
 
 Call the `write_employee_enrichment` MCP tool with the data gathered during the
-conversation (especially from Steps 5 and 6).
+conversation (especially from Steps 6 and 7).
 
 **Payload structure:**
 
@@ -708,19 +793,20 @@ from /getstarted into their working session.
 ## Mode 3: New Hire Onboarding
 
 This mode runs for employees who started within the last 30 days and are using the
-platform for the first time. It shares Steps 1-4 with Mode 1 (first-time employee)
-but replaces Steps 5-6 with company and team introduction.
+platform for the first time. It shares Steps 1-5 with Mode 1 (first-time employee)
+but replaces Steps 6-7 with company and team introduction.
 
-### Steps 1-4: Same as Mode 1
+### Steps 1-5: Same as Mode 1
 
-Run Mode 1 Steps 1 through 4 exactly as described:
+Run Mode 1 Steps 1 through 5 exactly as described:
 
 1. Gather context (people/me, department context, discovery profile)
 2. Platform introduction (vision statement, personalized relevance)
-3. Available commands (department-specific examples)
-4. Environment setup (CLAUDE.md merge with platform section)
+3. Sign in to Evermore Platform (Entra auth check)
+4. Available commands (department-specific examples)
+5. Environment setup (CLAUDE.md merge with platform section)
 
-### Step 5 — Company Introduction
+### Step 6 — Company Introduction
 
 After setup is complete, shift to helping the new hire understand the company.
 
@@ -757,7 +843,7 @@ After setup is complete, shift to helping the new hire understand the company.
 Keep the company introduction to 2-3 minutes of reading. Be warm and welcoming, not
 encyclopedic.
 
-### Step 6 — Tool Setup Assistance
+### Step 7 — Tool Setup Assistance
 
 Help the new hire verify they have access to the tools they need.
 
@@ -789,7 +875,7 @@ search or department context). For each tool in their expected stack:
 - If they agree, note the gap in the enrichment data and, if the `search` MCP tool
   is available, look up the IT intake process to route the request.
 
-### Step 7 — First Task
+### Step 8 — First Task
 
 Transition from setup to productive work, framed for a new hire:
 
@@ -820,9 +906,9 @@ than pain point analysis — a new hire does not have pain points yet.
 
 Route their choice into a working session. The onboarding is complete.
 
-### Step 8 — Write Enrichment Data
+### Step 9 — Write Enrichment Data
 
-Same as Mode 1 Step 7. Write enrichment data back via `write_employee_enrichment`
+Same as Mode 1 Step 8. Write enrichment data back via `write_employee_enrichment`
 with whatever was collected during the session. For new hires, this may be minimal —
 that is fine. Even recording their stated first priorities is valuable for future
 sessions.
