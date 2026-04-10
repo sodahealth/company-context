@@ -114,8 +114,8 @@ Otherwise: **returning = false**.
 
 **Routing rules (apply in order):**
 
-1. If `platform_setup = false`: **Mode 1** (First-time existing employee)
-2. If `platform_setup = true` AND `new_hire = true` AND `returning = false`: **Mode 3** (New hire onboarding)
+1. If `new_hire = true` AND `returning = false`: **Mode 3** (New hire onboarding)
+2. If `platform_setup = false`: **Mode 1** (First-time existing employee)
 3. If `platform_setup = true` AND `returning = true`: **Mode 2** (Returning user)
 4. If `platform_setup = true` AND `returning = false` AND `new_hire = false`: **Mode 2** (Returning user — platform was set up but no enrichment yet)
 
@@ -222,16 +222,21 @@ If `get_content` or Knower search returns substantive content for their departme
 (ref-systems.md, ref-team.md, or similar):
 
 1. Pull their department's reference content via `get_content` or `search` MCP tool.
-2. Present it conversationally:
+2. Narrow to their role: search for content matching the employee's title or role
+   keywords (e.g., for "Talent Acquisition Lead" search for "recruiting," "hiring,"
+   "talent acquisition" in addition to the department name).
+3. Present it conversationally:
 
    > "You're on the [department] team. Here's what I already know about your world:"
 
-   Then demonstrate real knowledge — their team's systems, their colleagues, their
-   workflows. Be specific. Name actual tools, actual processes, actual people.
+   Then demonstrate real knowledge — prioritize content relevant to their specific
+   role within the department. Name actual tools they personally use (from profile
+   systems data), actual processes related to their function, and colleagues they
+   work with directly.
 
-3. Do a live Knower search for something relevant to their department:
+4. Do a live Knower search for something relevant to their specific role:
 
-   > "Let me search for [topic relevant to their department]..."
+   > "Let me search for [topic relevant to their role, not just department]..."
 
    Show the results. Let them see the breadth of indexed knowledge.
 
@@ -261,7 +266,10 @@ If MCP is completely unavailable:
    > "Normally I'd show you what I know about your team, but we're still getting your
    > access set up. Here's what you'll be able to do once everything's connected..."
 
-3. Move to Step 4 (capabilities overview).
+3. Move to Step 4 (capabilities overview). Use the department name the employee
+   provided in Step 1 to select the matching department-specific example set. If
+   their department is not one of the listed sets, build examples from what they
+   told you about their role and tools.
 
 ### Step 4 — What's Available (1 minute)
 
@@ -292,8 +300,33 @@ For **Engineering / Product:**
 - "Describe a feature and I'll help decompose it into work items"
 - "Check OKR progress or project status"
 
-For **other departments:** Adapt examples to their known systems and workflows from
-profile data. If you have no department-specific data, use the general examples.
+For **Health Plan Solutions:**
+- "Ask about a sponsor's implementation status or benefit configuration"
+- "Look up the implementation cycle — what phase is a client in?"
+- "Search for customer-specific processes or escalation paths"
+
+For **Customer Care / Customer Success:**
+- "Ask about member support workflows or CSRX"
+- "Look up CTM handling procedures or sponsor SLAs"
+- "Search for care team processes or Partner Help Center docs"
+
+For **Merchants & Payments / Member Experience:**
+- "Ask about payment processing — FIS, Galileo, settlement flows"
+- "Look up merchant onboarding processes or EBT status"
+- "Search for &more brand guidelines or member communication templates"
+
+For **Growth / Sales / New Markets:**
+- "Ask about the sales pipeline or RFP process"
+- "Look up market expansion status — SNAP/EBT, Medicaid programs"
+- "Search for CRM data, prospect info, or go-to-market processes"
+
+For **other departments:** Build examples by combining:
+1. Systems from the employee's profile data — name them specifically ("Ask me about [system name]")
+2. Common workflow patterns for their role — "Describe a [type of work they do] workflow and I'll help you document and improve it"
+3. Knowledge search — "Search company knowledge for [topic in their domain]"
+
+If profile data names specific systems, use them. If not, ask the employee:
+"What systems do you use most?" and build examples from their answer.
 
 **Mention the escalation path clearly:**
 
@@ -379,9 +412,11 @@ Hand control to the employee. This is the transition from demo to real work.
 
 Offer 2-3 starter suggestions tailored to their department:
 
-- "Try asking me something about [their department's domain]"
-- "Describe a process you do regularly and let's see if I can help"
-- "Ask me to look something up — a vendor, a policy, a person"
+Build suggestions from profile data and the demo content you just showed:
+
+- Reference something from the demo: "Want to dig deeper into [something you just showed them]?"
+- Reference a known workflow: "Walk me through [a process visible in their profile or department docs] and let's see if I can streamline it"
+- Reference a concrete lookup: "Ask me to look up [a specific type of thing relevant to their department — a vendor, a policy, a contract, a person]"
 
 Whatever they choose becomes their first real task. This is the handoff from onboarding
 into a working session.
