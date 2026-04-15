@@ -42,21 +42,25 @@ Chris accesses the OKR spreadsheet multiple times per day -- likely reviewing an
 Based on discovery profile and Jira activity, engineering OKRs likely cover:
 
 ### Engineering Execution
+
 - Sprint velocity / completion rate
 - PR throughput and review cycle time
 - Incident count and MTTR (tracked in `incident-history.xlsx`)
 
 ### Platform Reliability
+
 - Uptime / availability targets
 - Incident response times
 - Infrastructure cost optimization
 
 ### Product Delivery
+
 - Feature delivery against roadmap commitments
 - Client onboarding velocity (new health plan implementations)
 - Payment processing reliability (FIS/Galileo)
 
 ### Team Health
+
 - Hiring targets (GRC role, backfills)
 - AI tooling adoption (ETS charter goal)
 - Engineering culture metrics (demos, documentation)
