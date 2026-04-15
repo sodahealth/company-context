@@ -89,6 +89,38 @@ processes, focus_areas, etc.) with real data, the user has run /getstarted befor
 Also check: if `platform_setup = true` and the platform section in CLAUDE.md contains
 an identity block, the user has been onboarded before: **returning = true**.
 
+### Check 5: Entra User Identity
+
+Call the `m365_authenticate` MCP tool.
+
+- If the result contains `"status": "already_authenticated"`: the user has a cached
+  Entra identity. Note **entra_authenticated = true**. The user's name, department,
+  and groups are available from cached token claims — use these for personalization
+  instead of relying on the Cosmos profile pipeline.
+- If the result contains `"status": "authenticated"`: the user just completed browser
+  sign-in. Note **entra_authenticated = true**. Proceed as above.
+- If the call fails or the tool is not available: note **entra_authenticated = false**.
+  Continue in degraded mode — personalization will rely on whatever profile data was
+  available from Check 1/Check 2. Do NOT block onboarding.
+
+### Auth Failure Handling
+
+**Device auth failure (Check 2 returns 401):**
+The device's agent token is invalid or expired. This means the device may not be
+registered with the platform. Suggest: "This device doesn't appear to be registered
+with the Evermore platform. Contact IT for help getting set up." Continue in fully
+degraded mode — most MCP tools will not work.
+
+**User auth failure (Check 5 fails or user skips):**
+The user hasn't signed in to Entra. Onboarding continues but without personalization.
+At the end of Phase 0, if entra_authenticated is false, note this internally so that
+Phase 1 (greeting) can include a gentle prompt: "To get the most out of the platform,
+you can sign in anytime by asking me to 'sign in to Evermore'."
+
+**Both succeed:**
+The device is authorized AND we know who the user is. Full personalization available —
+greet by name, tailor to their department, show relevant capabilities.
+
 ### Mode routing
 
 Apply these rules in order:
@@ -182,6 +214,13 @@ Use the profile data from Phase 0 (Check 2). You should have:
 - **Team members** — who they work with
 - **Systems / applications** — tools they use daily
 - **Discovery profile** — if available, enrichment from a prior discover sess
+
+**Entra claims take precedence.** If **entra_authenticated = true** (from Phase 0,
+Check 5), prefer the Entra token claims (name, department, group memberships) over
+the Cosmos profile data from Check 2. Entra is the authoritative identity source
+and is always current — Cosmos profile data may lag behind role or department changes.
+When both sources are available, use Entra claims for name and department, and Cosmos
+for richer context (enrichment, communication patterns, prior session data).
 
 If the MCP call failed and you have no profile data, ask the user directly:
 
@@ -611,6 +650,13 @@ This check MUST happen before Step 1. It is the first thing Mode 2 evaluates.
 ### Step 1 — Identify and Greet
 
 Use the profile data from Phase 0 (Check 2). Greet the user by first name.
+
+**Entra claims take precedence.** If **entra_authenticated = true** (from Phase 0,
+Check 5), prefer the Entra token claims (name, department) over the Cosmos profile
+data for greeting and personalization. Entra is authoritative and always current.
+If **entra_authenticated = false**, include a gentle prompt after the greeting:
+"To get the most out of the platform, you can sign in anytime by asking me to
+'sign in to Evermore'."
 
 **Time-of-day awareness:** Do NOT default to "Good morning." Check the current time
 and adapt your greeting:
