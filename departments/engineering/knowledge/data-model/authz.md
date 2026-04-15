@@ -26,6 +26,7 @@ hierarchical domains. It's the smallest but most security-critical database.
 ## Tables
 
 ### domain
+
 Hierarchical organizational unit for access scoping.
 
 | Column | Type | Notes |
@@ -38,6 +39,7 @@ Hierarchical organizational unit for access scoping.
 | deleted_at | timestamp | Soft delete |
 
 ### role
+
 Named role definition.
 
 | Column | Type | Notes |
@@ -47,6 +49,7 @@ Named role definition.
 | deleted_at | timestamp | Soft delete |
 
 ### role_grant
+
 Assigns a role to a subject within a domain.
 
 | Column | Type | Notes |
@@ -59,6 +62,7 @@ Assigns a role to a subject within a domain.
 **Unique constraint:** (subject, role, domain) WHERE deleted_at IS NULL
 
 ### policy
+
 Defines what a role can do.
 
 | Column | Type | Notes |

@@ -36,8 +36,10 @@ workflows to sponsor domain concepts with confidence-scored defaults.
 ## Module -> Sponsor Domain Mapping
 
 ### 1. Kick-Off & Core Program Design (100% of projects)
+
 **Domain:** Sponsor/brand creation
 **Key tasks:**
+
 - Define Brands: Program ID, Brand shortcode, Brand Marketing Name, differentiator
 - IM Confirms Brand Shortcode & Program Details
 - Provide Points of Contact (6-12 contacts with roles)
@@ -45,6 +47,7 @@ workflows to sponsor domain concepts with confidence-scored defaults.
 **Brands per customer:** 1 (most) to 9 (AmeriHealth). Prominence: 4, Gold Kidney/SCAN: 2.
 
 ### 2. Benefit Design (93% of projects, 176 tasks)
+
 **Domain:** Benefit configuration
 **Key workflow:** Download DRAFT BIG -> Submit DRAFT -> IM Review -> Customer Approval
 -> Schedule Call -> Submit FINAL -> Multi-approver chain -> Configuration
@@ -52,32 +55,38 @@ workflows to sponsor domain concepts with confidence-scored defaults.
 **Multi-approver chain:** Customer Approver 1 -> 2 -> 3 -> IM Review & Approval
 
 ### 3. Program Configuration Decisions (100% of projects)
+
 **Domain:** Sponsor config
 **7 key decisions:** Rewards? EGWP? Qualified benefits? Reimbursement? Grace period?
 Disenrollment behavior? Supplemental benefit differentiation?
 
 ### 4. New Client: Funding Account (79% of projects, 120 tasks)
+
 **Domain:** Funding setup
 **Workflow:** Create Account -> Create Memo -> Send test funds -> Confirm test ->
 Send full funding -> Confirm full -> Milestone
 
 ### 5. Bank Due Diligence / KYB (79% of projects, 117 tasks)
+
 **Domain:** Compliance/onboarding prerequisite
 **Steps:** Entity info -> Controller/Manager info -> UBOs -> Litigation attestation ->
 Letter of Authorization -> Compliance review
 
 ### 6. Eligibility Setup (93% of projects, 142 tasks)
+
 **Domain:** Eligibility file processing
 **Key sub-tasks:** File data mapping, SFTP credentials (SSH key, login, connection),
 test file exchange, production readiness sign-off
 
 ### 7. Member Experience (93% of projects, one module PER BRAND)
+
 **Domain:** Member materials/cards
 **Bottleneck:** 25-50 form fields per brand instance. Contains 4-stage material
 review chain (5 material types x 4 stages = 20 milestones per brand).
 **Key insight:** 69% of brands differ only in "Logo" -- most values repeat.
 
 ### 8. Rewards (71% of projects)
+
 **Domain:** Rewards configuration
 **Conditional:** Only if customer offers rewards (10 of 14 do)
 
@@ -115,6 +124,7 @@ Based on average earliest-completion rank across all projects:
 Pre-fill these in the Kestrel wizard. Confidence = % of customers who chose this value.
 
 ### High Confidence (>85%) -- Pre-fill, don't ask
+
 | Field | Default | Confidence |
 |-------|---------|------------|
 | Backend Member Admin access | Yes | 100% |
@@ -128,6 +138,7 @@ Pre-fill these in the Kestrel wizard. Confidence = % of customers who chose this
 | Digital materials languages | English + Spanish | 88% |
 
 ### Medium Confidence (60-85%) -- Pre-fill, show as default
+
 | Field | Default | Confidence |
 |-------|---------|------------|
 | State/compliance review needed | Yes | 76% |
@@ -140,6 +151,7 @@ Pre-fill these in the Kestrel wizard. Confidence = % of customers who chose this
 | MFA configuration | SSO | 60% |
 
 ### Low Confidence (<60%) -- Must ask, no default
+
 | Field | Most Common | Confidence |
 |-------|-------------|------------|
 | Transfer rewards balances | No | 57% |
@@ -153,11 +165,13 @@ Pre-fill these in the Kestrel wizard. Confidence = % of customers who chose this
 ## Kestrel Wizard Steps (Derived from Patterns)
 
 ### Step 1: Brand Structure
+
 - How many brands? (1-9, median: 1)
 - Per brand: Program ID (validated CMS format), shortcode, marketing name
 - What differentiates brands? (Logo [69%], Guidelines, Card)
 
 ### Step 2: Program Configuration
+
 - Rewards? (default: Yes, 71%)
 - EGWP? (default: No, 77%)
 - Qualified benefits? (default: conditional)
@@ -166,20 +180,24 @@ Pre-fill these in the Kestrel wizard. Confidence = % of customers who chose this
 - Disenrollment behavior? (no strong default -- must ask)
 
 ### Step 3: Benefit Design
+
 - Input grid per brand (18 fields per benefit -- see ref-business-context.md)
 - Currently file-based upload, could become structured form
 
 ### Step 4: Rewards Configuration (conditional on Step 2)
+
 - Reinstatement? (default: Yes, 89%)
 - Balance transfer? (default: No, 57%)
 - Expiration rules, APs, reward codes
 
 ### Step 5: Eligibility Configuration
+
 - File format mapping
 - SFTP setup (SSH key, login, connection)
 - Segments and SSBCI qualification config
 
 ### Step 6: Member Materials
+
 - Languages (default: English + Spanish, 88%)
 - Reading level (default: approved, 93%)
 - Multi-language insert (default: Yes, 76%)
@@ -187,20 +205,24 @@ Pre-fill these in the Kestrel wizard. Confidence = % of customers who chose this
 - Material types needed per brand
 
 ### Step 7: Customer Care
+
 - Care option (default: Option 2, 75%)
 - After-hours routing (default: voicemail, 90%)
 - Admin access (default: Yes, 100%)
 - Contact details, phone number, hours
 
 ### Step 8: Finance/Invoicing
+
 - Payment system (default: new, 94%)
 - Invoicing contacts
 - Tax exempt status
 
 ### Step 9: MFA Configuration
+
 - Standard / SSO (default: SSO, 60%)
 
 ### Step 10: Edge Case Policies
+
 - Benefit extension option (no strong default -- must ask)
 
 ---
@@ -255,6 +277,7 @@ the minimum data model extension for self-service.
 ## The Member Experience Bottleneck
 
 The single most complex implementation module:
+
 - **46 instances** of "Member Experience Details" (one per brand across all projects)
 - **25-50 form fields per instance**
 - **4-stage review chain** per material type (5 types x 4 stages = 20 milestones/brand)

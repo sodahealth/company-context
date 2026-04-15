@@ -27,6 +27,7 @@ balanced entries across books.
 ## Core Ledger
 
 ### book
+
 A named account for tracking a specific type of financial activity.
 
 | Column | Type | Notes |
@@ -38,6 +39,7 @@ A named account for tracking a specific type of financial activity.
 | metadata | jsonb | Flexible attributes |
 
 ### transaction
+
 A financial event (debit/credit pair).
 
 | Column | Type | Notes |
@@ -49,6 +51,7 @@ A financial event (debit/credit pair).
 | metadata | jsonb | |
 
 ### entry
+
 The atomic unit -- a single line in a book for a transaction.
 
 | Column | Type | Notes |
@@ -85,9 +88,11 @@ The atomic unit -- a single line in a book for a transaction.
 ## Transaction Events & Processing
 
 ### transaction_event
+
 High-level transaction events with metadata.
 
 ### preliminary_transaction
+
 Pre-authorization holds before settlement.
 
 | Column | Type | Notes |
@@ -101,6 +106,7 @@ Related: **preliminary_transaction_basket_item**, **preliminary_transaction_bene
 **preliminary_transaction_coupon_item** -- line-item detail for pre-auth.
 
 ### standardized_transaction
+
 Normalized transaction format with source tracking.
 
 Related: **standardized_transaction_benefit_spend**, **standardized_transaction_coupon_spend**.
@@ -123,6 +129,7 @@ Related: **standardized_transaction_benefit_spend**, **standardized_transaction_
 ## Reimbursement
 
 ### reimbursement
+
 | Column | Type | Notes |
 |--------|------|-------|
 | type | enum | settlement, mail, debit_adjustment, sponsor_credit |

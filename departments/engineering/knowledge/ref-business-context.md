@@ -23,6 +23,7 @@ and decisions to code concepts. Essential for Kestrel self-service wizard design
 ## 1. Sponsor Hierarchy and Identity
 
 ### Core Terminology
+
 - **Sponsor** (also "Customer" or "Client"): Medicare Advantage plan or health org
   contracting with Evermore to administer supplemental benefits via the &more prepaid card.
 - **Program**: A specific benefit card program identified by a **Program Identifier**
@@ -31,6 +32,7 @@ and decisions to code concepts. Essential for Kestrel self-service wizard design
 - **&more**: Consumer-facing brand. "Evermore" is B2B only -- never appears in member materials.
 
 ### Banking / KYB Structure
+
 - Each **legal entity** (unique TIN/EIN) that issues cards needs its own KYB due diligence
   and its own Program Funding Account.
 - KYB takes 6-8 weeks, must be approved 4 weeks before launch.
@@ -39,6 +41,7 @@ and decisions to code concepts. Essential for Kestrel self-service wizard design
 - **Issuing banks:** Avidia Bank (primary, newer programs) and The Bancorp Bank (legacy).
 
 ### Maps to Code
+
 - `sponsor` table: `variant` (customer/brand), `parent_id` (hierarchy)
 - `sponsor.config` JSONB: `galileo_config`, `fis_config`, `auth0_sso_connection_name`
 - `PUT /sponsors/{sponsorID}`: creates/updates the sponsor entity
@@ -73,6 +76,7 @@ Each benefit is defined by these fields -- this IS what Kestrel's wizard must co
 | 17 | Expansion Amount | Currency (delta, not cumulative) | Additional funding on qualification |
 
 ### Benefit Types (Customer Vocabulary -> Code)
+
 | Customer Term | Code `benefit.type` | Key Config |
 |---|---|---|
 | OTC Benefit | `fundedBenefit` | funding_amount, approval_profiles, otchs_eligible |
@@ -83,6 +87,7 @@ Each benefit is defined by these fields -- this IS what Kestrel's wizard must co
 | Reimbursement | Separate flow | Intake -> adjudication -> disbursement |
 
 ### Benefit Expansion (SSBCI)
+
 "Expanding Combined" benefit type where base benefit seamlessly expands when
 member qualifies for SSBCI. Spending restrictions change without modifying
 periodicity, rollover, or remaining balance. Example: $50/mo OTC-only becomes
@@ -93,17 +98,20 @@ $50/mo OTC+Food upon qualification.
 ## 3. Approval Profiles (31 for 2026)
 
 ### Two Restriction Mechanisms
+
 1. **Item-restricted** (within retail network): Controls WHICH items at SKU/category level
 2. **MCC-restricted** (merchant category code): Controls WHERE members spend; no item control
 
 ### Complete AP Catalog
 
 **OTC (Item-restricted):**
+
 - OTC Base -- 14 CMS-explicit categories
 - OTC Base Plus -- All Base + incremental (herbal supplements, smoking cessation, etc.)
 - Home and Bathroom Safety -- Bath mats, grab bars, night lights, non-slip footwear
 
 **Healthcare (MCC-restricted):**
+
 - Acupuncture -- MCC 8041 + name match
 - Chiropractic -- MCC 8041 + name match
 - Medical Services Base -- MCCs 8011, 8062, 8099
@@ -114,6 +122,7 @@ $50/mo OTC+Food upon qualification.
 - Foot Care Items (item-restricted) / Foot Care Merchants (MCC 8049)
 
 **Food (Item-restricted):**
+
 - Grocery -- Broadest (all food except alcohol/tobacco/cannabis)
 - Healthy Foods Base -- CMS-compliant for SSBCI (13 categories)
 - Healthy Foods Base Plus -- Base + incremental
@@ -121,10 +130,12 @@ $50/mo OTC+Food upon qualification.
 - Meals / Ready to Eat -- Packaged meals, kits, rotisserie
 
 **Fitness:**
+
 - Fitness Equipment (item-restricted) -- Mats, weights, trackers
 - Fitness Memberships (MCC 7997 + name match)
 
 **Home/Transport (mixed):**
+
 - Pest Control Items / Merchants
 - Pet Supply Items / Merchants
 - Structural Home Modification Items / Merchants
@@ -134,9 +145,11 @@ $50/mo OTC+Food upon qualification.
 - Rent -- Reimbursement-only
 
 **Rewards:**
+
 - Non-ATFLGC -- Broadest AP (everything except alcohol, tobacco, firearms, lottery, guns, cannabis)
 
 ### Maps to Code
+
 - `approval_profiles` table in merchant DB
 - `funded_benefit_approval_profile` links AP -> benefit in sponsor DB
 - `approval_profiles_merchants`, `approval_profiles_merchant_category_codes`,
@@ -147,6 +160,7 @@ $50/mo OTC+Food upon qualification.
 ## 4. Rewards Configuration
 
 ### Rewards Input Grid Fields
+
 | Field | Description |
 |-------|-------------|
 | Program Identifier | Same as benefits |
@@ -157,6 +171,7 @@ $50/mo OTC+Food upon qualification.
 | Reward Code | Code in Rewards File via SFTP |
 
 ### Customer Decisions
+
 - Should rewards expire? (CMS is silent)
 - Rewards reinstatement on re-enrollment? (Evermore recommends: yes)
 - Disenrollment behavior for rewards? (Continuance vs deactivation)
@@ -166,15 +181,18 @@ $50/mo OTC+Food upon qualification.
 ## 5. Eligibility File Processing
 
 ### File Spec
+
 - Format: CSV or PSV
 - Delivery: SFTP to `sftp.mysodahealth.com:2022`
 - Frequency: Daily or weekly recommended
 - Encryption: PGP supported
 
 ### Eligibility Segment (Core Unit)
+
 Unique combination: `member_identifier` + `program_identifier` + `effective_date` + `termination_date`
 
 ### Required Fields
+
 | Column | Required | Notes |
 |--------|----------|-------|
 | member_identifier | Always | Primary ID |
@@ -190,11 +208,13 @@ Unique combination: `member_identifier` + `program_identifier` + `effective_date
 | qualification_indicators | Yes | Boolean, for SSBCI |
 
 ### Critical Rules
+
 - No conflicting segments (overlapping dates = rejected)
 - No term by omission (must explicitly send updated termination date)
 - Circuit breakers halt files with significant changes for manual confirmation
 
 ### Maps to Code
+
 - `pkg/sponsor/eligibility_intake_processor.go` / `eligibility_intake_workflow.go`
 - `pkg/partner/api_job.go` (Benthos stream processing)
 - Partner DB: `benthos_stream_configuration`, `job`, `job_run`, `line_item`
@@ -204,6 +224,7 @@ Unique combination: `member_identifier` + `program_identifier` + `effective_date
 ## 6. Program Funding
 
 ### Account Structure
+
 - Program Funding Account = sub-ledgered virtual account within bank's omnibus FBO account
 - Funds are NOT payment to Evermore -- beneficial ownership stays with sponsor
 - ACH only (no check/wire) to dedicated virtual account number
@@ -211,11 +232,13 @@ Unique combination: `member_identifier` + `program_identifier` + `effective_date
 - Separate funding account required per legal entity (unique TIN/EIN)
 
 ### Periodic Reloads
+
 - Formula: Required Funding Level - Current Balance = Reload Amount
 - Process starts 2-3 weeks before due date
 - Evermore monitors daily balance, contacts Finance Lead if below threshold
 
 ### Maps to Code
+
 - `funding_account` table in sponsor DB
 - `sponsor_funding_account` links sponsor -> funding account
 - `POST /sponsors/{sponsorID}/funding-accounts`
@@ -226,17 +249,20 @@ Unique combination: `member_identifier` + `program_identifier` + `effective_date
 ## 7. SSBCI / HRA Qualification
 
 ### Three Criteria (42 CFR 422.102(f)(1)(i))
+
 1. One+ comorbid, medically complex chronic condition (from CMS list of 15 groups)
 2. High risk of hospitalization or adverse health outcomes
 3. Requires intensive care coordination
 
 ### 15 CMS Chronic Condition Groups
+
 Chronic alcohol/drug dependence, autoimmune disorders, cancer, cardiovascular,
 chronic heart failure, dementia, diabetes mellitus, end-stage liver disease,
 ESRD requiring dialysis, severe hematologic disorders, HIV/AIDS, chronic lung
 disorders, chronic mental health, neurologic disorders, stroke.
 
 ### Evermore's HRA Product
+
 - Digital survey via Member Portal and &more mobile app
 - Upon qualification: real-time benefit activation + member notification
 - Coexists with plan's own qualification methods
@@ -246,16 +272,19 @@ disorders, chronic mental health, neurologic disorders, stroke.
 ## 8. Customer Care / IVR
 
 ### Two Models (Customer Decision)
+
 - **Option 1:** IVR -> customer agents first (Tier 1), Evermore handles Tier 2
 - **Option 2:** IVR -> Evermore agents first, warm transfer to customer for plan-specific
 
 ### IVR System
+
 - Voice-first (no visual menus)
 - Auth: last 4 of card + DOB + optional ZIP
 - English + Spanish + 300 languages via translation line
 - Hours: M-F 8am-8pm, 6 holiday closures
 
 ### After-Hours Options (Customer Decision)
+
 Voicemail + callback / Transfer to plan number / Combined
 
 ---
@@ -298,7 +327,7 @@ Voicemail + callback / Transfer to plan number / Combined
 
 ## 11. SFTP Infrastructure
 
-```
+```text
 sftp.mysodahealth.com:2022
 Username: eligibility-user_[Short code]
 Auth: SSH key

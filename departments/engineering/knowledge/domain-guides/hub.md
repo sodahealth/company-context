@@ -33,12 +33,14 @@ Hub is the **sponsor-facing web portal**. Sponsors (customers) log in to:
 ## Architecture
 
 Hub is a lightweight SSR portal:
+
 - **Templ templates** for HTML rendering (pages, layouts, components)
 - **Chi router** for HTTP handling
 - **Redis** for session management
 - **Metabase** for embedded analytics dashboards
 
 Service calls:
+
 - **partner** -- job queries and status
 - **sponsor** -- sponsor data and configuration
 - **GCS** -- file and report storage

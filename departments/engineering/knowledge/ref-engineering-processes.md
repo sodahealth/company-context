@@ -29,6 +29,7 @@ review_cycle_days: 90
 Engineering runs sprints organized by squad (Soul, Banana Dance, Lightning, HONK). Each squad has its own Jira project and backlog.
 
 **Key ceremonies (from Confluence):**
+
 - **Sprint Kickoff** -- Chris Brown maintains a Sprint Kickoff Script in Confluence
 - **Engineering Furthermore** -- biweekly + monthly product demos
 - **Engineering demos** -- squad-level feature showcases
@@ -37,11 +38,12 @@ Engineering runs sprints organized by squad (Soul, Banana Dance, Lightning, HONK
 
 Typical issue lifecycle:
 
-```
+```text
 Backlog -> To Do -> In Progress -> Done/Resolved
 ```
 
 Additional statuses observed in CTO's Jira activity:
+
 - **Parking lot** -- long-term strategic items (EGGS, FRETS projects)
 - **On Hold** -- blocked or deprioritized
 - **Selected for Development** -- pulled into sprint
@@ -81,7 +83,7 @@ GitHub Enterprise is the most consistently used tool across engineering -- CTO a
 
 ## Deployment Flow
 
-```
+```text
 PR merged -> GitHub Actions (CI) -> GCV (verification) -> Flux (GitOps) -> GKE (production)
 ```
 
@@ -106,6 +108,7 @@ See `deployment.md` for the detailed flow. Key points:
 ### Incident Post-Mortem Pattern
 
 Incidents are documented in Confluence with:
+
 - Timeline of events
 - Root cause analysis
 - Action items

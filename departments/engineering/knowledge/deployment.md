@@ -25,7 +25,7 @@ review_cycle_days: 90
 Code flows from PR -> main -> container images -> staging -> production on a 2-hour
 automated cadence. The pipeline is:
 
-```
+```text
 PR -> merge to main -> GHA release build -> container images tagged
 -> release candidate SHA set -> deploy glo-cv (staging)
 -> 1 hour monitoring -> deploy production
@@ -36,12 +36,14 @@ PR -> merge to main -> GHA release build -> container images tagged
 ## Pipeline Stages
 
 ### 1. Build (on every branch push)
+
 - **Workflow:** `.github/workflows/build.yml`
 - **Runner:** `harmony-dind` (Docker-in-Docker, self-hosted)
 - **Steps:** Go 1.24 build with race detection, tests with `-p 4` concurrency
 - **Auth:** GCP Workload Identity Federation
 
 ### 2. Release (on push to main)
+
 - **Workflow:** `.github/workflows/release-main.yml`
 - **Docker images built:**
   - `harmony` -- main API binary (distroless, single binary runs all 16 services)
@@ -54,6 +56,7 @@ PR -> merge to main -> GHA release build -> container images tagged
 - **Also:** runs functional tests, publishes `@soda/harmony-client` npm package
 
 ### 3. Deploy to Staging (scheduled)
+
 - **Workflow:** `.github/workflows/deploy-glo-cv.yml`
 - **Schedule:** 2:15 PM, 4:15 PM, 6:15 PM, 8:15 PM ET, weekdays
 - **Mechanism:** Custom `soda-deploy` tool reads next/current SHA from GCS bucket,
@@ -61,17 +64,20 @@ PR -> merge to main -> GHA release build -> container images tagged
 - **Post-deploy:** triggers smoke test workflow (10-min delay), runs BigQuery export
 
 ### 4. Monitor (1 hour)
+
 - Synthetics (Playwright) and Datadog monitors run against glo-cv
 - If monitors fail, production deployment is automatically blocked
 - Monitors can be disabled via `/disable-deploy glo-cv <reason>` Slack command
 
 ### 5. Deploy to Production (scheduled)
+
 - **Workflow:** `.github/workflows/deploy-production.yml`
 - **Schedule:** Same cadence, ~1 hour after glo-cv
 - **Mechanism:** Same `soda-deploy` tool, updates `k8s-flux` for production
 - **Notification:** Slack alerts on success/failure
 
 ### 6. Flux GitOps Sync
+
 - **FluxCD** watches `k8s-flux` repo for changes
 - When image tags are updated, Flux applies the changes to GKE clusters
 - Deployment happens within 5-10 seconds of k8s-flux merge
@@ -97,6 +103,7 @@ PR -> merge to main -> GHA release build -> container images tagged
 For hotfixes or missed deployment windows:
 
 **Via Slack bot (preferred):**
+
 1. `/update-next-release-sha` (only run ONCE per cycle, requires `#oncall` group)
 2. `/deployment-status` to verify
 3. `/deploy-cluster glo-cv` -> validate -> `/deploy-cluster pluto` -> `/deploy-cluster production`
@@ -104,6 +111,7 @@ For hotfixes or missed deployment windows:
 5. `/enable-deploy <env>` to resume
 
 **Via GitHub Actions:**
+
 1. Run "Update Next Release" workflow
 2. Run "Deploy glo-cv" -> validate -> "Deploy Pluto" -> "Deploy Production"
 
@@ -113,6 +121,7 @@ Update `tag` value in `values.yaml` for the target env/app -> merge PR -> Flux s
 ---
 
 ## Canary Deployments
+
 - **Workflow:** `.github/workflows/deploy-canary.yml` (manual dispatch)
 - Supports deploying specific SHAs to canary for: `admin-web`, `memberadmin-web`, `microportal-api`
 

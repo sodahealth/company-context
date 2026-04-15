@@ -4,7 +4,7 @@ This directory contains knowledge, prompts, and people profiles for the Product 
 
 ## What's Here
 
-```
+```text
 departments/engineering/
 ├── knowledge/               # Architecture, systems, processes, and project references
 │   ├── data-model/          # Per-database schema summaries (6 databases)

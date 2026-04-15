@@ -25,6 +25,7 @@ The sms database manages SMS session state and message history.
 ## Tables
 
 ### sms_session
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | bytea (XID) | |
@@ -37,6 +38,7 @@ The sms database manages SMS session state and message history.
 | expires_at | timestamp | Session expiration |
 
 ### sms_inbound
+
 | Column | Type | Notes |
 |--------|------|-------|
 | session_id | bytea FK -> sms_session | |
@@ -45,6 +47,7 @@ The sms database manages SMS session state and message history.
 | received_at | timestamp | |
 
 ### sms_outbound
+
 | Column | Type | Notes |
 |--------|------|-------|
 | session_id | bytea FK -> sms_session | |
