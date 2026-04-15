@@ -37,6 +37,7 @@ benefit cards) interact with this service to:
 ## Architecture
 
 Member is stateless -- it orchestrates calls to lower-tier services:
+
 - **sponsor** -- member data, benefits, enrollments, cards
 - **ledger** -- transactions, balances, reimbursements
 - **merchant** -- approval profiles, item catalogs

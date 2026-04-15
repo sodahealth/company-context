@@ -40,6 +40,7 @@ Review each proposed change against your knowledge of how things actually work:
 | **Correct department scope** | Is this content actually relevant to your department, or does it belong elsewhere? |
 
 You are **not** expected to review:
+
 - Code or technical implementation details
 - Platform configuration
 - Whether the formatting is correct (CI handles that)
@@ -103,7 +104,7 @@ There is no penalty for requesting changes or rejecting a PR. The goal is accura
 
 ## Quick Reference
 
-```
+```text
 Approve  →  Changes are accurate, merge them
 Request changes  →  Something specific needs to be corrected
 Reject  →  Content should not be added at all (tag @umangkapadia-sodahealth)

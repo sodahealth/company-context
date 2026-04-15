@@ -27,6 +27,7 @@ benefit definitions, enrollment lifecycle, program structure, and sponsor config
 ## Core Entities
 
 ### sponsor
+
 The root entity. Represents a health plan sponsor (customer or brand).
 
 | Column | Type | Notes |
@@ -45,6 +46,7 @@ The root entity. Represents a health plan sponsor (customer or brand).
 **Key constraint:** Customers have no parent. Brands must have a customer parent.
 
 ### member
+
 A person enrolled in a sponsor's program.
 
 | Column | Type | Notes |
@@ -57,6 +59,7 @@ A person enrolled in a sponsor's program.
 | test | boolean | Test member flag |
 
 ### member_personal_info_current / member_personal_info_history
+
 Tracks personal data changes with source attribution.
 
 Fields: date_of_birth, email_address, first_name, last_name, middle_initial,
@@ -64,6 +67,7 @@ phone, language_tag, cms_reporting_gender.
 Sources: customer_service_agent, eligibility, external, member, soda.
 
 ### member_card
+
 Card issuance and status tracking.
 
 | Column | Type | Notes |
@@ -71,7 +75,7 @@ Card issuance and status tracking.
 | bin | varchar | Bank identification number |
 | last_four | varchar | Last 4 digits |
 | processor_status | enum | Status from processor |
-| galileo_* / fis_* | various | Processor-specific IDs |
+| galileo_*/ fis_* | various | Processor-specific IDs |
 | shipped_at / issued_at | timestamp | Lifecycle timestamps |
 
 Status events tracked in **member_card_status_event** with sources:
@@ -82,6 +86,7 @@ soda, galileo, giesecke-devrient, fis, abcorp.
 ## Benefit System
 
 ### benefit
+
 Core benefit definition with versioning.
 
 | Column | Type | Notes |
@@ -94,14 +99,17 @@ Core benefit definition with versioning.
 | superseded_by | bytea FK -> benefit | Self-referential version chain |
 
 ### Benefit subtypes (one table per type)
+
 - **funded_benefit** -- funding_amount, proration_type (none/prorated/full), priority, variable_amount, otchs_eligible
 - **gap_closure_benefit** -- source (sponsor/pharmacy), status (pending/completed/rejected/invalid_time)
 - **survey_benefit**, **ride_benefit**, **resource_benefit**, **voucher_benefit** -- type-specific fields
 
 ### benefit_factor
+
 Links benefits to factors with factor_values for conditional benefit rules.
 
 ### funded_benefit_approval_profile
+
 Links approval profiles (from merchant DB) to funded benefits with factor conditions.
 
 ---
@@ -109,6 +117,7 @@ Links approval profiles (from merchant DB) to funded benefits with factor condit
 ## Enrollment & Programs
 
 ### enrollment
+
 Links a member to a benefit with lifecycle timestamps.
 
 | Column | Type | Notes |
@@ -121,6 +130,7 @@ Links a member to a benefit with lifecycle timestamps.
 | sponsor_identifier | varchar | External ref |
 
 ### program
+
 Groups benefits into a plan year.
 
 | Column | Type | Notes |
@@ -130,6 +140,7 @@ Groups benefits into a plan year.
 | plan_year | int | |
 
 ### program_benefit / member_program_enrollment
+
 M2M relationships linking programs -> benefits and members -> program enrollments.
 
 ---
@@ -137,6 +148,7 @@ M2M relationships linking programs -> benefits and members -> program enrollment
 ## Factors & Variables
 
 ### factor
+
 Sponsor-defined variables used in benefit calculations and conditional rules.
 
 | Column | Type | Notes |
@@ -147,9 +159,11 @@ Sponsor-defined variables used in benefit calculations and conditional rules.
 | version tracking | | |
 
 ### factor_value
+
 Key-value pairs for factor instances.
 
 ### member_factor
+
 Per-member factor assignments (e.g., a member's plan tier, geographic region).
 
 ---
@@ -191,7 +205,7 @@ Per-member factor assignments (e.g., a member's plan tier, geographic region).
 
 ## Relationship Diagram (key FKs)
 
-```
+```text
 sponsor (customer)
   +-- sponsor (brand, parent_id -> customer)
        +-- member -> member_card -> member_card_status_event

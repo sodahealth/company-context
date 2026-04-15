@@ -37,6 +37,7 @@ build first.
 ## Requirements Discussed (by row number)
 
 ### Row 11: Self-Service Benefit Configuration (Generic)
+
 - **Scope:** Any program type (MA, EBT, Medicaid, commercial)
 - **User:** Customer OR internal -- "anyone who has access to set up a program"
 - **Consensus:** High priority, foundational
@@ -44,6 +45,7 @@ build first.
 - **Voted high across all teams**
 
 ### Row 14: Auto-Generate Mirror Extension + Return Benefits
+
 - **What it does:** When you create a primary OTC benefit, extension and return
   benefits auto-generate with inherited config (same AP, etc.)
 - **Internal-only automation** -- customer doesn't see this, can't override
@@ -54,6 +56,7 @@ build first.
 - **Engineering voted this lower** (Charley: "it's got a solution at the moment, just doesn't scale well")
 
 ### Row 15: Workflow / Approval / Sign-off + Testing
+
 - **Includes:** Adding additional approvers, sign-off workflow
 - **Key addition from discussion:** Customers should see **OX (Online Experience)
   preview** of their benefit config as members would see it, THEN sign off
@@ -64,6 +67,7 @@ build first.
 - **This is experiential checking** -- not just data review
 
 ### Row 16: HPMS PBP Import (MA-Specific)
+
 - **What:** Import from CMS Health Plan Management System instead of creating
   benefit grid manually
 - **MA-exclusive** -- "very, very exclusive to MA" (Seth)
@@ -76,6 +80,7 @@ build first.
 - **Confirmed as the approach we're building**
 
 ### Row 17: EBT-Specific Benefit Configuration
+
 - **Product + engineering ranked much higher** than other teams
 - **LDC caution:** "We'll have 1-2 EBT clients, still learning. Cart before horse."
 - **Peter's counter:** "EBT will get complex very soon. Amount of requirements
@@ -84,20 +89,24 @@ build first.
 - **Lower consensus** -- MA is hardened, EBT is emerging
 
 ### Row 19: CMS Proposed Rule Impact
+
 - **LDC:** "Nothing that would bother us. Big commentary about returns but no way
   to fix it. Hoping it's a non-event this year."
 - **Hard to vote on** -- regulatory uncertainty
 
 ### Row 21: Customer/AMs Self-Service Benefit Extensions
+
 - **Care team ranked higher** (tickets get submitted, delays)
 - **Josie's team:** Just processed 200 benefit extension tickets
 - **Desiree/Patrice:** "Would alleviate delay we've seen"
 
 ### Benefit Testing
+
 - **Question raised:** "Is the user us or the customer?"
 - **Discussion deferred** -- impacts scoring
 
 ### Survey Configurations
+
 - **LDC acknowledged:** "Very, very, very time consuming for a person"
 - **But voted lower because:** "Not everyone we sell will have surveys. Everyone
   will have benefits."
@@ -108,15 +117,18 @@ build first.
 ## Scoring Patterns
 
 **Voted highest (cross-team consensus):**
+
 - Row 11: Self-service benefit config (generic)
 - Row 16: HPMS PBP import (MA-specific)
 - Row 15: Workflow/approval/sign-off + preview
 
 **Voted higher by specific teams:**
+
 - Row 17: EBT config (Product + Engineering higher, others cautious)
 - Row 21: Self-service extensions (Care higher, Engineering lower)
 
 **Voted lower:**
+
 - Row 14: Auto-generate extension/return benefits (Engineering: "has a solution")
 - Survey config (important but not highest risk)
 

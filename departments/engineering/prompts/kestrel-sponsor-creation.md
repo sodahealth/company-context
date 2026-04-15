@@ -19,6 +19,7 @@ creation and configuration -- replacing the manual "How to create a sponsor"
 process for the most common case.
 
 **Prerequisites:**
+
 - Read `knowledge/domain-guides/sponsor.md` -- understand the domain
 - Read `knowledge/ref-kestrel.md` -- understand what Kestrel is solving
 - Read `knowledge/data-model/sponsor.md` -- understand the schema
@@ -28,11 +29,13 @@ process for the most common case.
 ## Step 1: Understand the Current API Surface
 
 Read the sponsorapi.yaml spec to understand existing endpoints:
-```
+
+```text
 internal/sponsorapi/sponsorapi.yaml
 ```
 
 Key existing endpoints you'll extend:
+
 - `PUT /sponsors/{sponsorID}` -- upsert sponsor
 - `PATCH /sponsors/{sponsorID}/config` -- patch config
 - `POST /sponsors/{sponsorID}/benefits` -- create benefit
@@ -78,6 +81,7 @@ Add new paths under a `/kestrel/` or `/self-service/` prefix:
 ```
 
 **Design principles:**
+
 - Customer-facing endpoints validate more strictly (no raw config JSON)
 - Include defaults and templates (don't require customers to know all config fields)
 - Return clear next-step guidance (wizard-style)
@@ -88,7 +92,8 @@ Add new paths under a `/kestrel/` or `/self-service/` prefix:
 ## Step 3: Add Endpoints to the OpenAPI Spec
 
 Edit the source spec:
-```
+
+```text
 internal/sponsorapi/sponsorapi.yaml
 ```
 
@@ -97,6 +102,7 @@ Use existing type patterns -- look at how `SponsorInfo`, `BenefitInfo`,
 `FundedBenefitInfo` are structured.
 
 **Important:**
+
 - Use `M2M` security for internal paths, `Auth0` for customer-facing
 - Add a new Auth0 scope like `self-service:sponsors` for Kestrel users
 - Reference existing schemas (don't duplicate)
@@ -106,11 +112,13 @@ Use existing type patterns -- look at how `SponsorInfo`, `BenefitInfo`,
 ## Step 4: Regenerate Code
 
 After editing the YAML:
+
 ```bash
 make api
 ```
 
 This regenerates:
+
 - `internal/sponsorapi/chi-server.go` -- new route handlers
 - `internal/sponsorapi/client.go` -- new client methods
 - `internal/sponsorapi/types.go` -- new request/response types
@@ -122,11 +130,13 @@ This regenerates:
 ## Step 5: Add Bind() Methods
 
 For each new request body type, add a `Bind()` method in:
-```
+
+```text
 internal/sponsorapi/helpers.go
 ```
 
 Pattern:
+
 ```go
 func (model *SelfServiceCreateCustomerRequest) Bind(r *http.Request) error {
     if model.Name == "" {
@@ -142,7 +152,8 @@ func (model *SelfServiceCreateCustomerRequest) Bind(r *http.Request) error {
 ## Step 6: Implement Handler Logic
 
 Create a new file in `pkg/sponsor/`:
-```
+
+```text
 pkg/sponsor/api_self_service.go
 ```
 
@@ -159,6 +170,7 @@ func (s *APIServer) SelfServiceCreateCustomer(w http.ResponseWriter, r *http.Req
 ```
 
 **Key patterns to follow:**
+
 - Use `activitylog.HandleActivityLoggableChanges()` for audit trail
 - Use existing DB queries via the generated querier interface
 - Return proper HTTP status codes (201 Created, 400 Bad Request, 409 Conflict)
@@ -187,6 +199,7 @@ ALTER TABLE sponsor DROP COLUMN customer_visible;
 ```
 
 If you add new queries, add them to `db/sponsor/queries/` and regenerate:
+
 ```bash
 make queries
 ```
@@ -198,6 +211,7 @@ make queries
 For customer-facing endpoints, define a new role:
 
 In `conf/development_policy.csv` (for local dev):
+
 ```csv
 p, kestrel_admin, /sponsors/*/self-service/*, GET
 p, kestrel_admin, /sponsors/*/self-service/*, POST
@@ -211,11 +225,13 @@ The production policy lives in `k8s-flux/apps/common/policy.csv` (separate repo)
 ## Step 9: Write Tests
 
 Create test file:
-```
+
+```text
 pkg/sponsor/api_self_service_test.go
 ```
 
 Follow existing patterns:
+
 ```go
 func TestSelfServiceCreateCustomer(t *testing.T) {
     req := sponsorapi.SelfServiceCreateCustomerRequest{
@@ -261,6 +277,7 @@ make docker-compose-backend
 | `conf/development_policy.csv` | Add Casbin policy for new role |
 
 **Files you'll regenerate (don't edit):**
+
 - `internal/sponsorapi/chi-server.go`
 - `internal/sponsorapi/client.go`
 - `internal/sponsorapi/types.go`

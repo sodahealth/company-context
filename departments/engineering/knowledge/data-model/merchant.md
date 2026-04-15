@@ -26,6 +26,7 @@ and approval profiles (spending restriction rules).
 ## Core Merchant
 
 ### merchant
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | bytea (XID) | |
@@ -37,16 +38,18 @@ and approval profiles (spending restriction rules).
 | integration_live_at | timestamp | |
 
 ### merchant_category_codes
+
 MCC codes (integer PK) with name and description. Standard industry codes for merchant classification.
 
 ### merchant_group / merchant_merchant_group
+
 Groupings of merchants for approval profile rules.
 
 ---
 
 ## Product Hierarchy
 
-```
+```text
 core_category
   +-- fineline (sub-category)
        +-- item -> item_details (metadata, nutrition, attributes)
@@ -66,11 +69,13 @@ The approval profile system defines what members can spend on. It's the core
 business rules engine for benefit restrictions.
 
 ### approval_profiles
+
 | Column | Type | Notes |
 |--------|------|-------|
 | restrictiveness | enum | general, targeted, specific |
 
 ### Linked rules (what's approved)
+
 | Table | What it controls |
 |-------|-----------------|
 | **approval_profiles_merchants** | Whitelist/blacklist merchants |

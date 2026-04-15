@@ -23,7 +23,7 @@ Harmony code.
 
 ## Architecture
 
-```
+```text
 Kestrel (ever-the-presenter)          Harmony (bliss docker-compose)
 +---------------------------------+  +----------------------------------+
 |  React frontend                 |  |  sponsor-api   :8443 (HTTPS)    |
@@ -69,6 +69,7 @@ the sponsor API. No cloud auth needed.
 ### Phase 3B: Build Kestrel in ever-the-presenter
 
 **Backend (FastAPI):**
+
 - New app directory: `backend/kestrel/`
 - Router: `/api/kestrel/` prefix
 - Harmony client: calls sponsor API with M2M auth
@@ -83,6 +84,7 @@ the sponsor API. No cloud auth needed.
   - `GET /api/kestrel/approval-profiles` -- AP catalog for benefit wizard
 
 **Frontend (React):**
+
 - New route: `/kestrel`
 - 10-step wizard derived from Osprey implementation patterns:
   1. Brand Structure (how many brands, Program IDs, shortcodes)
@@ -104,6 +106,7 @@ the sponsor API. No cloud auth needed.
 **This is a specced feature with existing infrastructure.**
 
 **What already exists in Harmony:**
+
 - **Benefit Ingestion Job** (shipped mid-2025, KICK-8797): Sponsors upload structured
   CSV via SFTP -> Benthos transforms -> Harmony Benefit Intake API creates benefits.
   No manual Admin entry. Same job infrastructure as eligibility intake.
@@ -114,7 +117,8 @@ the sponsor API. No cloud auth needed.
   content automation.
 
 **What Kestrel adds (the "Step 0"):**
-```
+
+```text
 HPMS PBP Export (CSV from CMS filing)
   -> AI parses: benefit categories, amounts, periodicity, intended recipients
   -> Maps to Evermore benefit types + approval profiles (using AP catalog from explainers)
@@ -124,6 +128,7 @@ HPMS PBP Export (CSV from CMS filing)
 ```
 
 **Why this is high confidence:**
+
 - The Benefit Ingestion infrastructure already handles CSV -> benefits
 - The HPMS PBP export format is structured (CSV, not PDF)
 - The mapping from CMS benefit categories to Evermore APs is documented (explainers)

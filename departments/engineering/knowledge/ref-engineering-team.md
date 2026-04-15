@@ -126,7 +126,7 @@ Engineers are organized into **cross-functional squads** for sprint work. Squads
 
 ## Reporting Chains (Rippling)
 
-```
+```text
 Chris Brown (CTO)
 +-- Charley Shamaly (Head of Product Engineering)
 |   +-- Kevin McHugh (Sr. Manager)

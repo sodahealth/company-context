@@ -85,17 +85,20 @@ HONK meeting notes), Knower search results
 ## Observability
 
 ### Datadog
+
 - **APM:** Orchestrion instrumentation on all soda-api/soda-job builds
 - **Metrics:** Tagged metric emission via datadogutil package
 - **Logs:** Structured logging with `soda.*`, `fis.*`, `galileo.*` fields
 - **Agent:** Sidecar in each pod
 
 ### Elastic
+
 - **Version:** 8.15.0 (cluster/console), 8.14.3 (beats)
 - **Synthetics:** Playwright-based synthetic monitors in tooling cluster
 - **Heartbeat:** Uptime monitoring
 
 ### Logging
+
 - Structured via `pkg/logging` (Zap-based)
 - Context-preserving with tracing integration
 - Log levels: debug/info/warn/error via `LOG_LEVEL` env var
@@ -105,10 +108,12 @@ HONK meeting notes), Knower search results
 ## Authentication & Authorization
 
 ### Service-to-Service (M2M)
+
 - Custom M2M auth via `pkg/security`
 - Services only call lower-tier services (tier 3 -> tier 2 -> tier 1)
 
 ### External Auth
+
 - **Auth0:** Member authentication (JWT validation)
 - **Azure Entra ID:** Employee/partner SSO
 - **Casbin:** RBAC policy engine
@@ -117,6 +122,7 @@ HONK meeting notes), Knower search results
   - Groups: Per-environment in `k8s-flux/gke-{env}/apps/common/group.csv`
 
 ### Feature Flags
+
 - **LaunchDarkly** via `pkg/featuresutil`
 - Sponsor-context-aware flag evaluation
 
@@ -137,6 +143,7 @@ HONK meeting notes), Knower search results
 ```
 
 **Key commands:**
+
 ```bash
 make docker-compose              # Full stack with hot-reload (Air)
 make docker-compose-backend      # Backend + pre-built web image
@@ -147,6 +154,7 @@ make seed                        # Load test data
 ```
 
 **Environment files:**
+
 - `.env` -- Local defaults
 - `.env-secrets` -- Sensitive values (1Password integration via `op run`)
 - `.env-datadog` -- Datadog API key

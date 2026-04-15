@@ -30,6 +30,7 @@ monitoring, eligibility file processing) remain embedded in the Admin portal,
 accessible only to Evermore employees.
 
 This creates operational friction:
+
 - Every new sponsor requires engineer involvement (funding accounts, config, kits)
 - Every benefit change requires EZPZ tickets
 - Complex variable pricing per customer creates invoicing bottlenecks
@@ -55,21 +56,27 @@ capabilities into a unified customer-facing platform:
 From "How to create a sponsor from scratch" (Confluence, 2025-03-28):
 
 ### Step 1: Create Sponsor in Soda Admin
+
 - Enter name and short code -> get Sponsor ID
 - This creates the `sponsor` DB record (variant='customer')
 
 ### Step 2: Create Funding Account (ENGINEER REQUIRED)
+
 **For Galileo:**
+
 - Engineer creates funding account -> get PRN
 - Link to sponsor via API
 
 **For FIS:**
+
 - Engineer creates subprogram via ACC tool -> get subprogram ID, PRIN, APL ID
 - Create funding account -> get DAN
 - Create package IDs
 
 ### Step 3: Configure FIS/Galileo on Sponsor Config
+
 Via Soda Admin config page (JSON Merge Patch):
+
 ```json
 {
   "galileo_config": {
@@ -88,16 +95,20 @@ Via Soda Admin config page (JSON Merge Patch):
 ```
 
 ### Step 4: Configure Emboss and Catalog Kits
+
 - Emboss kits via Soda Admin UI
 - Catalog kits: **manual postgres insert** (not in Admin UI)
 
 ### Step 5: Create Benefits
+
 Via Soda Admin:
+
 - Funded benefit (minimum): iteration count, interval, duration, approval profiles,
   proration type, funding amount, priority
 - Additional: ride benefits, survey benefits, gap closure benefits
 
 ### Additional Steps (Not in Checklist)
+
 - **Iterable setup** -- 15-step process for email/notification configuration
 - **Vonage IVR setup** -- Phone number, PIN, Strapi script, destination mapping
 - **Casbin policies** -- Authorization rules in k8s-flux
@@ -111,6 +122,7 @@ Via Soda Admin:
 ### HONK-154: Hardcoded Sponsor IDs (Completed)
 
 Nick Cruess documented all instances of sponsor-related hardcoding:
+
 - XID hardcoding in code
 - Galileo PRN hardcoding
 - FIS subprogram ID hardcoding
@@ -120,13 +132,16 @@ These are mostly lookup tables -- they need to become configurable.
 ### Lower-Touch Implementation Gaps (2025-04-04)
 
 **Covered by existing checklist:**
+
 - Benthos stream configuration
 - Returns configuration
 
 **Covered by HONK-154 (hardcodes to remove):**
+
 - Hub Dashboard configuration
 
 **NOT YET COVERED:**
+
 - Custom approval profile creation
 - Test file generation
 - Promote Benefits Config (stage -> production)
@@ -135,6 +150,7 @@ These are mostly lookup tables -- they need to become configurable.
 ### Data Model Gaps
 
 For self-service, the sponsor domain needs:
+
 1. **Onboarding status tracking** -- Where is this sponsor in the setup flow?
 2. **Customer-visible config** -- Which config fields are customer-editable vs internal?
 3. **Validation rules** -- What are the valid ranges/values for each config field?
@@ -149,12 +165,14 @@ The AI demo focuses on the **sponsor creation** feature -- the most impactful
 and self-contained piece:
 
 **In scope:**
+
 - New customer-facing API endpoints for sponsor creation
 - Guided multi-step flow: create customer -> create brand -> configure -> add benefits
 - Validation and defaults for common config patterns
 - Basic authorization (new Casbin role for customer admins)
 
 **Out of scope (Phase 1):**
+
 - FIS/Galileo funding account automation (requires external API calls)
 - Eligibility file processing
 - Benthos configuration

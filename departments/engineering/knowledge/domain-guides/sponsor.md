@@ -50,7 +50,7 @@ The sponsor service is the **largest and most complex domain** in Harmony. It ow
 
 ### 1. Sponsor Hierarchy (Customer -> Brand) -- ADR-068
 
-```
+```text
 Customer (variant='customer', parent_id=NULL)
   +-- config: base settings (FIS, Galileo, Iterable)
   +-- merged_config = config (identity -- no parent to inherit from)
@@ -61,6 +61,7 @@ Customer (variant='customer', parent_id=NULL)
 ```
 
 **Rules:**
+
 - Customers have no parent. Brands must have a customer parent.
 - Members are always associated with a brand (or a standalone customer).
 - Config inheritance is write-time (computed on PATCH, stored in `merged_config`).
@@ -81,6 +82,7 @@ The `config` column is JSONB with flexible schema. Key sections:
 ```
 
 **Config patching** uses RFC 7386 JSON Merge Patch:
+
 - Snake_case in DB, camelCase in API (conversion in `PatchSponsorConfig`)
 - Empty string in PATCH -> field removal (normalized to null)
 - `api_config.go` handles the full merge/patch/inheritance flow
@@ -89,7 +91,7 @@ The `config` column is JSONB with flexible schema. Key sections:
 
 Benefits are immutable once enrollments exist. Changes create new versions:
 
-```
+```text
 Benefit v1 (is_current=true)
   -> Benefit v2 (superseded_by=v1, is_current=true, v1.is_current=false)
     -> Benefit v3 (superseded_by=v2, is_current=true, v2.is_current=false)
@@ -124,6 +126,7 @@ A member can have cards across 3 processors simultaneously:
 ### 6. Approval Profiles (Cross-Domain)
 
 Approval profiles live in the **merchant** database but are referenced by sponsor benefits:
+
 - `funded_benefit_approval_profile` links an AP to a funded benefit
 - APs restrict what members can buy (by MCC, merchant, category, or item)
 - Three restrictiveness levels: general, targeted, specific
@@ -134,7 +137,8 @@ Approval profiles live in the **merchant** database but are referenced by sponso
 ## Key API Endpoints (Grouped)
 
 ### Sponsor Operations
-```
+
+```text
 GET    /sponsors                                    # List (filter by variant)
 GET    /sponsors/{sponsorID}                        # Get (includes brands for customer)
 PUT    /sponsors/{sponsorID}                        # Upsert
@@ -143,7 +147,8 @@ PATCH  /sponsors/{sponsorID}/config                 # JSON Merge Patch config
 ```
 
 ### Member Operations
-```
+
+```text
 POST   /sponsors/{sponsorID}/members                # Create member
 GET    /sponsors/{sponsorID}/members                # List (paginated, searchable)
 GET    /sponsors/{sponsorID}/members/{memberID}     # Get full member
@@ -152,7 +157,8 @@ POST   .../members/actions/deactivate-member        # Deactivation
 ```
 
 ### Benefit Operations
-```
+
+```text
 POST   /sponsors/{sponsorID}/benefits               # Create benefit
 GET    /sponsors/{sponsorID}/benefits               # List (filter by type, search)
 GET    /sponsors/{sponsorID}/benefits/{benefitID}   # Get
@@ -162,7 +168,8 @@ PUT    .../benefits/{benefitID}/supersede           # Create new version
 ```
 
 ### Enrollment Operations
-```
+
+```text
 POST   .../members/{memberID}/enrollments           # Enroll
 GET    .../members/{memberID}/enrollments           # List
 DELETE .../members/{memberID}/enrollments/{id}      # Remove
@@ -170,7 +177,8 @@ GET    .../members/{memberID}/enrollments/groups    # Grouped by benefit
 ```
 
 ### High-Volume Lookup Actions
-```
+
+```text
 POST   /sponsors/actions/lookup-member-by-processor-identifier
 POST   /sponsors/actions/lookup-member-card-auth-data
 POST   /sponsors/actions/lookup-member-by-merchant-preauth

@@ -39,7 +39,7 @@ Harmony is Evermore's core Go monorepo — the backend API powering all member-f
 
 ### Three-Tier Structure
 
-```
+```text
 cmd/soda-api/main.go          <- Service registration (17 API services)
   └── internal/<domain>api/    <- Generated API stubs (oapi-codegen from OpenAPI specs)
         └── pkg/<domain>/      <- Hand-written business logic (packages)
@@ -78,6 +78,7 @@ cmd/soda-api/main.go          <- Service registration (17 API services)
 Member Admin authenticates through **Auth0** using an enterprise connection to Entra ID (Azure AD).
 
 **Flow:**
+
 1. Partner user navigates to Member Admin
 2. Auth0 redirects to Entra ID login
 3. Entra authenticates and returns group memberships
@@ -124,13 +125,14 @@ Domain IDs are XID-format strings (e.g., `d05b292c6gb7j3vt49hg`).
 
 The key provisioning endpoint:
 
-```
+```text
 POST /authz/role-grants/actions/create-from-group-name
 ```
 
 This parses an Entra group name following the `{app}-{domain}-{role}` convention and creates the corresponding role grant.
 
 **Group name format:** `{app}-{shortcode}-{role}`
+
 - `app`: prefix (`csrx`, `hub`) — identifies the application context
 - `shortcode`: single alphanumeric segment — maps to a domain by lookup
 - `role`: the role name (may contain hyphens)
@@ -224,7 +226,7 @@ This parses an Entra group name following the `{app}-{domain}-{role}` convention
 
 ### Package Structure
 
-```
+```text
 pkg/<domain>/           # Business logic for a domain
 internal/<domain>api/   # Generated API stubs
 db/<database>/queries/  # SQL query sources

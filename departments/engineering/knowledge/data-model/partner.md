@@ -26,6 +26,7 @@ and activity audit logs.
 ## Integration Job Management
 
 ### benthos_stream_configuration
+
 Declarative data pipeline config for the Benthos streaming framework.
 
 | Column | Type | Notes |
@@ -47,6 +48,7 @@ batch_intake_item_details_metadata, batch_intake_item_details_attributes,
 batch_intake_item_details_nutrition
 
 ### job
+
 | Column | Type | Notes |
 |--------|------|-------|
 | partner_id | FK | |
@@ -54,9 +56,11 @@ batch_intake_item_details_nutrition
 | status | enum | created, deleted, committed, dry_run, error, incomplete, cancelled, finalized |
 
 ### job_run
+
 Execution history with status tracking (created, started, success, error, cancelled, incomplete).
 
 ### line_item
+
 Individual data records within a job. Status: created, invalid, valid, warning.
 
 ---
@@ -64,6 +68,7 @@ Individual data records within a job. Status: created, invalid, valid, warning.
 ## Partner Configuration
 
 ### partner
+
 | Column | Type | Notes |
 |--------|------|-------|
 | id | bytea (XID) | |
@@ -74,6 +79,7 @@ Individual data records within a job. Status: created, invalid, valid, warning.
 | config | jsonb | |
 
 ### partner_key
+
 API keys/credentials for partner authentication.
 
 ---
@@ -81,6 +87,7 @@ API keys/credentials for partner authentication.
 ## Activity Audit Trail
 
 ### activity_log
+
 Complete audit trail with causality chains.
 
 | Column | Type | Notes |
@@ -94,6 +101,7 @@ Complete audit trail with causality chains.
 | metadata | jsonb | Additional context |
 
 ### activity_log_related
+
 Cross-references for related resources affected by an event.
 
 ---

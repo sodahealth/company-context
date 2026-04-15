@@ -42,6 +42,7 @@ endpoint count. Evermore staff use it to manage every aspect of the platform:
 ## Architecture
 
 Admin is the **widest aggregation layer** -- it calls nearly every Tier 1 service:
+
 - **sponsor** -- sponsor/member/benefit/enrollment data
 - **merchant** -- merchant catalog, approval profiles, items
 - **ledger** -- financial data, transactions
@@ -55,6 +56,7 @@ feature flags, Datadog.
 ## SSR Components
 
 Admin includes server-side rendered pages alongside the REST API:
+
 - `ssr/handlers/` -- Templ-based page handlers
 - `ssr/ui/views/` -- View templates
 - `ssr/ui/layouts/` -- Layout templates
