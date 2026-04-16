@@ -32,7 +32,7 @@ Regina Lindsey (Head of People and Performance)
 - **Role**: Department head. Owns hiring, onboarding/offboarding, compensation and benefits, performance management (the "evolve" program), workforce planning, leveling frameworks, and employee experience.
 - **Key channels**: `#people-ops`
 - **Reports to**: Robby Knight (CEO)
-- **Email**: regina.lindsey@evermoreoutcomes.com
+- **Email**: <regina.lindsey@evermoreoutcomes.com>
 
 ### Patricia Galvez -- Consultant, People Operations
 

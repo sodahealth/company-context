@@ -18,7 +18,7 @@ review_cycle_days: 90
 
 **Reports to**: Robby Knight (CEO)
 
-**Email**: regina.lindsey@evermoreoutcomes.com
+**Email**: <regina.lindsey@evermoreoutcomes.com>
 
 ## Role
 

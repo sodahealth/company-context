@@ -18,7 +18,7 @@ authorship: "agent-autonomous"
 
 **Reports to**: Robby Knight (CEO)
 
-**UPN**: jared.dauman@evermoreoutcomes.com
+**UPN**: <jared.dauman@evermoreoutcomes.com>
 
 ## Role
 

@@ -240,7 +240,7 @@ If `get_content` or Knower search returns substantive content for their departme
 
    Show the results. Let them see the breadth of indexed knowledge.
 
-4. Close with the framing:
+5. Close with the framing:
 
    > "That's not Claude being smart — that's Claude with access to Evermore's knowledge
    > base. Every session starts with this context."
@@ -286,36 +286,43 @@ Concrete examples, not abstract capabilities. Tailor to their department.
 **Department-specific examples (2-3 based on their role):**
 
 For **People Operations:**
+
 - "Ask me about the 360 review process — I have your team's workflows"
 - "Need help drafting a policy update? Describe what changed and I'll write it up"
 - "Look up any employee's team, manager, or department"
 
 For **Finance / Accounting:**
+
 - "Ask about vendor contracts — 'When does the Vonage agreement expire?'"
 - "Describe a manual workflow and I'll help you document and improve it"
 - "Need to look something up? I can search across company knowledge"
 
 For **Engineering / Product:**
+
 - "Ask about architecture — 'How does Harmony's auth flow work?'"
 - "Describe a feature and I'll help decompose it into work items"
 - "Check OKR progress or project status"
 
 For **Health Plan Solutions:**
+
 - "Ask about a sponsor's implementation status or benefit configuration"
 - "Look up the implementation cycle — what phase is a client in?"
 - "Search for customer-specific processes or escalation paths"
 
 For **Customer Care / Customer Success:**
+
 - "Ask about member support workflows or CSRX"
 - "Look up CTM handling procedures or sponsor SLAs"
 - "Search for care team processes or Partner Help Center docs"
 
 For **Merchants & Payments / Member Experience:**
+
 - "Ask about payment processing — FIS, Galileo, settlement flows"
 - "Look up merchant onboarding processes or EBT status"
 - "Search for &more brand guidelines or member communication templates"
 
 For **Growth / Sales / New Markets:**
+
 - "Ask about the sales pipeline or RFP process"
 - "Look up market expansion status — SNAP/EBT, Medicaid programs"
 - "Search for CRM data, prospect info, or go-to-market processes"

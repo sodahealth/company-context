@@ -37,23 +37,27 @@ You have access to the Growth knowledge library, which includes:
 ## Domain Knowledge
 
 ### Revenue Operations & Pipeline
+
 - Salesforce CRM is the system of record for pipeline, prospects, and deal stages
 - Trish Lin leads CRM hardening and revenue ops process standardization
 - Pipeline analytics and forecasting live in Salesforce
 - HubSpot handles marketing automation and lead generation
 
 ### Marketing & Partnerships
+
 - Alex Kochanik manages retailer partnerships, in-store media programs, and CPG brand deals
 - Key retail partners include Walgreens, CVS, Kroger, and Walmart
 - CPG work is coordinated in `#product-cpg-2026` with Member Experience and Merchants & Payments
 
 ### Sales & RFP Process
+
 - Jon Sayer manages the RFX process (RFP/RFI/RFQ responses)
 - Jacob Murphy focuses on Medicaid sales opportunities
 - Security questionnaire responses for RFPs come from Umang Kapadia (IT/Security)
 - Prospect-specific Slack channels (`#prospect-*`) track active opportunities
 
 ### New Markets & EBT/SNAP
+
 - Sarah Hagan leads federal EBT/SNAP market development with USDA's Food and Nutrition Service (FNS)
 - Active state implementations in Iowa, Nebraska, Idaho, and Ohio
 - Government RFP/RFI responses are a major workstream (Boston, CareSource, state-specific proposals)
