@@ -1,6 +1,6 @@
 ---
 name: getstarted
-version: "3.0.0"
+version: "3.1.0"
 description: Platform front door — detects mode (first-time, returning, new hire) and routes to the appropriate onboarding or session flow
 ---
 
@@ -326,6 +326,13 @@ For **Growth / Sales / New Markets:**
 - "Ask about the sales pipeline or RFP process"
 - "Look up market expansion status — SNAP/EBT, Medicaid programs"
 - "Search for CRM data, prospect info, or go-to-market processes"
+
+For **Leadership / Executive (COO, C-suite):**
+
+- "Tell me about the leadership team — who owns what"
+- "What are the current company priorities and OKR status?"
+- "Search across teams for anything related to [initiative or function]"
+- "Help me draft a communication for [audience]"
 
 For **other departments:** Build examples by combining:
 
@@ -768,37 +775,61 @@ After the demo and setup, shift to helping the new hire understand the company.
 Keep the company introduction to 2-3 minutes of reading. Be warm and welcoming, not
 encyclopedic.
 
-### Step 7 — Tool Setup Assistance
+### Step 7 — IT Account Setup Walk-Through
 
-Help the new hire verify they have access to the tools they need.
+Walk the new hire through setting up their accounts. This replaces the IT onboarding
+call — Claude guides them through every step, one at a time.
 
-> "Let me help you check that your tool access is set up."
+**Before starting:** Check preflight enrichment data for `it_onboarding_phase`.
 
-**Pull the expected tool stack** from their department's ref-systems.md (via Knower
-search or department context). For each tool in their expected stack:
+- **If `it_onboarding_phase` is absent:** This is their first time through. Begin from
+  Phase 1.
+- **If `it_onboarding_phase` is set but not `"complete"`:** They started previously and
+  didn't finish. Resume:
+  > "Welcome back! Last time we got through [describe completed items from
+  > `it_onboarding_items`]. Ready to pick up from [next phase]?"
+- **If `it_onboarding_phase` is `"complete"` or `it_onboarding_complete` is `"true"`:**
+  Skip this step entirely. The new hire has already completed setup. Proceed to Step 8.
 
-1. **Name the tool and what it is for** — in language appropriate to their role.
-   - Non-technical: "Rippling is where you'll manage time off, benefits, and payroll info."
-   - Technical: "GitHub is where all our code repos live — you'll need access to the
-     sodahealth org."
+**Load the walkthrough content:**
 
-2. **Check access status** — from the profile data (Entra groups, app assignments), note
-   whether they likely have access.
-   - If access is confirmed: "You're set up with [tool]."
-   - If access is unclear: "You should have access to [tool]. If you can't log in,
-     let me know and I'll get IT to sort it out."
-   - If access appears missing: "It looks like [tool] might not be set up yet. I'll
-     flag this for the IT team."
+Fetch the conversational IT setup guide via `get_content` with path
+`knowledge/ref-it-onboarding-walkthrough`. This document contains the full five-phase
+walk-through with talk tracks, confirmation questions, troubleshooting, and progress
+tracking instructions. Follow it exactly.
 
-3. **Quick orientation** — one sentence about what they will use this tool for in their
-   specific role.
+**Transition into setup:**
 
-**If access gaps are found:**
+> "Now that you've seen the platform and gotten oriented to the company — let's make
+> sure everything on your laptop is ready to go. I'll walk you through it step by step.
+> There's no rush. We'll go one thing at a time."
 
-- Compile a list of missing or uncertain tool access.
-- Offer to route to IT: "Would you like me to flag these for the IT team to set up?"
-- If they agree, note the gap in the enrichment data and, if the `search` MCP tool
-  is available, look up the IT intake process to route the request.
+**Follow the five phases** from `ref-it-onboarding-walkthrough.md`:
+
+1. Let's confirm you're signed in (Authenticator, macOS tips)
+2. Your password vault — start 1Password, park it
+3. Browser, apps, and device — Chrome, Zoom, Kandji, SSO, app access
+4. Finish 1Password + Slack
+5. Staying safe and getting help
+
+**Progress tracking:** After each phase, write progress to enrichment as described
+in the walkthrough doc. This enables resuming across sessions.
+
+**Escalation:** When troubleshooting a step fails after 1-2 attempts, note the issue
+in enrichment `friction_points` and tell the user IT will follow up in `#it-sec-private`.
+Never block the full setup on one stuck item — continue with remaining phases.
+
+**On completion:** Write the completion signal to enrichment as described in the
+walkthrough doc, then deliver the closing summary:
+
+> "You're all set! [list what was covered]. If anything stops working, post in
+> `#it-sec-private` on Slack and IT will jump in."
+
+Then proceed to Step 8.
+
+**Tone note:** The setup walk-through should feel like a patient colleague sitting next
+to them — not a checklist being read aloud. One thing at a time. Wait for their
+confirmation before moving to the next step. Adapt your pace to theirs.
 
 ### Step 8 — First Task
 
