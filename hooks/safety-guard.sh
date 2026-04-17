@@ -2,7 +2,8 @@
 # PreToolUse hook — Safety guard (company-wide employee hook profile)
 #
 # Four safety patterns for all employees:
-#   S-1: Force-push deny — hard block git push --force/-f/--force-with-lease
+#   S-1: Force-push deny — block git push --force/-f/--force-with-lease
+#        *only* when targeting main/master (feature-branch rebase is allowed)
 #   S-2: Credential detection — warn on API key patterns in Write/Edit content
 #   S-3: PHI/PII transmission guard — warn on HTTP to non-approved domains
 #   S-4: Data classification reminder — inject reminder for shared/public paths
@@ -84,14 +85,61 @@ if [ "$TOOL_NAME" = "Bash" ]; then
     COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
     [ -z "$COMMAND" ] && exit 0
 
-    # ── S-1: Force-push deny (hard deny) ──────────────────────────────────────
+    # ── S-1: Force-push deny — block only when targeting main/master ─────────
+    #
+    # Rationale: rebasing feature branches is a legitimate routine operation
+    # that requires force-push. The risk we actually want to guard against is
+    # overwriting shared branch history on main/master. Block force-push only
+    # when the target is a protected branch; allow on feature branches.
+    #
+    # Force-push detection (any of):
+    #   a. -f / --force / --force-with-lease flag
+    #   b. +refspec in the command (e.g. "git push origin +main")
+    #
+    # Protected-branch detection (any of):
+    #   1. Explicit main/master in the push refspec
+    #      (" main" / " master" / "+main" / "+master" / ":main" / ":master")
+    #   2. If no explicit branch in the command, current HEAD is on main/master.
 
-    if echo "$COMMAND" | grep -q 'git push' && \
-       echo "$COMMAND" | grep -qE '(^|[[:space:]])(-f([[:space:]]|$)|--force)'; then
-        REASON="Force-pushing is not allowed. This protects shared branch history from accidental overwrites. Use a regular git push or create a new branch instead."
-        REASON_JSON=$(echo "$REASON" | jq -Rs '.')
-        echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":${REASON_JSON}}}"
-        exit 0
+    if echo "$COMMAND" | grep -q 'git push'; then
+
+        IS_FORCE=0
+        # (a) Force flags
+        if echo "$COMMAND" | grep -qE '(^|[[:space:]])(-f([[:space:]]|$)|--force)'; then
+            IS_FORCE=1
+        fi
+        # (b) +refspec force marker: "git push [...] +branchname"
+        if echo "$COMMAND" | grep -qE 'git push[^;&|]*[[:space:]]\+[A-Za-z0-9_/.-]+'; then
+            IS_FORCE=1
+        fi
+
+        if [ "$IS_FORCE" = "1" ]; then
+            TARGETS_PROTECTED=0
+
+            # (1) Explicit main/master in the command
+            if echo "$COMMAND" | grep -qE '[[:space:]:+](main|master)([[:space:]:]|$)'; then
+                TARGETS_PROTECTED=1
+            fi
+
+            # (2) No explicit branch ref — fall back to current HEAD
+            if [ "$TARGETS_PROTECTED" = "0" ]; then
+                REF_ARGS=$(echo "$COMMAND" | sed -E 's/^.*git push[[:space:]]+//' \
+                    | tr ' ' '\n' | grep -v '^-' | grep -v '^$' | wc -l | tr -d ' ')
+                if [ "${REF_ARGS:-0}" -lt 2 ]; then
+                    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+                    if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "master" ]; then
+                        TARGETS_PROTECTED=1
+                    fi
+                fi
+            fi
+
+            if [ "$TARGETS_PROTECTED" = "1" ]; then
+                REASON="Force-pushing to main/master is not allowed. This protects shared branch history from accidental overwrites. Rebase on a feature branch and open a PR instead."
+                REASON_JSON=$(echo "$REASON" | jq -Rs '.')
+                echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":${REASON_JSON}}}"
+                exit 0
+            fi
+        fi
     fi
 
     # ── S-3: PHI/PII transmission guard (warn, don't block) ──────────────────
