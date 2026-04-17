@@ -1,11 +1,11 @@
 {
   "manifest_version": "1.0.0",
-  "updated": "2026-04-16",
+  "updated": "2026-04-17",
   "skills": {
     "getstarted": {
-      "version": "3.0.0",
+      "version": "3.1.0",
       "file": "skills/getstarted/SKILL.md",
-      "sha256": "846f73491c7156d46776a885256854baf9fc23c50e5d6ea751757d0d46d18534"
+      "sha256": "413b003deb9929a2c7ab6f4618274ce2c463b1da2effb1afb1a9043a6c283b2c"
     },
     "growth-feedback": {
       "version": "1.0.0",
