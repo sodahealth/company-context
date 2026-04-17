@@ -1,93 +1,67 @@
 ---
 name: getstarted
-version: "2.1.0"
+version: "3.0.0"
 description: Platform front door — detects mode (first-time, returning, new hire) and routes to the appropriate onboarding or session flow
 ---
 
 # /getstarted — Evermore Platform Front Door
 
 This skill is the entry point every time an employee starts a Claude session at Evermore.
-It detects who the user is, determines which experience they need, and routes them to
-the right flow. It replaces the previous single-path onboarding with a three-mode
-detection system.
+It detects who the user is, determines which experience they need, and delivers a
+personalized introduction that demonstrates the platform's value immediately.
+
+The core design principle: **show before ask.** Every employee should experience what
+the platform can do before being asked anything about themselves.
 
 **Three modes:**
 
 | Mode | Who | What happens |
 |------|-----|-------------|
-| **Mode 1** | Existing employee, first time on platform | Full onboarding: intro, setup, proactive suggestions, first conversation |
+| **Mode 1** | Existing employee, first time on platform | Live demo of platform knowledge, environment setup, first task |
 | **Mode 2** | Returning user | Session launcher: status update, pending tasks, quick launch |
-| **Mode 3** | New hire (started within 30 days) | Company introduction, tool setup, team intro, first task |
+| **Mode 3** | New hire (started within 30 days) | Live demo, company introduction, tool setup, first task |
 
 ---
 
-## Phase 0: Mode Detection
+## Phase 0: Silent Preflight
 
-Run these three checks in sequence. Do NOT display any of this detection logic to
-the user — they should experience a seamless greeting, not a diagnostic checklist.
+Run these checks before greeting the user. Do NOT display any of this detection logic —
+the user should experience a seamless, instant greeting with no visible loading or
+diagnostic steps.
 
-### Check 1: Platform marker in CLAUDE.md
+### Check 1: MCP Health — Content API
 
-Read the file `~/.claude/CLAUDE.md` using the Read tool.
+Call the `get_content` MCP tool with path `people/me`.
+
+- If the call succeeds: MCP server is healthy and auth is good. Store the profile data
+  (name, role, department, systems, manager, team, start_date).
+- If the call fails: note that Content API is unavailable. Continue — do not block.
+
+### Check 2: MCP Health — Cosmos Write Path
+
+Call the `get_employee_profile` MCP tool (or `get_my_profile` if the former is not
+available — check which tools the MCP server exposes).
+
+- If the call succeeds: Cosmos write path is likely healthy. Store the rich profile
+  data (HR data, Entra data, communication patterns, prior enrichment including
+  `onboarding_complete` flag).
+- If the call fails: note that Cosmos write path is unavailable. Continue — enrichment
+  writeback will be skipped at the end.
+
+If Check 2 succeeds, it supersedes Check 1 for any overlapping fields.
+
+### Check 3: Platform Marker
+
+Read `~/.claude/CLAUDE.md` using the Read tool.
 
 - Look for the marker `<!-- BEGIN EVERMORE PLATFORM -->` anywhere in the file content.
 - If the file does not exist, or the marker is not found: **platform_setup = false**
 - If the marker exists: **platform_setup = true**
 
-### Check 2: Profile and start date
+### Check 4: Session Hooks
 
-Fetch the employee's profile using a layered approach. Each layer adds richer context.
-Failures at any layer are non-fatal — continue with whatever data you have. Never
-surface tool failures or profile-loading mechanics to the user.
-
-**Layer 1 — Basic profile via Content API:**
-
-Call the `get_content` MCP tool with path `people/me` to retrieve the caller's profile.
-
-- If the tool succeeds: note all available fields (name, role, department, systems,
-  manager, team, start_date)
-- If the tool fails: proceed without profile data (you will ask for context manually)
-- If `start_date` is present and is within the last 30 days (relative to today):
-  **new_hire = true**
-- Otherwise: **new_hire = false**
-
-**Layer 2 — Rich Cosmos profile:**
-
-Call the `get_employee_profile` MCP tool (or `get_my_profile` if the former is not
-available — check which tools the MCP server exposes). This returns the richer
-Cosmos-backed profile including:
-
-- **HR data:** name, department, title, manager, start date, location
-- **Entra data:** group memberships, app assignments, recent sign-in activity
-- **Communication patterns:** active Slack channels, activity frequency, collaboration graph
-- **Prior enrichment:** self-reported data from previous sessions (challenges, processes,
-  friction_points, tools_mentioned, focus_areas, notes, onboarding_complete flag)
-
-If Layer 2 succeeds, it supersedes Layer 1 for any overlapping fields. If it fails,
-continue with Layer 1 data only.
-
-**Profile data is INTERNAL context only.** Store the combined profile in your working
-memory for use throughout the session. Never display raw profile fields, JSON, tool
-names, or data pipeline details to the employee. Use the data to personalize
-conversation naturally — as if you already know them from working together.
-
-**Graceful degradation:** If BOTH layers fail (MCP server is down, tools unavailable,
-network error), the skill still works. You enter cold-start mode: ask the employee
-for their name, role, and team directly. See the cold-start handling in each mode's
-Step 1 for the specific fallback conversation. The enrichment data you write back at
-the end of this session becomes the first data point for their profile.
-
-### Check 3: Session history
-
-Check whether prior enrichment data exists in the Cosmos profile (from Check 2). If
-the `get_employee_profile` response contains prior enrichment fields (challenges,
-processes, focus_areas, etc.) with real data, the user has run /getstarted before.
-
-- If prior enrichment exists with substantive data: **returning = true**
-- If no prior enrichment or empty: **returning = false**
-
-Also check: if `platform_setup = true` and the platform section in CLAUDE.md contains
-an identity block, the user has been onboarded before: **returning = true**.
+Check `~/.claude/settings.json` for session hooks. Note their presence or absence
+internally — this helps determine whether the environment is fully configured.
 
 ### Check 5: Entra User Identity
 
@@ -105,30 +79,45 @@ Call the `m365_authenticate` MCP tool.
 
 ### Auth Failure Handling
 
-**Device auth failure (Check 2 returns 401):**
-The device's agent token is invalid or expired. This means the device may not be
-registered with the platform. Suggest: "This device doesn't appear to be registered
-with the Evermore platform. Contact IT for help getting set up." Continue in fully
-degraded mode — most MCP tools will not work.
+If both MCP calls fail and the failures indicate an authentication problem (not a
+network error or missing tool):
+
+- Suggest: "It looks like your session isn't connected to the platform yet. Try running
+  `claude auth login` and then start a new session."
+- Continue with whatever data you have. Don't block onboarding.
 
 **User auth failure (Check 5 fails or user skips):**
 The user hasn't signed in to Entra. Onboarding continues but without personalization.
-At the end of Phase 0, if entra_authenticated is false, note this internally so that
+At the end of Phase 0, if `entra_authenticated = false`, note this internally so that
 Phase 1 (greeting) can include a gentle prompt: "To get the most out of the platform,
 you can sign in anytime by asking me to 'sign in to Evermore'."
 
-**Both succeed:**
-The device is authorized AND we know who the user is. Full personalization available —
-greet by name, tailor to their department, show relevant capabilities.
+### Preflight Results
 
-### Mode routing
+Store all preflight results internally. They determine:
 
-Apply these rules in order:
+- Whether the "Watch This" demo can use live data or needs a fallback
+- Whether enrichment writeback will work at the end of the session
+- Mode routing (below)
 
-1. If `platform_setup = false`: **Mode 1** (First-time existing employee)
-2. If `platform_setup = true` AND `new_hire = true` AND `returning = false`: **Mode 3** (New hire onboarding)
+### Mode Detection
+
+Determine the employee's situation from preflight results:
+
+**Session history check:** If prior enrichment data exists in the Cosmos profile (from
+Check 2) with substantive data (challenges, processes, focus_areas with real content),
+or if `platform_setup = true` and CLAUDE.md contains an identity block: **returning = true**.
+Otherwise: **returning = false**.
+
+**New hire check:** If `start_date` is present and within the last 30 days:
+**new_hire = true**. Otherwise: **new_hire = false**.
+
+**Routing rules (apply in order):**
+
+1. If `new_hire = true` AND `returning = false`: **Mode 3** (New hire onboarding)
+2. If `platform_setup = false`: **Mode 1** (First-time existing employee)
 3. If `platform_setup = true` AND `returning = true`: **Mode 2** (Returning user)
-4. If `platform_setup = true` AND `returning = false` AND `new_hire = false`: **Mode 2** (Returning user — platform was set up but no enrichment yet; treat as returning, not re-onboarding)
+4. If `platform_setup = true` AND `returning = false` AND `new_hire = false`: **Mode 2** (Returning user — platform was set up but no enrichment yet)
 
 Proceed to the section for the detected mode.
 
@@ -146,37 +135,16 @@ session. This section defines how to use it across all modes.
 | HR data (name, department, title, manager) | Who they are and where they sit | Greet by name, reference their team naturally, skip questions you already know the answer to |
 | Entra data (groups, app assignments, sign-ins) | What systems they have access to, what they actively use | Reference their tools by name, skip access verification for confirmed apps |
 | Communication patterns (Slack channels, frequency) | How they collaborate, which teams they interact with | Understand their work context beyond their formal role |
-| Prior enrichment (challenges, processes, friction_points, tools_mentioned, focus_areas) | What they told us in previous sessions | Build on prior conversations (“Last time you mentioned...”), don’t re-ask questions they already answered |
+| Prior enrichment (challenges, processes, friction_points, tools_mentioned, focus_areas) | What they told us in previous sessions | Build on prior conversations ("Last time you mentioned..."), don't re-ask questions they already answered |
 
 ### How to use profile data in conversation
 
-**Validate known context** — confirm what the profile says, don’t assume it is current:
-
-> “I see you’re on the [team] team working as [role]. Is that still right?”
-
-Only validate fields that matter for the conversation. Don’t read back every field
-in the profile — pick the 2-3 most relevant and confirm naturally.
-
-**Discover unknown context** — use profile data to ask informed follow-up questions
-instead of starting from scratch:
-
-> “Your profile shows you work with [tools from Entra data]. What’s the most
-> time-consuming part of your day with those systems?”
->
-> “I can see you’re active in [Slack channels from communication patterns]. Are those
-> the main places your team coordinates, or is there somewhere else?”
-
-**Collect new data** — every conversation should surface information the profile
-does not yet contain:
-
-- **Challenges:** “What’s the biggest obstacle in your work right now?”
-- **Processes:** “Walk me through how you handle [workflow related to their role].”
-- **Friction points:** “Where do things slow down or break?”
-- **Tools they actually use:** Confirm tool usage beyond what Entra shows — some tools
-  are assigned but unused, others are used informally without an Entra assignment.
+**Never expose raw profile fields, JSON, tool names, or data pipeline details.** Use
+the data to personalize conversation naturally — as if you already know them from
+working together.
 
 **Handle contradictions** — if what the employee says contradicts the profile, go with
-what they say. People’s roles, priorities, and tools change. Note the correction
+what they say. People's roles, priorities, and tools change. Note the correction
 internally and include the updated data in the enrichment writeback.
 
 ### Cold-start mode (no profile available)
@@ -189,31 +157,27 @@ If both profile layers failed, you have no data. This is expected for:
 
 In cold-start mode, ask directly but conversationally:
 
-> “I don’t have your profile loaded yet — that’ll sort itself out after your first
-> day on the platform. In the meantime, tell me: what’s your name, what team are
-> you on, and what’s your role?”
+> "Hey — welcome. Tell me your name and what team you're on, and I'll show you around."
 
 Then proceed with the appropriate mode using their answers. The enrichment data you
 write back at the end of this session becomes the seed for their profile.
 
 ---
 
-## Mode 1: First-Time Existing Employee Onboarding
+## Mode 1: First-Time Existing Employee — The Full Experience
 
-This is the full onboarding experience for an employee who has been at Evermore but
-is using the Claude platform for the first time.
+This is the complete onboarding for an employee who has been at Evermore but is using
+the Claude platform for the first time. The goal is to get them excited in under
+5 minutes.
 
-### Step 1 — Gather Context
+### Step 1 — Personalized Greeting (30 seconds)
 
-Use the profile data from Phase 0 (Check 2). You should have:
+Use the profile data from Phase 0. Greet the employee by first name, reference their
+team or department naturally.
 
-- **Name** — greet them by first name
-- **Role / title** — understand what they do
-- **Department** — determines their context repo and language preferences
-- **Manager** — who they report to
-- **Team members** — who they work with
-- **Systems / applications** — tools they use daily
-- **Discovery profile** — if available, enrichment from a prior discover sess
+**With profile data:**
+
+> "Hey [first name] — welcome to the platform."
 
 **Entra claims take precedence.** If **entra_authenticated = true** (from Phase 0,
 Check 5), prefer the Entra token claims (name, department, group memberships) over
@@ -222,173 +186,166 @@ and is always current — Cosmos profile data may lag behind role or department 
 When both sources are available, use Entra claims for name and department, and Cosmos
 for richer context (enrichment, communication patterns, prior session data).
 
-If the MCP call failed and you have no profile data, ask the user directly:
+Reference their team naturally in the greeting. One or two sentences that show you
+know who they are.
 
-> "Welcome! I'm going to get you set up on the Evermore platform. First, can you
-> tell me your name, your role, and which team you're on?"
+**Cold-start (no profile data):**
 
-Also attempt to pull department-specific context by calling `search` via the MCP tool
-(Knower) for their department's reference documents (ref-systems, ref-team, ref-processes).
-This gives you richer context for personalization.
+> "Hey — welcome. Tell me your name and what team you're on, and I'll show you around."
 
-### Step 2 — Platform Introduction
+Wait for their response before continuing.
 
-Deliver the platform introduction, personalized to the user. Do NOT read this verbatim
-as a script — adapt it naturally based on who they are and what department they are in.
+### Step 2 — Brief Intro (30 seconds)
 
-**Core message:**
+Two to three sentences ONLY. Not the full vision speech.
 
-> "Most companies give employees a blank AI session — you start from zero every time.
-> We're building something different. Every session at Evermore starts pre-loaded with
-> context: who you are, what your team does, what systems exist, what decisions have been
-> made. The more people use it, the smarter it gets — not through training, but through
-> accumulating structured context that every session draws from.
->
-> You're not just using Claude. You're using Claude with Evermore's institutional memory."
+> "Every session here comes pre-loaded with context about Evermore — who you are, what
+> your team does, what systems exist. It's not a blank AI session."
 
-**Then personalize** — explain why this matters to THEM based on their department:
+Then immediately:
 
-- **Engineering / Product:** "For you, that means Claude already knows about Harmony's
-  architecture, your team's deployment cadence, and the engineering OKRs. When you ask
-  about a system, it knows the context."
-- **People Operations:** "For you, that means Claude already knows about the 360 review
-  process, your workforce planning work, and the tools you use. When you need help with
-  a process, it understands your world."
-- **Finance / Accounting:** "For you, that means Claude already knows about the vendor
-  contracts, your financial systems, and your reporting cadence. When you ask about a
-  contract or process, it has the background."
-- **Other departments:** Adapt similarly — reference their specific systems and workflows
-  from the profile data.
+> "Let me show you what I mean."
 
-Keep this to 30 seconds of reading. Do not over-explain.
+Do not pause for questions. Do not over-explain. Move straight to the demo.
 
-### Step 3 — Sign In to Evermore Platform
+### Step 3 — "Watch This" Moment (1-2 minutes)
 
-After the platform introduction, prompt the user to sign in with their Evermore
-(Microsoft Entra) identity. This step establishes their verified identity for
-personalized features across the platform.
+This is what makes or breaks the onboarding. The employee should experience surprise
+at what the platform already knows. Use REAL data — never fabricate content or use
+canned examples.
 
-**Check for cached identity first.** Before prompting, check whether the user already
-has a cached Entra identity on their device. Read the file `~/.evermore/entra-cache.json`
-using the Read tool.
+**Strategy selection based on available content:**
 
-- **If the file exists and contains data:** The user has previously authenticated.
-  Do NOT prompt them to sign in again. Instead, silently note that auth is already
-  complete. If profile data from Phase 0 includes their name and department, confirm
-  naturally:
+#### Rich department content available
 
-  > "You're already signed in to the Evermore Platform."
+If `get_content` or Knower search returns substantive content for their department
+(ref-systems.md, ref-team.md, or similar):
 
-  Proceed to Step 4 (Available Commands).
+1. Pull their department's reference content via `get_content` or `search` MCP tool.
+2. Narrow to their role: search for content matching the employee's title or role
+   keywords (e.g., for "Talent Acquisition Lead" search for "recruiting," "hiring,"
+   "talent acquisition" in addition to the department name).
+3. Present it conversationally:
 
-- **If the file does not exist or is empty:** The user has not yet authenticated.
-  Prompt them to sign in:
+   > "You're on the [department] team. Here's what I already know about your world:"
 
-  > "One more thing before we dive in — let's sign you in to the Evermore Platform.
-  > This connects your identity so the platform knows who you are across sessions."
-  >
-  > "Run this command in your terminal:"
-  >
-  > ```bash
-  > evermore-agent auth
-  > ```
-  >
-  > "This will open a browser window for Microsoft sign-in. If you're on a managed
-  > device with SSO, it should be one click."
+   Then demonstrate real knowledge — prioritize content relevant to their specific
+   role within the department. Name actual tools they personally use (from profile
+   systems data), actual processes related to their function, and colleagues they
+   work with directly.
 
-  **Wait for the user to confirm** they have run the command. Do not proceed
-  automatically — the user needs to complete the browser-based sign-in flow.
+4. Do a live Knower search for something relevant to their specific role:
 
-**After the user confirms sign-in (or says it worked):**
+   > "Let me search for [topic relevant to their role, not just department]..."
 
-Read `~/.evermore/entra-cache.json` again to verify auth succeeded. If the file now
-exists and contains data:
+   Show the results. Let them see the breadth of indexed knowledge.
 
-> "You're signed in as **[display name]** ([department])."
+5. Close with the framing:
 
-Use the name and department from the cached identity claims. If department is empty
-or not present in the claims, just show the name:
+   > "That's not Claude being smart — that's Claude with access to Evermore's knowledge
+   > base. Every session starts with this context."
 
-> "You're signed in as **[display name]**."
+#### Thin department content (fallback)
 
-This is a confirmation moment — keep it brief and positive, then proceed to Step 4.
+If department-specific content is sparse but company-level content exists:
 
-**If auth fails or the user reports an error:**
+1. Pull the company overview: `get_content` with path for ref-company-overview.md or
+   search Knower for "company overview".
+2. Show the org structure or department descriptions.
+3. Do a Knower search for the employee's department name to show what ambient knowledge
+   exists.
+4. Close with the same framing about institutional knowledge.
 
-Provide clear troubleshooting guidance:
+#### Cold-start (no MCP, no content)
 
-> "No worries — here are a few things to try:"
->
-> 1. Make sure `evermore-agent` is installed and running: `evermore-agent --version`
-> 2. If you're on a remote/SSH session, the agent will use device code flow instead
->    — follow the instructions it prints
-> 3. Try clearing cached tokens and re-authenticating:
->
->    ```bash
->    evermore-agent auth --clear
->    evermore-agent auth
->    ```
->
-> 4. If sign-in keeps failing, reach out to IT — we can check your Entra app
->    assignment
+If MCP is completely unavailable:
 
-**If the user wants to skip sign-in:**
+1. Skip the live demo entirely.
+2. Describe capabilities instead:
 
-Auth is not required to continue onboarding. If the user explicitly says they want
-to skip, or if they cannot get auth working after troubleshooting:
+   > "Normally I'd show you what I know about your team, but we're still getting your
+   > access set up. Here's what you'll be able to do once everything's connected..."
 
-> "No problem — we can continue without sign-in for now. Some features will work
-> in a limited way until you're signed in, but everything we're doing today will
-> still work. You can always sign in later by running `evermore-agent auth`."
+3. Move to Step 4 (capabilities overview). Use the department name the employee
+   provided in Step 1 to select the matching department-specific example set. If
+   their department is not one of the listed sets, build examples from what they
+   told you about their role and tools.
 
-Proceed to Step 4. Note internally that auth was skipped — this affects the
-enrichment writeback (do not write identity-dependent enrichment fields if auth
-was not completed).
+### Step 4 — What's Available (1 minute)
 
----
+Concrete examples, not abstract capabilities. Tailor to their department.
 
-### Step 4 — Available Commands
+**For all users, frame it around specific actions they can take:**
 
-Show them what they can do, tailored to their department.
+- "Ask me about any system your team uses — I have documentation on [name 2-3 specific
+  systems from their department if known]"
+- "Search company knowledge — Slack history, Jira tickets, Confluence pages, all indexed"
+- "Draft emails, plan projects, analyze data, write documents"
+- "If you hit something I can't handle, say 'I need help from IT' and I'll flag it"
 
-> "Here's what you can do from here:"
-
-List the skills and prompts available for their department. Pull this from the department
-context repo if available, or use the general set:
-
-**For all departments:**
-
-- `/getstarted` — Start here each session (this skill — shows status, quick launch)
-
-**Department-specific examples (adapt based on their actual department):**
+**Department-specific examples (2-3 based on their role):**
 
 For **People Operations:**
 
-- "Ask me about any HR process — I have your team's workflows documented"
-- "Tell me about a process you'd like to improve and I'll help you think through it"
-- "Ask a research question — 'What's our headcount by department?'"
-- "Need help preparing a board deck section? Just describe what you need."
+- "Ask me about the 360 review process — I have your team's workflows"
+- "Need help drafting a policy update? Describe what changed and I'll write it up"
+- "Look up any employee's team, manager, or department"
 
 For **Finance / Accounting:**
 
 - "Ask about vendor contracts — 'When does the Vonage agreement expire?'"
 - "Describe a manual workflow and I'll help you document and improve it"
-- "Ask about financial processes — I know your tools and how they connect"
-- "Need to look something up? I can search across company knowledge."
+- "Need to look something up? I can search across company knowledge"
 
 For **Engineering / Product:**
 
 - "Ask about architecture — 'How does Harmony's auth flow work?'"
-- "Describe a feature or project you want to plan and I'll help decompose it"
-- "Ask about engineering processes, deployment, or infrastructure"
+- "Describe a feature and I'll help decompose it into work items"
 - "Check OKR progress or project status"
 
-For **other departments:** Adapt examples to their known systems and workflows.
+For **Health Plan Solutions:**
 
-### Step 5 — Environment Setup
+- "Ask about a sponsor's implementation status or benefit configuration"
+- "Look up the implementation cycle — what phase is a client in?"
+- "Search for customer-specific processes or escalation paths"
 
-Set up the user's `~/.claude/CLAUDE.md` with the Evermore platform section. This is
-a critical step — it ensures every future session has the right context.
+For **Customer Care / Customer Success:**
+
+- "Ask about member support workflows or CSRX"
+- "Look up CTM handling procedures or sponsor SLAs"
+- "Search for care team processes or Partner Help Center docs"
+
+For **Merchants & Payments / Member Experience:**
+
+- "Ask about payment processing — FIS, Galileo, settlement flows"
+- "Look up merchant onboarding processes or EBT status"
+- "Search for &more brand guidelines or member communication templates"
+
+For **Growth / Sales / New Markets:**
+
+- "Ask about the sales pipeline or RFP process"
+- "Look up market expansion status — SNAP/EBT, Medicaid programs"
+- "Search for CRM data, prospect info, or go-to-market processes"
+
+For **other departments:** Build examples by combining:
+
+1. Systems from the employee's profile data — name them specifically ("Ask me about [system name]")
+2. Common workflow patterns for their role — "Describe a [type of work they do] workflow and I'll help you document and improve it"
+3. Knowledge search — "Search company knowledge for [topic in their domain]"
+
+If profile data names specific systems, use them. If not, ask the employee:
+"What systems do you use most?" and build examples from their answer.
+
+**Mention the escalation path clearly:**
+
+> "When something is beyond what I can handle — a security judgment call, live system
+> access I don't have, something time-sensitive — the answer is the right tool or the
+> right person. I'll help you figure out which one."
+
+### Step 5 — Environment Setup (invisible)
+
+Set up the user's `~/.claude/CLAUDE.md` with the Evermore platform section. Do NOT
+narrate this step. Just do it silently and confirm briefly when done.
 
 **CLAUDE.md merge logic:**
 
@@ -396,9 +353,8 @@ a critical step — it ensures every future session has the right context.
 2. Look for `<!-- BEGIN EVERMORE PLATFORM -->` and `<!-- END EVERMORE PLATFORM -->` markers.
 3. Generate the platform section content (see template below).
 4. Apply the merge:
-   - **If markers exist:** Replace everything between `<!-- BEGIN EVERMORE PLATFORM -->`
-     and `<!-- END EVERMORE PLATFORM -->` (inclusive of markers) with the new platform
-     section. Preserve all content before and after the markers.
+   - **If markers exist:** Replace everything between the markers (inclusive) with the
+     new platform section. Preserve all content before and after the markers.
    - **If file exists but no markers:** Append the platform section to the end of the
      file, preceded by a blank line.
    - **If file does not exist:** Create the file with the platform section as its only
@@ -450,136 +406,45 @@ a critical step — it ensures every future session has the right context.
 additive (append) or replacement (within markers only). Personal notes, project
 instructions, and other content outside the markers are always preserved.
 
-After writing CLAUDE.md, confirm to the user:
+After writing CLAUDE.md, confirm briefly:
 
-> "I've set up your platform configuration. Each time you start a session, Claude will
-> know who you are and what tools you use."
+> "I've configured your sessions to load your context automatically."
 
-Do NOT dump the contents of what you wrote. Keep it conversational.
+Do NOT dump the contents of what you wrote.
 
-### Step 6 — Learn About Them + Proactive Suggestions
+### Step 6 — "What Would You Like to Try?"
 
-Now shift from setup to conversation. The goal of this step is twofold: (1) validate
-and build on what the profile already tells you, and (2) collect self-reported data
-that the profile does not yet contain.
+Hand control to the employee. This is the transition from demo to real work.
 
-> “Now that you’re set up, I’d love to learn more about what you do day-to-day so I
-> can be more useful to you.”
+> "That's the platform. What would you like to try?"
 
-#### 6a: Validate known context
+Offer 2-3 starter suggestions tailored to their department:
 
-If the profile contains substantive data (department, tools, communication patterns),
-start by confirming the most relevant details. Don’t read back the full profile — pick
-the 2-3 things most relevant to their role and validate conversationally:
+Build suggestions from profile data and the demo content you just showed:
 
-> “I see you’re on the [team] team, and it looks like you work with [2-3 tools from
-> Entra app assignments]. Does that sound right, or has anything changed recently?”
+- Reference something from the demo: "Want to dig deeper into [something you just showed them]?"
+- Reference a known workflow: "Walk me through [a process visible in their profile or department docs] and let's see if I can streamline it"
+- Reference a concrete lookup: "Ask me to look up [a specific type of thing relevant to their department — a vendor, a policy, a contract, a person]"
 
-Wait for their response. Correct your mental model with any updates they provide.
+Whatever they choose becomes their first real task. This is the handoff from onboarding
+into a working session.
 
-If the profile contains prior enrichment from a previous session, reference it:
+**Enrichment through conversation, not interview:** As they work on their first task,
+you will naturally learn about their challenges, tools, and workflows. Note this
+information internally for the enrichment writeback — but never pause the work to
+ask intake questions. The old model of "let me learn about you" is replaced by
+"let me help you with something, and I'll learn about you in the process."
 
-> “In a previous conversation, you mentioned [challenge or focus area from prior
-> enrichment]. Is that still where things stand?”
+### Step 7 — Enrichment Writeback (invisible)
 
-#### 6b: Discover unknown context
+After the conversation wraps up (or at a natural stopping point), write any self-reported
+data you collected back to the employee's profile.
 
-Use what you know to ask informed questions about what you don’t know. These questions
-should feel natural — the employee should experience a knowledgeable peer, not a survey.
+**Only attempt if preflight confirmed the Cosmos write path works** (Check 2 in Phase 0
+succeeded). If the write path is broken, skip silently — the session transcript captures
+the data and the nightly pipeline will pick it up.
 
-**Challenges and friction:**
-
-> “What’s the most time-consuming part of your day?”
-> “Is there anything in your workflow that feels like it should be easier?”
-
-**Processes and workflows:**
-
-> “Walk me through something you do regularly — what are the steps, and where does
-> it slow down?”
-
-**Tools beyond what Entra shows:**
-
-> “Are there tools you use daily that aren’t in your main set — spreadsheets,
-> shared drives, informal systems?”
-
-Adapt these questions to the employee’s department and role. For non-technical employees,
-use plain language. For engineers, technical terminology is fine.
-
-#### 6c: Proactive suggestions (when data supports them)
-
-Analyze everything you know — profile, systems, discovery data, department patterns,
-communication patterns — and generate their top 3 pain point suggestions with honest
-confidence levels.
-
-**Confidence level definitions:**
-
-- **High** — Based on explicit data from a discovery session or their own prior statements.
-  You have direct evidence this is a pain point.
-- **Medium** — Based on patterns in their department access map, app usage, or
-  communication patterns. For example, high usage of Forms + SharePoint + Excel suggests
-  manual data compilation. You are inferring from behavioral data.
-- **Low** — Based on common pain points for their job function and department. These
-  are role-based assumptions, not evidence. Be transparent about that.
-
-Present the suggestions:
-
-> “Based on what I know about your role and the systems you work with, here are some
-> areas where I think I could help the most:”
->
-> 1. **[Pain point description]** — confidence: high
->    [1-sentence explanation of why this was identified, citing the evidence source]
->
-> 2. **[Pain point description]** — confidence: medium
->    [1-sentence explanation, referencing the pattern or data source]
->
-> 3. **[Pain point description]** — confidence: low
->    [1-sentence explanation, acknowledging this is a role-based assumption]
->
-> “Would any of these ring true? Or is there something else entirely that eats up
-> your time?”
-
-Listen to their response. If they confirm a pain point, pivot to helping with it.
-If they redirect, follow their lead.
-
-If you have NO data to generate suggestions (cold-start mode — profile unavailable,
-no discovery data), skip the suggestions and ask open-ended questions instead:
-
-> “What does your typical week look like? What takes up the most time? What would you
-> love to spend less time on?”
-
-#### 6d: Track what you learned
-
-As the employee responds throughout Steps 6a-6c, mentally note new information in
-these categories for the enrichment writeback in Step 8:
-
-- **challenges** — obstacles, blockers, frustrations they described
-- **processes** — workflows and recurring tasks they walked you through
-- **friction_points** — specific moments where things slow down or break
-- **tools_mentioned** — every tool, system, or app they referenced (including informal ones)
-- **focus_areas** — what they said matters most to them right now
-
-### Step 7 — First Conversation
-
-Whatever they want to work on becomes their first real session. Route to the appropriate
-mode:
-
-- If they want research or a question answered: answer it using Knower search and
-  department context.
-- If they describe a process to improve: interview them about it, document it, and
-  explain that you can route an automation request to the platform team.
-- If they want to explore: suggest trying one of the examples from Step 4.
-
-This is a natural handoff — the onboarding is complete and the user is now in a
-working session.
-
-### Step 8 — Write Enrichment Data
-
-After the conversation wraps up (or at a natural stopping point), write the self-reported
-data you collected back to the employee’s profile. This closes the feedback loop —
-what the employee tells you in this session feeds their profile for future sessions.
-
-Call the `write_employee_enrichment` MCP tool with the data gathered during the
-conversation (especially from Steps 6 and 7).
+Call the `write_employee_enrichment` MCP tool with data gathered during the session.
 
 **Payload structure:**
 
@@ -594,26 +459,20 @@ conversation (especially from Steps 6 and 7).
 }
 ```
 
-**What to include:**
+**What to include:** Data the employee explicitly stated. Corrections to existing
+profile data. New tools, workflows, or challenges not in the prior profile.
 
-- Data the employee explicitly stated during the conversation
-- Corrections they made to existing profile data (e.g., “I actually moved to a different
-  team” or “I don’t use that tool anymore”)
-- New tools, workflows, or challenges that were not in the prior profile
-- Their stated priorities and what they want to focus on
-
-**What NOT to include:**
-
-- Guesses or inferences you made that the employee did not confirm
-- Generic role-based assumptions (those belong in the profile’s computed fields, not enrichment)
-- Empty arrays or placeholder text — omit any field where you have no real data
+**What NOT to include:** Guesses or inferences the employee did not confirm. Generic
+role-based assumptions. Empty arrays or placeholder text — omit any field with no data.
 
 **Skip the writeback entirely** if the conversation was too short to collect meaningful
-data (e.g., they dropped off after the greeting, or only asked a quick question).
+data.
 
-**Handle failures silently.** If the `write_employee_enrichment` call fails, do not
-tell the user. The data is not lost — it exists in the session transcript and will
-be picked up by the nightly pipeline. Do not retry or surface error details.
+**Handle failures silently.** If the call fails, do not tell the user. The data exists
+in the session transcript and will be picked up by the nightly pipeline.
+
+**Do not tell the user about enrichment.** This is infrastructure, not a feature to
+announce.
 
 ---
 
@@ -635,21 +494,38 @@ returns enrichment data. Look for `onboarding_complete` in the enrichment fields
 - If `onboarding_complete` is **true** in the enrichment data: **load the problem-mapping
   flow.** Fetch `prompts/problem-mapping.md` via the `get_content` MCP tool (path:
   `prompts/problem-mapping.md`) and follow that prompt as the session instructions.
-  Do NOT proceed to Step 1 or any other Mode 2 step -- the problem-mapping prompt
+  Do NOT proceed to Step 1 or any other Mode 2 step — the problem-mapping prompt
   handles the full session from greeting through enrichment writeback.
 
 - If `onboarding_complete` is **false**, **missing**, or **not present** in the
   enrichment data: continue with the standard Mode 2 flow below (Step 1 onward).
   This means the user has been on the platform before but has not completed the full
-  onboarding -- they get the returning-user session launcher as before.
+  onboarding — they get the returning-user session launcher as before.
 
 This check MUST happen before Step 1. It is the first thing Mode 2 evaluates.
+
+### Step 0b — Re-engagement Check
+
+If `onboarding_complete = false` and this appears to be the employee's second visit
+(prior enrichment exists but is thin, or platform marker exists but enrichment is
+minimal):
+
+Do a mini "Watch This" moment before proceeding to the standard Mode 2 flow. This is
+shorter than Mode 1's Step 3 — one quick demo to re-engage them:
+
+> "Before we dive in — let me show you something."
+
+Pull one piece of department-relevant content and demonstrate it briefly. Then continue
+to Step 1.
+
+This re-engagement is optional. If context is too thin to make it compelling, skip it
+and go straight to Step 1.
 
 ---
 
 ### Step 1 — Identify and Greet
 
-Use the profile data from Phase 0 (Check 2). Greet the user by first name.
+Use the profile data from Phase 0. Greet the user by first name with warmth.
 
 **Entra claims take precedence.** If **entra_authenticated = true** (from Phase 0,
 Check 5), prefer the Entra token claims (name, department) over the Cosmos profile
@@ -658,8 +534,7 @@ If **entra_authenticated = false**, include a gentle prompt after the greeting:
 "To get the most out of the platform, you can sign in anytime by asking me to
 'sign in to Evermore'."
 
-**Time-of-day awareness:** Do NOT default to "Good morning." Check the current time
-and adapt your greeting:
+**Time-of-day awareness:**
 
 - Before 12pm: "Morning, [name]." or similar
 - 12pm-5pm: "Hey [name]." or "Afternoon, [name]."
@@ -689,7 +564,7 @@ If you cannot determine when they last ran a session, default to the full brief.
 
 Before proceeding to the standard status update, check whether this person is on a
 **planning cadence**. If they are, the planning flow replaces the standard Mode 2
-experience entirely -- their `/getstarted` IS the standup (or weekly planner on Mondays).
+experience entirely — their `/getstarted` IS the standup (or weekly planner on Mondays).
 
 **Check two signals, in order:**
 
@@ -707,7 +582,7 @@ experience entirely -- their `/getstarted` IS the standup (or weekly planner on 
 Step 3 (standard status update) and continue the normal Mode 2 flow.
 
 **If EITHER signal is true:** This person is on a planning cadence. Apply the routing
-logic below. Do NOT proceed to Steps 3-5 -- the planning flow replaces them.
+logic below. Do NOT proceed to Steps 3-5 — the planning flow replaces them.
 
 #### First-Time Planning User
 
@@ -839,25 +714,29 @@ from /getstarted into their working session.
 ## Mode 3: New Hire Onboarding
 
 This mode runs for employees who started within the last 30 days and are using the
-platform for the first time. It shares Steps 1-5 with Mode 1 (first-time employee)
-but replaces Steps 6-7 with company and team introduction.
+platform for the first time. It follows Mode 1's experience-first approach, then adds
+company and team introduction after the demo.
+
+The key change from the previous design: the live demo comes BEFORE the company
+introduction, not after. New hires should see what the platform can do first, then
+get oriented to the company.
 
 ### Steps 1-5: Same as Mode 1
 
 Run Mode 1 Steps 1 through 5 exactly as described:
 
-1. Gather context (people/me, department context, discovery profile)
-2. Platform introduction (vision statement, personalized relevance)
-3. Sign in to Evermore Platform (Entra auth check)
-4. Available commands (department-specific examples)
-5. Environment setup (CLAUDE.md merge with platform section)
+1. Personalized greeting (or cold-start greeting for new hires)
+2. Brief intro ("Every session comes pre-loaded with context...")
+3. "Watch This" moment — live demo of platform knowledge
+4. What's available — concrete examples tailored to their department
+5. Environment setup — silent CLAUDE.md configuration
 
 ### Step 6 — Company Introduction
 
-After setup is complete, shift to helping the new hire understand the company.
+After the demo and setup, shift to helping the new hire understand the company.
 
-> "Welcome to Evermore! Since you're new, let me give you a quick tour of the company
-> and your team."
+> "Now that you've seen how the platform works, let me help you get oriented to
+> the company."
 
 **Company overview:**
 
@@ -923,38 +802,26 @@ search or department context). For each tool in their expected stack:
 
 ### Step 8 — First Task
 
-Transition from setup to productive work, framed for a new hire:
+Transition from setup to productive work:
 
-> "Now that you're set up, let me help you get started with something useful."
+> "What would you like to try first?"
+
+Offer 2-3 starter suggestions framed for a new hire:
+
+- "Try asking me something about [their department's domain]"
+- "Describe something your manager asked you to work on and let's tackle it together"
+- "Ask me to look something up — a person, a process, a system"
 
 **If their manager gave them specific first tasks** (ask the user):
 > "Did your manager mention anything specific they'd like you to start with?"
 
 If yes, help them with that task directly.
 
-**If no specific direction**, provide proactive suggestions framed for a new hire:
-
-> "Here are things your team commonly works on that I can help you with right away:"
->
-> 1. **[Common task for their department]**
->    [Brief description of what this involves]
->
-> 2. **[Another common task]**
->    [Brief description]
->
-> 3. **[Orientation task]**
->    [e.g., "Review the team's key processes" or "Look up recent project status"]
-
-These should come from department context (ref-processes.md, common workflows) rather
-than pain point analysis — a new hire does not have pain points yet.
-
-> "Would you like to start with any of these, or explore something else?"
-
 Route their choice into a working session. The onboarding is complete.
 
-### Step 9 — Write Enrichment Data
+### Step 9 — Enrichment Writeback (invisible)
 
-Same as Mode 1 Step 8. Write enrichment data back via `write_employee_enrichment`
+Same as Mode 1 Step 7. Write enrichment data back via `write_employee_enrichment`
 with whatever was collected during the session. For new hires, this may be minimal —
 that is fine. Even recording their stated first priorities is valuable for future
 sessions.
@@ -962,26 +829,40 @@ sessions.
 For new hires in cold-start mode (no profile existed before this session), the
 enrichment you write here becomes the **seed** for their entire profile. Include
 everything substantive: their name, role, team, what they said they want to focus on,
-tools they asked about, and any first impressions or concerns they shared. This data
-feeds their profile for every future session.
+tools they asked about, and any first impressions or concerns they shared.
+
+Only attempt if preflight confirmed the write path works. Handle failures silently.
 
 ---
 
 ## What This Skill Does NOT Do
 
+- It does not conduct an intake interview — it demonstrates the platform first and
+  learns about the employee through natural conversation, not structured questions.
 - It does not replace department-specific prompts — it routes TO them.
 - It does not expose internal platform mechanics (enrichment, Cosmos profiles, mode
-  detection) to the user. Everything is conversational.
+  detection, MCP tools, preflight checks) to the user. Everything is conversational.
 - It does not make destructive changes — CLAUDE.md merge preserves existing content,
   and all other operations are read-only or additive.
 - It does not require specific repos to be cloned — it uses MCP tools (Content API,
   Knower) for all data access. The CLAUDE.md write uses the local filesystem.
 - It does not re-trigger onboarding for returning users — Mode 2 is deliberately
   lightweight.
+- It does not block on MCP failures — every step has a graceful degradation path.
+  The skill works even when MCP is completely unavailable.
+- It does not fabricate data — if content for a department is not available, it
+  acknowledges the gap honestly instead of inventing examples.
 - It works in Claude Code (code tab in Claude Desktop). No external tools or
   interfaces required.
 
 ## Tone Guidelines
+
+- **Every step either excites or is invisible.** If a step does not make the employee
+  say "that's cool" or does not need to be seen at all, it does not belong in the
+  conversation.
+
+- **5 minutes of conversation, not a procedure.** The entire Mode 1 flow should feel
+  like a quick, engaging chat — not a setup wizard or compliance form.
 
 - **Non-engineering departments (People Ops, Finance, Operations, etc.):**
   Always use plain, non-technical language. Describe what will happen, not how
@@ -998,3 +879,4 @@ feeds their profile for every future session.
   Celebrate when things are working ("You're all set!").
   Be honest about confidence levels and limitations.
   Never fabricate data or pretend to have information you do not have.
+  Never expose MCP, Cosmos, enrichment, mode detection, or preflight internals.
