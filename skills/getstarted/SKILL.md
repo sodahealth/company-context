@@ -328,6 +328,7 @@ For **Growth / Sales / New Markets:**
 - "Search for CRM data, prospect info, or go-to-market processes"
 
 For **other departments:** Build examples by combining:
+
 1. Systems from the employee's profile data — name them specifically ("Ask me about [system name]")
 2. Common workflow patterns for their role — "Describe a [type of work they do] workflow and I'll help you document and improve it"
 3. Knowledge search — "Search company knowledge for [topic in their domain]"
