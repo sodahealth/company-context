@@ -89,6 +89,7 @@ Ask:
 > that lets you take a screenshot or record your screen. Useful for showing IT an error."
 
 Ask: "Are you pretty comfortable with Mac, or is this your first time?"
+
 - If first time: mention the Apple Mac user guide exists online if they want it later.
 - Either way: move on.
 
@@ -120,7 +121,7 @@ Walk them through:
    > "At some point it will show you a PDF with your Secret Key. Save that PDF somewhere
    > safe — not just your desktop. Think of it like a backup key to your vault. If you
    > lose it, recovery is a pain. Where are you thinking of saving it?"
-   
+
    (Wherever they say is fine. Just get them to save it before moving on.)
 
 4. "You'll need a second email to finish — that usually arrives in 5-15 minutes.
@@ -141,6 +142,7 @@ Walk them through:
 > any personal browsing. It'll also sync across devices if you have Chrome elsewhere."
 
 Walk them through:
+
 1. Open Chrome → click the profile icon → "Sign in to Chrome" → enter work email
 2. "Once you're signed in, set Chrome as your default browser: open System Settings,
    go to Desktop & Dock, and at the bottom you'll see 'Default web browser'. Switch it
@@ -162,6 +164,7 @@ Ask: "Got those turned off and on?"
 > It keeps your laptop secure and up to date automatically."
 
 Key things to tell them:
+
 - **Red dot = updates waiting.** "When you see a red dot on Iru, install the updates.
   Don't ignore them."
 - **It will force updates eventually.** "If you skip updates too long, Iru will install
@@ -173,6 +176,7 @@ Key things to tell them:
   permission. Before you click Allow, make sure it's something you recognize."
 
 Ask: "Can you see Iru on your desktop or in your Applications folder?"
+
 - If not visible: "It may still be installing — Kandji runs in the background after
   first login. It should appear within about 15 minutes. Keep an eye out for it."
 
@@ -181,11 +185,12 @@ Ask: "Can you see Iru on your desktop or in your Applications folder?"
 > "Evermore uses Single Sign-On — SSO — which means you sign in once and it unlocks
 > all your apps. The way most people think of it: you use your Evermore email to log
 > into everything, instead of making separate usernames and passwords."
-
+>
 > "Your home base is myapps.microsoft.com — open that in Chrome and log in with
 > your work email. Every app we use shows up there as a tile."
 
 Walk them through checking access:
+
 1. "Click the Atlassian tile. That's Confluence (our wiki) and Jira (project tracking).
    Does it let you in?"
    - Yes → ✅
@@ -208,7 +213,7 @@ Walk them through checking access:
 
 > "Let's check if that second 1Password email came through."
 
-- **If yes:** 
+- **If yes:**
   > "Great — use that email along with your username, your Secret Key from the PDF,
   > and the password you just set to finish signing in. Let me know when you're into
   > your vault."
@@ -232,7 +237,7 @@ After 1Password desktop is set up:
 > "Last thing for 1Password: let's pin it in Chrome so it's always one click away.
 > Click the puzzle piece icon in Chrome's toolbar — that's Extensions. Find 1Password,
 > click Connect, then click the pin icon to keep it visible."
-
+>
 > "Once it's pinned, sign in to 1Password from the extension. From now on it'll
 > autofill your passwords and suggest new ones when you're creating accounts."
 
@@ -270,11 +275,11 @@ Once they're in, tell them the key channels to join:
 
 > "One thing IT takes seriously here: phishing. Bad actors do try to impersonate
 > leadership — especially our CEO — or fake company emails."
-
+>
 > "The rule is simple: if an email feels off, don't click anything. Check the sender's
 > email address carefully. If something seems wrong, post it in `#it-sec-private`
 > and ask — you won't look silly. That channel exists exactly for that."
-
+>
 > "There's also a Report button in Outlook for suspicious emails — if you see it, use
 > it. It helps train our spam filter and protects everyone."
 
@@ -291,7 +296,7 @@ Once they're in, tell them the key channels to join:
 > sodahealth.atlassian.net/servicedesk/customer/portal/3. Bookmark that.
 > It's where you submit requests for access, report broken things, or request
 > an AI tool license. Tickets get tracked so nothing falls through the cracks."
-
+>
 > "For quick or urgent things, `#it-sec-private` in Slack is faster. Use the
 > portal for anything non-urgent."
 
@@ -313,8 +318,9 @@ Once they're in, tell them the key channels to join:
 > "There's one policy you'll need to read and acknowledge: the Acceptable Use policy
 > in Confluence. It covers what you can and can't do with company systems. It's not
 > long. When you have a few minutes, search for it in Confluence and sign off on it."
-
+>
 > "Quick list of what not to do:
+>
 > - Don't put work files in personal Google Drive or Dropbox → SharePoint or company Google Drive only
 > - Don't use ChatGPT for work → Microsoft Copilot is the approved AI tool here
 > - Don't ignore Kandji/Iru update prompts → those are compliance requirements, not optional"
@@ -391,6 +397,7 @@ Then continue from the right phase.
 ### On completion
 
 Write:
+
 ```json
 {
   "preferences": {

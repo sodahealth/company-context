@@ -1,6 +1,7 @@
 ---
 title: "Carey Willson — COO"
 summary: "Profile for Carey Willson, Chief Operating Officer at Evermore"
+content_type: "reference"
 topics: [people, leadership, executive]
 departments: [leadership]
 roles: [it]
@@ -15,7 +16,7 @@ review_cycle_days: 90
 **Reports to:** Robby Knight (CEO)
 **Start date:** April 20, 2026
 **Timezone:** America/Los_Angeles (Pacific)
-**Email:** carey.willson@sodahealth.com (also: carey.willson@evermoreoutcomes.com)
+**Email:** <carey.willson@sodahealth.com> (also: <carey.willson@evermoreoutcomes.com>)
 **Slack:** carey.willson (U0AP06Z9HKM)
 
 ## Role

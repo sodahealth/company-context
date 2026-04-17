@@ -51,7 +51,7 @@ Robby Knight (CEO)
 - **Role:** COO — cross-functional operations, scaling the company's execution capacity.
   Reports directly to Robby Knight.
 - **Timezone:** Pacific (America/Los_Angeles)
-- **Email:** carey.willson@sodahealth.com
+- **Email:** <carey.willson@sodahealth.com>
 - **Slack:** carey.willson (U0AP06Z9HKM)
 - **Starts:** April 20, 2026
 
