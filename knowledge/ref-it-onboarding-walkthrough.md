@@ -103,9 +103,11 @@ Then:
 ## Phase 2 — 1Password (Start and Park) (~5 min)
 
 > "Next up: 1Password — evermore's password manager. It keeps all your login
-> credentials in one place so you only need to remember one master password. More
-> importantly, it generates unique passwords for each site. Reusing passwords is the
-> number-one way accounts get compromised."
+> credentials in one place so you only need to remember one master password. It can
+> also generate strong unique passwords for each site if you want — or you can create
+> your own passwords and just save them to 1Password, whichever you prefer. The
+> important thing is that passwords aren't reused across sites — that's the number-one
+> way accounts get compromised."
 
 **Start this now and park it** — a SCIM confirmation email arrives within ~5 minutes.
 You'll finish the desktop app setup in Phase 5.
