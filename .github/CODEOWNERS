@@ -31,10 +31,40 @@ departments/growth/                 @umangkapadia-sodahealth
 # Update to a specific lead if a single DRI is preferred
 departments/engineering/            @sodahealth/engineering-ad
 
+# ── Care ──────────────────────────────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with Care lead's GitHub handle
+#       once they are onboarded
+departments/care/                   @umangkapadia-sodahealth
+
+# ── Finance ───────────────────────────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with Finance lead's GitHub handle
+#       once they are onboarded
+departments/finance/                @umangkapadia-sodahealth
+
+# ── Leadership ────────────────────────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with Leadership lead's GitHub handle
+#       once they are onboarded
+departments/leadership/             @umangkapadia-sodahealth
+
+# ── MX ────────────────────────────────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with MX lead's GitHub handle
+#       once they are onboarded
+departments/mx/                     @umangkapadia-sodahealth
+
+# ── People Ops ────────────────────────────────────────────────────────────────
+# TODO: Replace @umangkapadia-sodahealth with People Ops lead's GitHub handle
+#       once they are onboarded
+departments/peopleops/              @umangkapadia-sodahealth
+
 # ── Shared content (IT-owned) ────────────────────────────────────────────────
 departments/shared/                 @umangkapadia-sodahealth
 /knowledge/                         @umangkapadia-sodahealth
-/skills/                            @umangkapadia-sodahealth
 /prompts/                           @umangkapadia-sodahealth
 /config/                            @umangkapadia-sodahealth
 /.github/                           @umangkapadia-sodahealth
+
+# ── Skills (onboarding + shared) ─────────────────────────────────────────────
+# GitHub CODEOWNERS uses last-match-wins, so catch-all first, specifics after
+/skills/                            @umangkapadia-sodahealth
+/skills/getstarted/                 @umangkapadia-sodahealth
+/skills/growth-feedback/            @umangkapadia-sodahealth @sodahealth/product

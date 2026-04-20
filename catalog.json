@@ -1,19 +1,31 @@
 {
-  "generated_at": "2026-03-18T22:57:18.240995+00:00",
+  "generated_at": "2026-04-20T13:56:45.491635+00:00",
   "documents": [
     {
       "path": "departments/care/knowledge/ref-systems.md",
       "title": "Care Systems and Access",
-      "summary": "Systems, tools, and access groups used by the Care team",
+      "summary": "Systems, tools, and access groups used by the Customer Care and Customer Success teams",
       "topics": [
         "access",
         "systems",
         "tools",
-        "care"
+        "care",
+        "customer-success",
+        "customer-care"
       ],
-      "systems": [],
+      "systems": [
+        "csrx",
+        "partner-help-center",
+        "jira",
+        "slack"
+      ],
       "people": [
-        "Care Lead"
+        "Desiree NeuPhresh",
+        "Patrice James",
+        "Micheline Tocco",
+        "Josie Baker",
+        "Rachel McMillan",
+        "Kaity Galanos"
       ],
       "content_type": "reference",
       "departments": [
@@ -24,24 +36,34 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 80,
+      "word_count": 505,
       "has_access_markers": false
     },
     {
       "path": "departments/care/knowledge/ref-team.md",
       "title": "Care Team Structure",
-      "summary": "Care team structure, roles, responsibilities, and key collaborators",
+      "summary": "Customer Care and Customer Success team structure, roles, responsibilities, and key collaborators",
       "topics": [
         "team",
         "organization",
-        "care"
+        "care",
+        "customer-success",
+        "customer-care"
       ],
-      "systems": [],
+      "systems": [
+        "csrx",
+        "partner-help-center"
+      ],
       "people": [
-        "Care Lead"
+        "Desiree NeuPhresh",
+        "Patrice James",
+        "Micheline Tocco",
+        "Josie Baker",
+        "Rachel McMillan",
+        "Kaity Galanos"
       ],
       "content_type": "reference",
       "departments": [
@@ -52,22 +74,30 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 78,
+      "word_count": 632,
       "has_access_markers": false
     },
     {
       "path": "departments/care/knowledge/ref-tools.md",
       "title": "Care Tools",
-      "summary": "Tools and integrations used by the Care team",
+      "summary": "Tools and integrations used by the Customer Care and Customer Success teams",
       "topics": [
         "tools",
         "integrations",
-        "care"
+        "care",
+        "customer-success",
+        "customer-care"
       ],
-      "systems": [],
+      "systems": [
+        "csrx",
+        "partner-help-center",
+        "jira",
+        "slack",
+        "chime"
+      ],
       "people": [],
       "content_type": "reference",
       "departments": [
@@ -78,16 +108,16 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 53,
+      "word_count": 321,
       "has_access_markers": false
     },
     {
       "path": "departments/care/people/care.lead.md",
-      "title": "Care Lead",
-      "summary": "Lead, CARE -- department lead",
+      "title": "Desiree NeuPhresh",
+      "summary": "Senior Director, Customer Care -- leads call center operations, agent training, Partner Help Center, and CTM handling",
       "topics": [],
       "systems": [],
       "people": [],
@@ -96,23 +126,35 @@
       "roles": [],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 34,
+      "word_count": 277,
       "has_access_markers": false
     },
     {
       "path": "departments/care/prompts/assistant.md",
       "title": "Care Assistant",
-      "summary": "Assistant prompt for Care team members with research and automation modes",
+      "summary": "Assistant prompt for Customer Care and Customer Success team members with research and automation modes",
       "topics": [
         "assistant",
-        "care"
+        "care",
+        "customer-care",
+        "customer-success",
+        "member-support"
       ],
-      "systems": [],
+      "systems": [
+        "csrx",
+        "partner-help-center",
+        "jira"
+      ],
       "people": [
-        "Care Lead"
+        "Desiree NeuPhresh",
+        "Patrice James",
+        "Micheline Tocco",
+        "Josie Baker",
+        "Rachel McMillan",
+        "Kaity Galanos"
       ],
       "content_type": "prompt",
       "departments": [
@@ -123,10 +165,10 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 370,
+      "word_count": 914,
       "has_access_markers": false
     },
     {
@@ -334,7 +376,7 @@
       "last_verified": "2026-03-18",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 940,
+      "word_count": 939,
       "has_access_markers": false
     },
     {
@@ -1011,17 +1053,31 @@
     },
     {
       "path": "departments/finance/knowledge/ref-systems.md",
-      "title": "Finance Systems and Access",
-      "summary": "Systems, tools, and access groups used by the Finance team",
+      "title": "Finance & Legal Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Finance and Legal teams",
       "topics": [
         "access",
         "systems",
         "tools",
-        "finance"
+        "finance",
+        "legal",
+        "compliance"
       ],
-      "systems": [],
+      "systems": [
+        "bill-com",
+        "ironclad",
+        "vanta",
+        "sharepoint",
+        "office-365"
+      ],
       "people": [
-        "Finance Lead"
+        "Brian Ru",
+        "Zach Newcomb",
+        "Shaun Rizzolo",
+        "Greg McNeal",
+        "Yahitza Nuñez",
+        "Ryan Rasdall",
+        "Julio Melendez"
       ],
       "content_type": "reference",
       "departments": [
@@ -1032,24 +1088,36 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 80,
+      "word_count": 398,
       "has_access_markers": false
     },
     {
       "path": "departments/finance/knowledge/ref-team.md",
-      "title": "Finance Team Structure",
-      "summary": "Finance team structure, roles, responsibilities, and key collaborators",
+      "title": "Finance & Legal Team Structure",
+      "summary": "Finance and Legal team structure, roles, responsibilities, and key collaborators",
       "topics": [
         "team",
         "organization",
-        "finance"
+        "finance",
+        "legal",
+        "compliance"
       ],
-      "systems": [],
+      "systems": [
+        "bill-com",
+        "ironclad",
+        "vanta"
+      ],
       "people": [
-        "Finance Lead"
+        "Brian Ru",
+        "Zach Newcomb",
+        "Shaun Rizzolo",
+        "Greg McNeal",
+        "Yahitza Nuñez",
+        "Ryan Rasdall",
+        "Julio Melendez"
       ],
       "content_type": "reference",
       "departments": [
@@ -1060,22 +1128,30 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 78,
+      "word_count": 486,
       "has_access_markers": false
     },
     {
       "path": "departments/finance/knowledge/ref-tools.md",
-      "title": "Finance Tools",
-      "summary": "Tools and integrations used by the Finance team",
+      "title": "Finance & Legal Tools",
+      "summary": "Tools and integrations used by the Finance and Legal teams",
       "topics": [
         "tools",
         "integrations",
-        "finance"
+        "finance",
+        "legal",
+        "compliance"
       ],
-      "systems": [],
+      "systems": [
+        "bill-com",
+        "ironclad",
+        "vanta",
+        "sharepoint",
+        "office-365"
+      ],
       "people": [],
       "content_type": "reference",
       "departments": [
@@ -1086,16 +1162,16 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 53,
+      "word_count": 317,
       "has_access_markers": false
     },
     {
       "path": "departments/finance/people/finance.lead.md",
-      "title": "Finance Lead",
-      "summary": "Lead, Finance -- department lead",
+      "title": "Brian Ru",
+      "summary": "Head of Corporate Development and Finance -- department lead",
       "topics": [],
       "systems": [],
       "people": [],
@@ -1104,23 +1180,37 @@
       "roles": [],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 34,
+      "word_count": 221,
       "has_access_markers": false
     },
     {
       "path": "departments/finance/prompts/assistant.md",
-      "title": "Finance Assistant",
-      "summary": "Assistant prompt for Finance team members with research and automation modes",
+      "title": "Finance & Legal Assistant",
+      "summary": "Assistant prompt for Finance and Legal team members with research and automation modes",
       "topics": [
         "assistant",
-        "finance"
+        "finance",
+        "legal",
+        "compliance",
+        "invoicing",
+        "contracts"
       ],
-      "systems": [],
+      "systems": [
+        "bill-com",
+        "ironclad",
+        "vanta"
+      ],
       "people": [
-        "Finance Lead"
+        "Brian Ru",
+        "Zach Newcomb",
+        "Shaun Rizzolo",
+        "Greg McNeal",
+        "Yahitza Nuñez",
+        "Ryan Rasdall",
+        "Julio Melendez"
       ],
       "content_type": "prompt",
       "departments": [
@@ -1131,25 +1221,49 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 370,
+      "word_count": 898,
       "has_access_markers": false
     },
     {
       "path": "departments/growth/knowledge/ref-systems.md",
-      "title": "Growth Systems and Access",
-      "summary": "Systems, tools, and access groups used by the Growth team",
+      "title": "Growth, Sales & New Markets Systems and Access",
+      "summary": "Systems, tools, and access groups used by Growth, Sales, and New Markets",
       "topics": [
         "access",
         "systems",
         "tools",
-        "growth"
+        "growth",
+        "sales",
+        "new-markets"
       ],
-      "systems": [],
+      "systems": [
+        "salesforce",
+        "hubspot",
+        "sharepoint",
+        "auth0",
+        "office-365",
+        "zoom",
+        "brex",
+        "microsoft-forms",
+        "atlassian-cloud",
+        "smartsheet"
+      ],
       "people": [
-        "Alex Kochanik"
+        "Jared Childs",
+        "Trish Lin",
+        "Alex Kochanik",
+        "Casey Bartolucci",
+        "Jacob Murphy",
+        "Reid Smith",
+        "Jon Sayer",
+        "Sarah Hagan",
+        "Julie Nguyen",
+        "Lara Lasic",
+        "Mason Joyner",
+        "Ale Palmer"
       ],
       "content_type": "reference",
       "departments": [
@@ -1160,24 +1274,40 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 80,
+      "word_count": 653,
       "has_access_markers": false
     },
     {
       "path": "departments/growth/knowledge/ref-team.md",
-      "title": "Growth Team Structure",
-      "summary": "Growth team structure, roles, responsibilities, and key collaborators",
+      "title": "Growth, Sales & New Markets Team Structure",
+      "summary": "Team structure, roles, responsibilities, and key collaborators across Growth, Sales, and New Markets",
       "topics": [
         "team",
         "organization",
-        "growth"
+        "growth",
+        "sales",
+        "new-markets"
       ],
-      "systems": [],
+      "systems": [
+        "salesforce",
+        "hubspot"
+      ],
       "people": [
-        "Alex Kochanik"
+        "Jared Childs",
+        "Trish Lin",
+        "Alex Kochanik",
+        "Casey Bartolucci",
+        "Jacob Murphy",
+        "Reid Smith",
+        "Jon Sayer",
+        "Sarah Hagan",
+        "Julie Nguyen",
+        "Lara Lasic",
+        "Mason Joyner",
+        "Ale Palmer"
       ],
       "content_type": "reference",
       "departments": [
@@ -1188,22 +1318,38 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 78,
+      "word_count": 712,
       "has_access_markers": false
     },
     {
       "path": "departments/growth/knowledge/ref-tools.md",
-      "title": "Growth Tools",
-      "summary": "Tools and integrations used by the Growth team",
+      "title": "Growth, Sales & New Markets Tools",
+      "summary": "Tools and integrations used by Growth, Sales, and New Markets",
       "topics": [
         "tools",
         "integrations",
-        "growth"
+        "growth",
+        "sales",
+        "new-markets"
       ],
-      "systems": [],
+      "systems": [
+        "salesforce",
+        "hubspot",
+        "sharepoint",
+        "office-365",
+        "zoom",
+        "confluence",
+        "slack",
+        "brex",
+        "microsoft-forms",
+        "smartsheet",
+        "miro",
+        "calendly",
+        "anthropic-claude"
+      ],
       "people": [],
       "content_type": "reference",
       "departments": [
@@ -1214,16 +1360,16 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 53,
+      "word_count": 492,
       "has_access_markers": false
     },
     {
       "path": "departments/growth/people/alex.kochanik.md",
       "title": "Alex Kochanik",
-      "summary": "Lead, Growth -- department lead",
+      "summary": "Senior Manager, Growth -- marketing, retailer partnerships, in-store media, CPG brand deals",
       "topics": [],
       "systems": [],
       "people": [],
@@ -1232,23 +1378,41 @@
       "roles": [],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 34,
+      "word_count": 184,
       "has_access_markers": false
     },
     {
       "path": "departments/growth/prompts/assistant.md",
-      "title": "Growth Assistant",
-      "summary": "Assistant prompt for Growth team members with research and automation modes",
+      "title": "Growth, Sales & New Markets Assistant",
+      "summary": "Assistant prompt for Growth, Sales, and New Markets team members with research and automation modes",
       "topics": [
         "assistant",
-        "growth"
+        "growth",
+        "sales",
+        "new-markets"
       ],
-      "systems": [],
+      "systems": [
+        "salesforce",
+        "hubspot",
+        "sharepoint",
+        "confluence"
+      ],
       "people": [
-        "Alex Kochanik"
+        "Jared Childs",
+        "Trish Lin",
+        "Alex Kochanik",
+        "Casey Bartolucci",
+        "Jacob Murphy",
+        "Reid Smith",
+        "Jon Sayer",
+        "Sarah Hagan",
+        "Julie Nguyen",
+        "Lara Lasic",
+        "Mason Joyner",
+        "Ale Palmer"
       ],
       "content_type": "prompt",
       "departments": [
@@ -1259,10 +1423,10 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 370,
+      "word_count": 1004,
       "has_access_markers": false
     },
     {
@@ -1606,75 +1770,124 @@
       "has_access_markers": false
     },
     {
-      "path": "departments/mx/knowledge/ref-systems.md",
-      "title": "Merchants & Payments Systems and Access",
-      "summary": "Systems, tools, and access groups used by the Merchants & Payments team",
-      "topics": [
-        "access",
-        "systems",
-        "tools",
-        "mx"
-      ],
-      "systems": [],
-      "people": [
-        "Jared Dauman"
-      ],
-      "content_type": "reference",
-      "departments": [
-        "mx"
-      ],
-      "roles": [
-        "all"
-      ],
-      "classification": "internal",
-      "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
-      "review_cycle_days": 90,
-      "related": [],
-      "word_count": 90,
-      "has_access_markers": false
-    },
-    {
-      "path": "departments/mx/knowledge/ref-team.md",
-      "title": "Merchants & Payments Team Structure",
-      "summary": "Merchants & Payments team structure, roles, responsibilities, and key collaborators",
+      "path": "departments/leadership/knowledge/ref-team.md",
+      "title": "Evermore Leadership Team",
+      "summary": "Executive team structure, roles, and areas of ownership — for the COO and senior leadership orientation",
       "topics": [
         "team",
         "organization",
-        "mx"
+        "leadership",
+        "executive"
       ],
-      "systems": [],
+      "systems": [
+        "rippling",
+        "jira",
+        "confluence",
+        "slack"
+      ],
       "people": [
-        "Jared Dauman"
+        "Robby Knight",
+        "Carey Willson",
+        "Daryl Risinger",
+        "Brian Ru",
+        "Regina Lindsey",
+        "Laura de Crescenzo"
       ],
       "content_type": "reference",
       "departments": [
-        "mx"
+        "leadership"
       ],
       "roles": [
         "all"
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-17",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 84,
+      "word_count": 743,
       "has_access_markers": false
     },
     {
-      "path": "departments/mx/knowledge/ref-tools.md",
-      "title": "Merchants & Payments Tools",
-      "summary": "Tools and integrations used by the Merchants & Payments team",
+      "path": "departments/leadership/people/carey.willson.md",
+      "title": "Carey Willson — COO",
+      "summary": "Profile for Carey Willson, Chief Operating Officer at Evermore",
       "topics": [
-        "tools",
-        "integrations",
-        "mx"
+        "people",
+        "leadership",
+        "executive"
       ],
       "systems": [],
       "people": [],
       "content_type": "reference",
       "departments": [
+        "leadership"
+      ],
+      "roles": [
+        "it"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-17",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 89,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/leadership/prompts/assistant.md",
+      "title": "Leadership Assistant — COO and Executive Team",
+      "summary": "Department assistant prompt for the COO and senior leadership team",
+      "topics": [
+        "leadership",
+        "executive",
+        "operations",
+        "strategy"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "prompt",
+      "departments": [
+        "leadership"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-17",
+      "review_cycle_days": 180,
+      "related": [],
+      "word_count": 226,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/knowledge/ref-systems.md",
+      "title": "MX Systems and Access",
+      "summary": "Systems, tools, and access groups used by the Member Experience and Merchants & Payments teams",
+      "topics": [
+        "access",
+        "systems",
+        "tools",
+        "mx",
+        "payments",
+        "member-experience"
+      ],
+      "systems": [
+        "FIS",
+        "Galileo",
+        "Brex",
+        "SharePoint",
+        "Auth0"
+      ],
+      "people": [
+        "Jared Dauman",
+        "John Michael King",
+        "Julie Fleischer",
+        "Nidhi Nayyar"
+      ],
+      "content_type": "reference",
+      "departments": [
         "mx"
       ],
       "roles": [
@@ -1682,16 +1895,102 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 57,
+      "word_count": 828,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/knowledge/ref-team.md",
+      "title": "MX Department Team Structure",
+      "summary": "Member Experience and Merchants & Payments team structure, roles, responsibilities, and key collaborators",
+      "topics": [
+        "team",
+        "organization",
+        "mx",
+        "member-experience",
+        "merchants-payments"
+      ],
+      "systems": [
+        "FIS",
+        "Galileo",
+        "Brex",
+        "SharePoint"
+      ],
+      "people": [
+        "Jared Dauman",
+        "Julie Fleischer",
+        "John Michael King",
+        "Nidhi Nayyar",
+        "Ann Grafelman",
+        "Jill Blacketer",
+        "Gary Stein",
+        "Jay Verkay",
+        "Matthew Mague",
+        "Samyuktha Balaji",
+        "Shang Wang",
+        "Kylie Cashin"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "mx"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-10",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 724,
+      "has_access_markers": false
+    },
+    {
+      "path": "departments/mx/knowledge/ref-tools.md",
+      "title": "MX Tools and Integrations",
+      "summary": "Tools and integrations used by the Member Experience and Merchants & Payments teams",
+      "topics": [
+        "tools",
+        "integrations",
+        "mx",
+        "payments",
+        "member-experience"
+      ],
+      "systems": [
+        "FIS",
+        "Galileo",
+        "Brex",
+        "SharePoint",
+        "Smartsheet",
+        "Confluence",
+        "Figma",
+        "Auth0"
+      ],
+      "people": [
+        "Jared Dauman",
+        "Julie Fleischer"
+      ],
+      "content_type": "reference",
+      "departments": [
+        "mx"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-10",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 551,
       "has_access_markers": false
     },
     {
       "path": "departments/mx/people/jared.dauman.md",
       "title": "Jared Dauman",
-      "summary": "Lead, MX -- department lead",
+      "summary": "CPO / Head of Operations -- co-founder, leads Merchants & Payments",
       "topics": [],
       "systems": [],
       "people": [],
@@ -1700,23 +1999,37 @@
       "roles": [],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 34,
+      "word_count": 408,
       "has_access_markers": false
     },
     {
       "path": "departments/mx/prompts/assistant.md",
-      "title": "Merchants & Payments Assistant",
-      "summary": "Assistant prompt for Merchants & Payments team members with research and automation modes",
+      "title": "MX Assistant",
+      "summary": "Assistant prompt for Member Experience and Merchants & Payments team members with research and automation modes",
       "topics": [
         "assistant",
-        "mx"
+        "mx",
+        "payments",
+        "member-experience",
+        "merchants",
+        "design"
       ],
-      "systems": [],
+      "systems": [
+        "FIS",
+        "Galileo",
+        "Brex",
+        "SharePoint",
+        "Figma"
+      ],
       "people": [
-        "Jared Dauman"
+        "Jared Dauman",
+        "Julie Fleischer",
+        "John Michael King",
+        "Nidhi Nayyar",
+        "Ann Grafelman"
       ],
       "content_type": "prompt",
       "departments": [
@@ -1727,10 +2040,10 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 388,
+      "word_count": 1029,
       "has_access_markers": false
     },
     {
@@ -1743,9 +2056,20 @@
         "tools",
         "peopleops"
       ],
-      "systems": [],
+      "systems": [
+        "rippling",
+        "office-365",
+        "sharepoint",
+        "slack",
+        "jira",
+        "15five",
+        "firstbase",
+        "zoom",
+        "brex"
+      ],
       "people": [
-        "Regina Lindsey"
+        "Regina Lindsey",
+        "Patricia Galvez"
       ],
       "content_type": "reference",
       "departments": [
@@ -1756,10 +2080,10 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 85,
+      "word_count": 405,
       "has_access_markers": false
     },
     {
@@ -1769,11 +2093,20 @@
       "topics": [
         "team",
         "organization",
-        "peopleops"
+        "peopleops",
+        "hiring",
+        "onboarding",
+        "compensation"
       ],
-      "systems": [],
+      "systems": [
+        "rippling",
+        "jira",
+        "office-365",
+        "slack"
+      ],
       "people": [
-        "Regina Lindsey"
+        "Regina Lindsey",
+        "Patricia Galvez"
       ],
       "content_type": "reference",
       "departments": [
@@ -1784,10 +2117,10 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 81,
+      "word_count": 390,
       "has_access_markers": false
     },
     {
@@ -1799,8 +2132,22 @@
         "integrations",
         "peopleops"
       ],
-      "systems": [],
-      "people": [],
+      "systems": [
+        "rippling",
+        "office-365",
+        "sharepoint",
+        "slack",
+        "jira",
+        "15five",
+        "firstbase",
+        "zoom",
+        "brex",
+        "microsoft-forms",
+        "m365-copilot"
+      ],
+      "people": [
+        "Regina Lindsey"
+      ],
       "content_type": "reference",
       "departments": [
         "peopleops"
@@ -1810,28 +2157,30 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 55,
+      "word_count": 362,
       "has_access_markers": false
     },
     {
       "path": "departments/peopleops/people/regina.lindsey.md",
       "title": "Regina Lindsey",
-      "summary": "Lead, Peopleops -- department lead",
+      "summary": "Head of People and Performance -- leads People Operations at Evermore",
       "topics": [],
       "systems": [],
       "people": [],
       "content_type": "people",
-      "departments": [],
+      "departments": [
+        "peopleops"
+      ],
       "roles": [],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 34,
+      "word_count": 333,
       "has_access_markers": false
     },
     {
@@ -1840,11 +2189,25 @@
       "summary": "Assistant prompt for People Operations team members with research and automation modes",
       "topics": [
         "assistant",
-        "peopleops"
+        "peopleops",
+        "hiring",
+        "onboarding",
+        "offboarding",
+        "compensation",
+        "performance"
       ],
-      "systems": [],
+      "systems": [
+        "rippling",
+        "jira",
+        "office-365",
+        "sharepoint",
+        "slack",
+        "15five",
+        "firstbase"
+      ],
       "people": [
-        "Regina Lindsey"
+        "Regina Lindsey",
+        "Patricia Galvez"
       ],
       "content_type": "prompt",
       "departments": [
@@ -1855,10 +2218,73 @@
       ],
       "classification": "internal",
       "source_of_truth_for": [],
-      "last_verified": "2026-03-18",
+      "last_verified": "2026-04-10",
       "review_cycle_days": 90,
       "related": [],
-      "word_count": 379,
+      "word_count": 879,
+      "has_access_markers": false
+    },
+    {
+      "path": "knowledge/ref-bigquery-schema.md",
+      "title": "BigQuery Schema Reference",
+      "summary": "",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "",
+      "departments": [
+        "all"
+      ],
+      "roles": [],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-16",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 528,
+      "has_access_markers": false
+    },
+    {
+      "path": "knowledge/ref-company-overview.md",
+      "title": "Evermore — Company Overview",
+      "summary": "What Evermore does, who we serve, our products, and how the company is organized",
+      "topics": [
+        "business-context",
+        "onboarding"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "all"
+      ],
+      "roles": [
+        "all"
+      ],
+      "classification": "public",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-10",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 557,
+      "has_access_markers": false
+    },
+    {
+      "path": "knowledge/ref-department-review-guide.md",
+      "title": "How to Review Extraction PRs — Department Lead Guide",
+      "summary": "",
+      "topics": [],
+      "systems": [],
+      "people": [],
+      "content_type": "reference",
+      "departments": [],
+      "roles": [],
+      "classification": "public",
+      "source_of_truth_for": [],
+      "last_verified": "2026-03-17",
+      "review_cycle_days": 180,
+      "related": [],
+      "word_count": 720,
       "has_access_markers": false
     },
     {
@@ -1880,6 +2306,40 @@
       "has_access_markers": false
     },
     {
+      "path": "knowledge/ref-it-onboarding-walkthrough.md",
+      "title": "IT Account Setup — Conversational Walkthrough",
+      "summary": "Claude-facing instructions for guiding a new hire through IT account setup in /getstarted Mode 3. Replaces the live IT onboarding call.",
+      "topics": [
+        "onboarding",
+        "it-setup",
+        "security",
+        "devices"
+      ],
+      "systems": [
+        "entra-id",
+        "kandji",
+        "slack",
+        "onepassword",
+        "intune",
+        "chrome"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "all"
+      ],
+      "roles": [
+        "it"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-17",
+      "review_cycle_days": 180,
+      "related": [],
+      "word_count": 3361,
+      "has_access_markers": false
+    },
+    {
       "path": "knowledge/ref-skill-versioning.md",
       "title": "Skill Versioning Convention",
       "summary": "",
@@ -1898,6 +2358,97 @@
       "has_access_markers": false
     },
     {
+      "path": "prompts/engage.md",
+      "title": "Engagement Session",
+      "summary": "Single entry point for any person coming to the Evermore Claude platform for the first time — new hire orientation, existing employee introduction, platform team setup, or team engagement",
+      "topics": [
+        "onboarding",
+        "engagement",
+        "orientation",
+        "new-hire",
+        "platform-introduction"
+      ],
+      "systems": [],
+      "people": [],
+      "content_type": "prompt",
+      "departments": [],
+      "roles": [
+        "all"
+      ],
+      "classification": "public",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-20",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 5781,
+      "has_access_markers": false,
+      "ask_patterns": [
+        "i'm new here",
+        "first day",
+        "just started",
+        "new employee",
+        "new hire",
+        "onboarding",
+        "getting started",
+        "set me up",
+        "show me around",
+        "introduce me to the platform",
+        "what can claude do",
+        "how does this work",
+        "i just joined",
+        "map my team",
+        "team engagement",
+        "run an engagement",
+        "workflow mapping",
+        "joining the platform team"
+      ]
+    },
+    {
+      "path": "prompts/problem-mapping.md",
+      "title": "Problem Mapping Session",
+      "summary": "Returning-user flow for employees who have completed onboarding and need help solving a problem, requesting a change, or filing work for the IT team",
+      "topics": [
+        "problem-mapping",
+        "service-request",
+        "help-desk",
+        "returning-user"
+      ],
+      "systems": [
+        "jira"
+      ],
+      "people": [],
+      "content_type": "prompt",
+      "departments": [],
+      "roles": [
+        "all"
+      ],
+      "classification": "public",
+      "source_of_truth_for": [],
+      "last_verified": "2026-04-20",
+      "review_cycle_days": 90,
+      "related": [],
+      "word_count": 2483,
+      "has_access_markers": false,
+      "ask_patterns": [
+        "i have a problem",
+        "something is broken",
+        "i need help",
+        "file a request",
+        "service request",
+        "submit a ticket",
+        "file a ticket",
+        "report an issue",
+        "something isn't working",
+        "i need to request",
+        "can you fix",
+        "help me with",
+        "pto issue",
+        "access issue",
+        "tool isn't working",
+        "process is broken"
+      ]
+    },
+    {
       "path": "skills/getstarted/SKILL.md",
       "title": "",
       "summary": "",
@@ -1912,7 +2463,7 @@
       "last_verified": "",
       "review_cycle_days": 0,
       "related": [],
-      "word_count": 5644,
+      "word_count": 5812,
       "has_access_markers": false
     },
     {

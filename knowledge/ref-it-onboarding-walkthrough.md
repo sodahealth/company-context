@@ -70,7 +70,6 @@ block the walkthrough.
 ---
 
 ## Phase 1 — macOS and Zoom (~5 min)
-
 ### 1a. macOS Quick Tips
 
 > "One quick thing — the shortcut you'll use constantly on Mac is Command+Space. That

@@ -1,3 +1,36 @@
+---
+title: "Engagement Session"
+summary: "Single entry point for any person coming to the Evermore Claude platform for the first time — new hire orientation, existing employee introduction, platform team setup, or team engagement"
+content_type: "prompt"
+topics: [onboarding, engagement, orientation, new-hire, platform-introduction]
+systems: []
+people: []
+departments: []
+roles: [all]
+classification: "public"
+last_verified: "2026-04-20"
+review_cycle_days: 90
+ask_patterns:
+  - "i'm new here"
+  - "first day"
+  - "just started"
+  - "new employee"
+  - "new hire"
+  - "onboarding"
+  - "getting started"
+  - "set me up"
+  - "show me around"
+  - "introduce me to the platform"
+  - "what can claude do"
+  - "how does this work"
+  - "i just joined"
+  - "map my team"
+  - "team engagement"
+  - "run an engagement"
+  - "workflow mapping"
+  - "joining the platform team"
+---
+
 # Prompt: Engagement Session
 
 > **The single entry point for any person coming to the Evermore Claude platform for the
