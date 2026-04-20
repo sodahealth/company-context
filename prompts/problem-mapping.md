@@ -1,3 +1,34 @@
+---
+title: "Problem Mapping Session"
+summary: "Returning-user flow for employees who have completed onboarding and need help solving a problem, requesting a change, or filing work for the IT team"
+content_type: "prompt"
+topics: [problem-mapping, service-request, help-desk, returning-user]
+systems: [jira]
+people: []
+departments: []
+roles: [all]
+classification: "public"
+last_verified: "2026-04-20"
+review_cycle_days: 90
+ask_patterns:
+  - "i have a problem"
+  - "something is broken"
+  - "i need help"
+  - "file a request"
+  - "service request"
+  - "submit a ticket"
+  - "file a ticket"
+  - "report an issue"
+  - "something isn't working"
+  - "i need to request"
+  - "can you fix"
+  - "help me with"
+  - "pto issue"
+  - "access issue"
+  - "tool isn't working"
+  - "process is broken"
+---
+
 # Prompt: Problem Mapping Session
 
 > **A returning-user flow for employees who have already completed onboarding and need

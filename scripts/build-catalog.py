@@ -100,11 +100,12 @@ def parse_frontmatter(content):
         return None, content
 
     frontmatter_raw = match.group(1)
-    body = content[match.end():]
+    body = content[match.end() :]
 
     # Try yaml module first if available
     try:
         import yaml
+
         frontmatter = yaml.safe_load(frontmatter_raw)
         if not isinstance(frontmatter, dict):
             return None, content
@@ -274,6 +275,13 @@ def build_catalog_entry(filepath, frontmatter, body, source_repo=None):
         "has_access_markers": detect_access_markers(body),
     }
 
+    # Include ask_patterns if present (deterministic routing for Phase 1)
+    ask_patterns = frontmatter.get("ask_patterns", [])
+    if ask_patterns:
+        if not isinstance(ask_patterns, list):
+            ask_patterns = [ask_patterns]
+        entry["ask_patterns"] = ask_patterns
+
     if source_repo:
         entry["source_repo"] = source_repo
 
@@ -288,6 +296,7 @@ def build_catalog_entry(filepath, frontmatter, body, source_repo=None):
 # ---------------------------------------------------------------------------
 # External source parsers
 # ---------------------------------------------------------------------------
+
 
 def parse_header_field(body, field_name):
     """Extract a **Field:** value from markdown body (bold key pattern)."""
@@ -410,7 +419,9 @@ def parse_adr_file(abs_path, rel_path, source_repo):
 
     # Extract first paragraph of ## Context as summary
     summary = ""
-    ctx_match = re.search(r"##\s+Context\s*\n+(.+?)(?:\n\n|\n##|\Z)", content, re.DOTALL)
+    ctx_match = re.search(
+        r"##\s+Context\s*\n+(.+?)(?:\n\n|\n##|\Z)", content, re.DOTALL
+    )
     if ctx_match:
         summary = ctx_match.group(1).strip().split("\n")[0]
 
@@ -544,7 +555,9 @@ def parse_registry_file(abs_path, rel_path, source_repo):
 
     entries = []
     h1_title = parse_h1_title(content)
-    registry_type = h1_title.lower().replace(" registry", "").strip() if h1_title else ""
+    registry_type = (
+        h1_title.lower().replace(" registry", "").strip() if h1_title else ""
+    )
 
     # Split by ## headings to find individual entries
     sections = re.split(r"(?=^##\s+)", content, flags=re.MULTILINE)
@@ -568,7 +581,11 @@ def parse_registry_file(abs_path, rel_path, source_repo):
             lines = section.strip().split("\n")
             for line in lines[1:]:
                 stripped = line.strip()
-                if stripped and not stripped.startswith("-") and not stripped.startswith("*"):
+                if (
+                    stripped
+                    and not stripped.startswith("-")
+                    and not stripped.startswith("*")
+                ):
                     description = stripped
                     break
 
@@ -812,8 +829,8 @@ def main():
     repo_root = find_repo_root()
     documents = []
     validation_errors = []  # Hard errors (department files with missing fields)
-    partial_warnings = []   # Non-department files with partial frontmatter (included anyway)
-    warnings = []           # Files skipped entirely (no frontmatter, unreadable)
+    partial_warnings = []  # Non-department files with partial frontmatter (included anyway)
+    warnings = []  # Files skipped entirely (no frontmatter, unreadable)
 
     # Walk all .md files in the local repo
     for dirpath, dirnames, filenames in os.walk(repo_root):
@@ -858,8 +875,11 @@ def main():
                     # Lenient: non-department files get a warning but are
                     # still included in the catalog with whatever fields
                     # they have
-                    warn_msg = f"WARNING: {rel_path} (partial frontmatter)\n" + "\n".join(
-                        e.replace("missing required", "missing") for e in errors
+                    warn_msg = (
+                        f"WARNING: {rel_path} (partial frontmatter)\n"
+                        + "\n".join(
+                            e.replace("missing required", "missing") for e in errors
+                        )
                     )
                     print(warn_msg, file=sys.stderr)
                     partial_warnings.append(rel_path)
