@@ -55,7 +55,7 @@ Then proceed through the five phases below.
 - **If yes:** "Great — tap the Soda Health tile. Do you see a 'Passwordless Sign-in'
   option?"
   - If yes and enabled → ✅ move to 1b.
-  - If not set up yet → walk through step 5 below.
+  - If not set up yet → walk through the setup steps below.
 - **If no / skipped:**
   > "Let's do it now — it only takes two minutes, and without it you'll get locked out
   > of everything eventually."
@@ -66,9 +66,6 @@ Then proceed through the five phases below.
   2. "Open it, tap 'Add account', then tap 'Work or school account'."
   3. "Enter your `@sodahealth.com` email and follow the prompts."
   4. "Let me know when the Soda Health tile appears in the app."
-
-Once the Soda Health tile is there:
-
   5. "Tap the Soda Health tile, then tap 'Passwordless Sign-in' and follow the
      instructions. This lets you approve sign-ins with a tap on your phone instead
      of typing a password — it's the recommended method."
