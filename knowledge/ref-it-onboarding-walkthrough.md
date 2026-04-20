@@ -52,7 +52,10 @@ Then proceed through the five phases below.
 > you'll approve sign-ins going forward. Instead of a password, your phone taps to
 > confirm it's you. Is the Soda Health tile showing in your Authenticator app?"
 
-- **If yes:** ✅ move to 1b.
+- **If yes:** "Great — tap the Soda Health tile. Do you see a 'Passwordless Sign-in'
+  option?"
+  - If yes and enabled → ✅ move to 1b.
+  - If not set up yet → walk through step 5 below.
 - **If no / skipped:**
   > "Let's do it now — it only takes two minutes, and without it you'll get locked out
   > of everything eventually."
@@ -62,9 +65,13 @@ Then proceed through the five phases below.
   1. "Download Microsoft Authenticator from the App Store or Google Play on your phone."
   2. "Open it, tap 'Add account', then tap 'Work or school account'."
   3. "Enter your `@sodahealth.com` email and follow the prompts."
-  4. "When it asks how to verify — choose 'Push notifications'. You'll get a tap-to-approve
-     prompt instead of typing codes. Much easier."
-  5. "Let me know when the Soda Health tile appears in the app."
+  4. "Let me know when the Soda Health tile appears in the app."
+
+Once the Soda Health tile is there:
+
+  5. "Tap the Soda Health tile, then tap 'Passwordless Sign-in' and follow the
+     instructions. This lets you approve sign-ins with a tap on your phone instead
+     of typing a password — it's the recommended method."
 
 - **If push notifications aren't working:**
   > "No worries — use the 6-digit code method for now. Open the app, tap the Soda Health
