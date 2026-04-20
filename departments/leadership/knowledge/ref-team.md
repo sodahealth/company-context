@@ -3,7 +3,7 @@ title: "Evermore Leadership Team"
 summary: "Executive team structure, roles, and areas of ownership — for the COO and senior leadership orientation"
 topics: [team, organization, leadership, executive]
 systems: [rippling, jira, confluence, slack]
-people: [Robby Knight, Carey Willson, Daryl Risinger, Brian Ru, Regina Lindsey, Julie Fleischer, Laura de Crescenzo]
+people: [Robby Knight, Carey Willson, Daryl Risinger, Brian Ru, Regina Lindsey, Laura de Crescenzo]
 content_type: "reference"
 departments: [leadership]
 roles: [all]
@@ -27,7 +27,6 @@ Robby Knight (CEO)
 ├── Daryl Risinger (President — Customer Success)
 ├── Brian Ru (Head of Corporate Development and Finance)
 ├── Regina Lindsey (Head of People and Performance)
-├── Julie Fleischer (CXO — Member Experience)
 ├── Laura de Crescenzo (Director of Product)
 └── Sarah Rumfelt (Chief of Staff)
 ```
@@ -88,15 +87,6 @@ management.
 - **Key program:** Evolve — Evermore's performance management framework.
 - **Tools:** Rippling (HRIS), Greenhouse (ATS), 15Five (performance), Microsoft Forms.
 - **Works closely with:** COO (Carey), all department heads for headcount planning.
-
----
-
-### Julie Fleischer — CXO (Member Experience)
-
-- **Role:** Chief Experience Officer. Owns the &more brand, member communications,
-  card design, and the end-to-end member experience across the benefit card programs.
-- **Owns:** Member Experience team, Merchants & Payments team (with John Michael King).
-- **Focus:** Card UX, member communications, brand consistency, payment rails.
 
 ---
 
