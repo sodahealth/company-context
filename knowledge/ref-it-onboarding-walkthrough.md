@@ -146,6 +146,13 @@ email.
 
 Ask: "Are you signed into Chrome with your work account now?"
 
+Once signed in:
+
+> "evermore uses SSO — Single Sign-On — to securely sign in to different sites and
+> apps. The majority of apps support SSO and you should use it whenever it's available.
+> Your home base for all of this is myapps.microsoft.com — open that in Chrome and
+> you'll see tiles for every app we use."
+
 ### 3b. Zoom
 
 > "Let's get Zoom configured. Open Zoom and click 'New Meeting' on the home page.
@@ -199,14 +206,9 @@ Ask: "Can you see Iru on your desktop or in your Applications folder?"
 - If not visible: "It may still be installing — Kandji runs in the background after
   first login. It should appear within about 15 minutes. Keep an eye out for it."
 
-### 3d. SSO Portal and App Access
+### 3d. App Access Check
 
-> "evermore uses Single Sign-On — SSO — which means you sign in once and it unlocks
-> all your apps. The way most people think of it: you use your evermore email to log
-> into everything, instead of making separate usernames and passwords."
->
-> "Your home base is myapps.microsoft.com — open that in Chrome and log in with
-> your work email. Every app we use shows up there as a tile."
+> "Go to myapps.microsoft.com in Chrome and let's verify your app access."
 
 Walk them through checking access:
 
@@ -309,8 +311,10 @@ Once they're in, orient them to the key channels they're already in:
 
 ### 5c. IT Service Portal
 
-> "For IT help, bookmark this: sodahealth.atlassian.net/servicedesk/customer/portal/3
-> — that's our IT service portal. Here's what you can request there:"
+> "You may have some follow-up technical questions after this onboarding — to get IT
+> assistance, submitting a TR ticket is the way to go. Bookmark this:
+> sodahealth.atlassian.net/servicedesk/customer/portal/3 — that's our IT service
+> portal. Here's what you can request there:"
 >
 > - **IT help** — anything broken, not working, or needs troubleshooting
 > - **Software and app requests** — if you need a tool that's not already on your laptop
