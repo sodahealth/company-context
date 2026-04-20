@@ -83,8 +83,8 @@ Once they're looking at the video settings:
 - **If off:** "Click the toggle next to 'Center Stage' to turn it off."
 - **If on:** Leave it.
 
-> "Now go to Background & Effects and turn on 'Blur my background' — that's the
-> company standard for video calls."
+> "Now go to Background & Effects — you have the option to blur your background or
+> pick a virtual background if you want. That's totally up to you, not required."
 
 Then:
 
