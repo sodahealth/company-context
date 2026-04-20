@@ -230,9 +230,10 @@ Walk them through:
 ### 5c. Installing Other Apps
 
 > "One more thing — if you ever need to install an app that's not in Iru's library,
-> you'll need temporary admin access to do it. You can request that through Jira.
-> Just use your own judgment on whether the app is credible before installing — if
-> you're unsure, ask in `#it-sec` and IT can advise."
+> open the Iru app and find the 'Temp Admin Upgrade' option. Click it, select 15
+> minutes, and add a reason. That gives you temporary admin access to install the app
+> using your Mac credentials. Just use your own judgment on whether the app is
+> credible before installing it."
 
 ---
 
