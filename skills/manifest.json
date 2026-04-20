@@ -3,9 +3,9 @@
   "updated": "2026-04-17",
   "skills": {
     "getstarted": {
-      "version": "3.1.0",
+      "version": "3.2.0",
       "file": "skills/getstarted/SKILL.md",
-      "sha256": "413b003deb9929a2c7ab6f4618274ce2c463b1da2effb1afb1a9043a6c283b2c"
+      "sha256": "7e2e270a0341ef36d1cebb77d700e6866d2a07c76a2c96c65589ddf00efa3f38"
     },
     "growth-feedback": {
       "version": "1.0.0",

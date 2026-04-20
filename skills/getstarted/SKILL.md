@@ -794,7 +794,7 @@ call — Claude guides them through every step, one at a time.
 **Load the walkthrough content:**
 
 Fetch the conversational IT setup guide via `get_content` with path
-`knowledge/ref-it-onboarding-walkthrough`. This document contains the full five-phase
+`knowledge/ref-it-onboarding-walkthrough`. This document contains the full nine-phase
 walk-through with talk tracks, confirmation questions, troubleshooting, and progress
 tracking instructions. Follow it exactly.
 
@@ -804,26 +804,30 @@ tracking instructions. Follow it exactly.
 > sure everything on your laptop is ready to go. I'll walk you through it step by step.
 > There's no rush. We'll go one thing at a time."
 
-**Follow the five phases** from `ref-it-onboarding-walkthrough.md`:
+**Follow the nine phases** from `ref-it-onboarding-walkthrough.md`:
 
-1. Let's confirm you're signed in (Authenticator, macOS tips)
-2. Your password vault — start 1Password, park it
-3. Browser, apps, and device — Chrome, Zoom, Kandji, SSO, app access
-4. Finish 1Password + Slack
-5. Staying safe and getting help
+1. macOS and Zoom
+2. 1Password — start and park
+3. Microsoft Authenticator
+4. Kandji / Iru (device management)
+5. Chrome, SSO, and app access
+6. Slack
+7. Security and help
+8. Finish 1Password
+9. Policies and mobile
 
 **Progress tracking:** After each phase, write progress to enrichment as described
 in the walkthrough doc. This enables resuming across sessions.
 
 **Escalation:** When troubleshooting a step fails after 1-2 attempts, note the issue
-in enrichment `friction_points` and tell the user IT will follow up in `#it-sec-private`.
+in enrichment `friction_points` and tell the user IT will follow up in `#it-sec`.
 Never block the full setup on one stuck item — continue with remaining phases.
 
 **On completion:** Write the completion signal to enrichment as described in the
 walkthrough doc, then deliver the closing summary:
 
 > "You're all set! [list what was covered]. If anything stops working, post in
-> `#it-sec-private` on Slack and IT will jump in."
+> `#it-sec` on Slack and IT will jump in."
 
 Then proceed to Step 8.
 
