@@ -177,16 +177,13 @@ Key things to tell them:
   your own terms."
 - **App library.** "Iru also has a library of IT-approved apps you can install yourself.
   If you need something, check there first."
-- **Installing from the web.** "If you want to install something from the web that's
-  not in Iru's library, make sure it's a credible app, then use the temporary admin
-  upgrade option in Jira to get elevated permissions, and use your Mac credentials to
-  complete the install."
 - **Admin requests.** "Occasionally an app update will pop up asking for admin
   permission. Before you click Allow, make sure it's something you recognize."
 
-Ask: "Can you see Iru on your desktop or in your Applications folder?"
+> "Let's find Iru now — press Command+Space to open Spotlight and type 'Iru'. Open it
+> from the results."
 
-- If not visible: "It may still be installing — Kandji runs in the background after
+- If not found: "It may still be installing — Kandji runs in the background after
   first login. It should appear within about 15 minutes. Keep an eye out for it."
 
 ---
@@ -230,6 +227,13 @@ Walk them through:
 
 > "If anything is missing, let me know at the end and I'll flag it for IT."
 
+### 5c. Installing Other Apps
+
+> "One more thing — if you ever need to install an app that's not in Iru's library,
+> you'll need temporary admin access to do it. You can request that through Jira.
+> Just use your own judgment on whether the app is credible before installing — if
+> you're unsure, ask in `#it-sec` and IT can advise."
+
 ---
 
 ## Phase 6 — Slack (~5 min)
@@ -251,9 +255,10 @@ Once they're in, orient them to the key channels they're already in:
 > - `#random` — casual conversation, the water cooler.
 > - `#news` — industry articles and external news about the health benefits space.
 >   Good for staying current on the market evermore operates in.
-> - `#security` — security announcements and awareness from the IT team.
-> - `#it-sec` — IT and security help. If anything with your laptop or accounts stops
->   working, post there. It's faster than a ticket for urgent things.
+> - `#security` — one-way broadcast from the IT team. Security alerts, policy
+>   reminders, and awareness updates. You don't need to post here.
+> - `#it-sec` — two-way help channel. If anything with your laptop or accounts stops
+>   working, post here. It's faster than a ticket for urgent things.
 > - `#coffee-club` — you'll get your own &more card with benefits loaded so you can
 >   test the product as a real user. Swipe it at retailers and share feedback. It's
 >   how the team stays close to the member experience.
