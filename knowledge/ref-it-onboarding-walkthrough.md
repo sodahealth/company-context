@@ -7,14 +7,14 @@ content_type: "reference"
 departments: [all]
 roles: [it]
 classification: "internal"
-last_verified: "2026-04-17"
+last_verified: "2026-04-20"
 review_cycle_days: 180
 ---
 
 # IT Account Setup — Conversational Walkthrough
 
 > **For Claude:** This document is your guide for walking a new hire through IT setup
-> in `/getstarted` Mode 3. Follow the five phases below in order. Each phase has:
+> in `/getstarted` Mode 3. Follow the phases below in order. Each phase has:
 > what to say, what to watch for, how to handle problems, and when to move on.
 >
 > The experience should feel like a patient colleague sitting next to them — not a
@@ -37,16 +37,115 @@ The IT setup walk-through happens before the platform orientation. Transition in
 > "One quick thing to know before we dive in: evermore completed a rebrand from
 > Soda Health in October 2025. Publicly we're 'evermore', but internally you'll still
 > see 'Soda Health' in a lot of places — in apps, emails, and system names. Don't let
-> that throw you. For logins, you'll almost always go through myapps.microsoft.com or
-> use your `@sodahealth.com` email."
+> that throw you.
+>
+> You actually have two email addresses — `@sodahealth.com` is your primary, and
+> `@evermoreoutcomes.com` is an alias. Both go to the exact same inbox, so it doesn't
+> matter which one someone uses to reach you. For logging into systems, always use your
+> `@sodahealth.com` address — that's what everything is set up against. For all
+> external communications (customers, partners, vendors, anyone outside the company),
+> use your `@evermoreoutcomes.com` address — that's the brand we present externally."
 
-Then proceed through the five phases below.
+Then proceed through the phases below.
 
 ---
 
-## Phase 1 — "Let's Confirm You're Signed In" (~5 min)
+## Phase 1 — macOS and Zoom (~5 min)
 
-### 1a. Microsoft Authenticator
+### 1a. macOS Quick Tips
+
+> "One quick thing — the shortcut you'll use constantly on Mac is Command+Space. That
+> opens Spotlight, which lets you search for any app, file, or setting instantly. Much
+> faster than hunting through folders."
+
+Ask: "Are you pretty comfortable with Mac, or is this your first time?"
+
+- If first time: "No problem at all — the Apple website has a great beginner guide if
+  you ever want to explore on your own time. We'll cover everything you need as we go."
+- Either way: move on.
+
+### 1b. Zoom Settings
+
+Ask: "Are you currently on a Zoom call with IT right now?"
+
+- **If yes:** "Perfect — you're already in Zoom. Click the green camera icon at the
+  top of your screen."
+- **If no:** "Go ahead and open Zoom and click 'New Meeting' on the home page. If it
+  asks for camera or microphone permissions, go ahead and allow those. Once you're in,
+  click the green camera icon at the top of your screen."
+
+Once they're looking at the video settings:
+
+> "You'll see an option called 'Center Stage' — that's a feature that automatically
+> pans and zooms the camera to keep you centered as you move around. Some people like
+> it, others find it distracting on calls. Do you want to keep it on or turn it off?"
+
+- **If off:** "Click the toggle next to 'Center Stage' to turn it off."
+- **If on:** Leave it.
+
+> "Now go to Background & Effects — you have the option to blur your background or
+> pick a virtual background if you want. That's totally up to you, not required."
+
+Then:
+
+> "Click your initials in the top right of the Zoom window — just want to make sure
+> you're signed in with your `@sodahealth.com` email. What does it show?"
+
+- **`@sodahealth.com`:** ✅
+- **`@evermoreoutcomes.com`:** Also fine. ✅
+- **Personal email:** "Go ahead and log out — click your initials, then 'Sign Out'.
+  Then right-click the Zoom icon in your dock and hit 'Quit'. Go to
+  myapps.microsoft.com in Chrome, find the Zoom tile, and sign in through SSO. That'll
+  connect it to your work account."
+
+---
+
+## Phase 2 — 1Password (Start and Park) (~5 min)
+
+> "Next up: 1Password — evermore's password manager. It keeps all your login
+> credentials in one place so you only need to remember one master password. It can
+> also generate strong unique passwords for each site if you want — or you can create
+> your own passwords and just save them to 1Password, whichever you prefer. The
+> important thing is that passwords aren't reused across sites — that's the number-one
+> way accounts get compromised."
+
+**Start this now and park it** — a SCIM confirmation email arrives within ~5 minutes.
+You'll finish the desktop app setup in Phase 5.
+
+> "Let's kick off the setup now because a confirmation email takes a few minutes to
+> arrive. While we wait, we'll keep going with other things."
+
+Walk them through:
+
+1. "Open Outlook and look for an invite from 1Password. If it's not in your inbox,
+   check Spam or Junk."
+   - **If missing after checking spam:** "It may need to be resent — post in `#it-sec`
+     on Slack and IT can resend it from the admin console."
+
+2. "Click the link in the email — it opens in your browser. Follow the setup steps
+   to create your master password."
+
+3. **Emergency Kit — this is important:**
+   > "During setup, 1Password will automatically download a PDF called your 'Emergency
+   > Kit' — that contains your Secret Key and account details. It'll just land in your
+   > Downloads folder without showing you a preview. Make sure you know where it saved
+   > and can open it later. The Emergency Kit is your ONLY way back into 1Password if
+   > you ever get locked out — if you lose it, there's no recovery. Where are you going
+   > to make sure it's saved? (Downloads folder is fine, just know where it is.)"
+
+   (Wherever they say is fine. Just get them to confirm they know where the Emergency
+   Kit lives before moving on.)
+
+4. "Once you've set your master password and know where your Emergency Kit is saved,
+   that's all we do in the browser for now. A confirmation email will arrive within
+   about 5 minutes — that's when we'll finish setting up the desktop app. Let's keep
+   going while we wait."
+
+✅ **Park Phase 2 and move to Phase 3.**
+
+---
+
+## Phase 3 — Microsoft Authenticator (~5 min)
 
 > "Let's make sure Microsoft Authenticator is set up on your phone — this is how
 > you'll approve sign-ins going forward. Instead of a password, your phone taps to
@@ -54,7 +153,7 @@ Then proceed through the five phases below.
 
 - **If yes:** "Great — tap the Soda Health tile. Do you see a 'Passwordless Sign-in'
   option?"
-  - If yes and enabled → ✅ move to 1b.
+  - If yes and enabled → ✅ move to Phase 4.
   - If not set up yet → walk through the setup steps below.
 - **If no / skipped:**
   > "Let's do it now — it only takes two minutes, and without it you'll get locked out
@@ -75,64 +174,37 @@ Then proceed through the five phases below.
   > tile, and use the code it shows to approve sign-ins. We can revisit the push setup
   > after."
 
-### 1b. macOS Quick Tips
+---
 
-> "One quick thing — the shortcut you'll use constantly on Mac is Command+Space. That
-> opens Spotlight, which lets you search for any app, file, or setting instantly. Much
-> faster than hunting through folders."
+## Phase 4 — Kandji / Iru (Device Management) (~5 min)
 
-Ask: "Are you pretty comfortable with Mac, or is this your first time?"
+> "You'll see an app on your Mac called Iru — that's evermore's device management
+> tool. It keeps your laptop secure and up to date automatically."
 
-- If first time: "No problem at all — Macs are pretty intuitive once you get the hang
-  of it. The Apple website has a great beginner guide if you ever want to explore on
-  your own time. We'll cover everything you need as we go."
-- Either way: move on.
+Key things to tell them:
+
+- **Red dot = updates waiting.** "When you see a red dot on Iru, install the updates.
+  Don't ignore them."
+- **It will force updates eventually.** "If you skip updates too long, Iru will install
+  them automatically — it won't wait for a convenient moment. Better to do it on
+  your own terms."
+- **App library.** "Iru also has a library of IT-approved apps you can install yourself.
+  If you need something, check there first."
+- **Admin requests.** "Occasionally an app update will pop up asking for admin
+  permission. Before you click Allow, make sure it's something you recognize."
+
+> "Let's find Iru now — press Command+Space to open Spotlight and type 'Iru'. Open it
+> from the results. You'll also see the Iru icon in your menu bar in the top right
+> corner of your screen — it looks like a little jellyfish."
+
+- If not found: "It may still be installing — Kandji runs in the background after
+  first login. It should appear within about 15 minutes. Keep an eye out for it."
 
 ---
 
-## Phase 2 — "Your Password Vault (Start Now, Finish Later)" (~5 min)
+## Phase 5 — Chrome, SSO, and App Access (~8 min)
 
-> "Next up: 1Password. This is evermore's password manager — it keeps all your login
-> credentials in one place so you only need to remember one master password. More
-> importantly, it generates unique passwords for each site. Reusing passwords is the
-> number-one way accounts get compromised."
-
-**Important:** Start this now and then *park it* — a SCIM confirmation email arrives
-within 5 minutes. You'll come back to finish on the desktop app in Phase 4.
-
-> "Let's kick off the setup now, because there's a confirmation email that takes a few
-> minutes to arrive. While we wait, we'll keep going with other things."
-
-Walk them through:
-
-1. "Open Outlook and look for an invite from 1Password. If it's not in your inbox,
-   check Spam or Junk."
-   - **If missing after checking spam:** "It may need to be resent — post in `#it-sec`
-     on Slack and IT can resend it from the admin console."
-
-2. "Click the link in the email — it opens in your browser. Follow the setup steps
-   to create your master password."
-
-3. **Secret Key — this is important:**
-   > "At some point it will show you a PDF with your Secret Key. Save that PDF somewhere
-   > safe — not just your desktop. Think of it like a backup key to your vault. If you
-   > lose it, recovery is a pain. Where are you thinking of saving it?"
-
-   (Wherever they say is fine. Just get them to save it before moving on.)
-
-4. "Once you've set your password and saved the Secret Key, that's all we do in the
-   browser for now. A confirmation email will arrive within about 5 minutes — that's
-   when we'll finish setting up the desktop app. Let's keep going while we wait."
-
-✅ **Park Phase 2 and move to Phase 3.**
-
----
-
-## Phase 3 — "Browser, Apps, and Device" (~10 min)
-
-*Run this while waiting for the 1Password confirmation email.*
-
-### 3a. Chrome Sign-In
+### 5a. Chrome Sign-In
 
 > "Let's set up Chrome. Open it and sign in with your `@sodahealth.com` email — this
 > creates a work Chrome profile that keeps your bookmarks and extensions separate from
@@ -150,64 +222,11 @@ Once signed in:
 > Your home base for all of this is myapps.microsoft.com — open that in Chrome and
 > you'll see tiles for every app we use."
 
-### 3b. Zoom
-
-> "Let's get Zoom configured. Open Zoom and click 'New Meeting' on the home page.
-> If it asks for camera or microphone permissions, go ahead and allow those."
-
-Once they're in a meeting:
-
-> "Click the green camera icon at the top of your screen. You'll see an option called
-> 'Center Stage' — that's a feature that automatically pans and zooms the camera to
-> keep you centered as you move around. Some people like it, others find it distracting
-> on calls. Do you want to keep it on or turn it off?"
-
-- **If off:** "Click the toggle next to 'Center Stage' to turn it off."
-- **If on:** Leave it.
-
-Then:
-
-> "Now click your initials in the top right of the Zoom window — just want to make sure
-> you're signed in with your `@sodahealth.com` email. What does it show?"
-
-- **`@sodahealth.com`:** ✅
-- **`@evermoreoutcomes.com`:** Also fine. ✅
-- **Personal email:** "Go ahead and log out — click your initials, then 'Sign Out'.
-  Then right-click the Zoom icon in your dock and hit 'Quit'. Go to
-  myapps.microsoft.com in Chrome, find the Zoom tile, and sign in through SSO. That'll
-  connect it to your work account."
-
-### 3c. Kandji / Iru (Device Management)
-
-> "You'll see an app on your Mac called Iru — that's evermore's device management
-> tool. It keeps your laptop secure and up to date automatically."
-
-Key things to tell them:
-
-- **Red dot = updates waiting.** "When you see a red dot on Iru, install the updates.
-  Don't ignore them."
-- **It will force updates eventually.** "If you skip updates too long, Iru will install
-  them automatically — it won't wait for a convenient moment. Better to do it on
-  your own terms."
-- **App library.** "Iru also has a library of IT-approved apps you can install yourself.
-  If you need something, check there first."
-- **Installing from the web.** "If you want to install something from the web that's
-  not in Iru's library, make sure it's a credible app, then use the temporary admin
-  upgrade option in Jira to get elevated permissions, and use your Mac credentials to
-  complete the install."
-- **Admin requests.** "Occasionally an app update will pop up asking for admin
-  permission. Before you click Allow, make sure it's something you recognize."
-
-Ask: "Can you see Iru on your desktop or in your Applications folder?"
-
-- If not visible: "It may still be installing — Kandji runs in the background after
-  first login. It should appear within about 15 minutes. Keep an eye out for it."
-
-### 3d. App Access Check
+### 5b. App Access Check
 
 > "Go to myapps.microsoft.com in Chrome and let's verify your app access."
 
-Walk them through checking access:
+Walk them through:
 
 1. "Click the Atlassian tile. That's Confluence — our wiki — and Jira, our project
    tracking tool. Does it let you in?"
@@ -222,42 +241,17 @@ Walk them through checking access:
 
 > "If anything is missing, let me know at the end and I'll flag it for IT."
 
+### 5c. Installing Other Apps
+
+> "One more thing — if you ever need to install an app that's not in Iru's library,
+> open the Iru app and find the 'Temp Admin Upgrade' option. Click it, select 15
+> minutes, and add a reason. That gives you temporary admin access to install the app
+> using your Mac credentials. Just use your own judgment on whether the app is
+> credible before installing it."
+
 ---
 
-## Phase 4 — "Finish 1Password + Slack" (~8 min)
-
-### 4a. Complete 1Password
-
-> "Let's check if that 1Password confirmation email has come through."
-
-- **If yes:**
-  > "Great — press Command+Space to open Spotlight, type '1Password', and open the
-  > desktop app. Sign in with your username, your Secret Key from the PDF you saved,
-  > and your master password. Let me know when you're in."
-
-  Then:
-
-  1. "It'll ask you to set up an authenticator for 1Password itself — follow those
-     prompts on your phone. This is a second layer of security just for your vault."
-  2. "Once you're in, you'll see an Employee vault — that's where company-shared
-     credentials live. Your Personal vault is for your own logins."
-  3. "As you log into new tools and create accounts, save your passwords in 1Password
-     as you go — it'll prompt you automatically most of the time."
-
-- **If not arrived yet:**
-  > "Still waiting on it — let's set up Slack now and come back to finish 1Password
-  > right after."
-
-### 4b. Chrome Extension
-
-After 1Password desktop is set up:
-
-> "Last thing for 1Password: let's pin it in Chrome so it's always one click away.
-> Click the puzzle piece icon in Chrome's toolbar — that's Extensions. Find 1Password,
-> click it, then click the pin icon to keep it visible. Once it's pinned, sign in to
-> 1Password from the extension."
-
-### 4c. Slack Setup
+## Phase 6 — Slack (~5 min)
 
 > "Now let's get Slack set up — that's how we communicate internally."
 
@@ -276,9 +270,15 @@ Once they're in, orient them to the key channels they're already in:
 > - `#random` — casual conversation, the water cooler.
 > - `#news` — industry articles and external news about the health benefits space.
 >   Good for staying current on the market evermore operates in.
-> - `#security` — security announcements and awareness from the IT team.
-> - `#it-sec` — IT and security help. If anything with your laptop or accounts stops
->   working, post there. It's faster than a ticket for urgent things.
+> - `#security` — the security-focused channel. Use this for anything that looks or
+>   feels like a security threat: suspicious emails you want a second opinion on,
+>   Mac pop-ups that seem off, phishing attempts, vendor requests for sensitive
+>   data, or alerts you received. The security team (Umang, Chris) watches this
+>   closely and will weigh in. "Is this legit?" posts are very welcome here.
+> - `#it-sec` — the general IT + security help channel. Use this for everything
+>   else IT-related: access problems, app issues, device/laptop troubleshooting,
+>   software and vendor approval questions, Jira/Confluence problems, or any
+>   general IT question. Faster than a ticket for urgent things.
 > - `#coffee-club` — you'll get your own &more card with benefits loaded so you can
 >   test the product as a real user. Swipe it at retailers and share feedback. It's
 >   how the team stays close to the member experience.
@@ -287,31 +287,30 @@ Once they're in, orient them to the key channels they're already in:
 
 ---
 
-## Phase 5 — "Staying Safe and Getting Help" (~10 min)
+## Phase 7 — Security and Help (~8 min)
 
-### 5a. Phishing and Suspicious Emails
+### 7a. Phishing and Suspicious Emails
 
-> "One thing IT takes seriously here: phishing. Bad actors do try to impersonate
-> leadership — especially our CEO — or send fake company emails."
+> "One thing IT takes seriously here: phishing. Bad actors will try to steal
+> credentials by impersonating Robby, other companies, or sending fake emails."
 >
-> "The rule is simple: if an email feels off, don't click anything. Check the sender's
-> email address carefully. If something seems wrong, post it in `#it-sec` on Slack and
-> ask — you won't look silly. That channel exists exactly for that."
+> "If an email feels off, double-check it. You're empowered to check with your manager
+> or post in `#it-sec` — you won't look silly, that's exactly what the channel is for."
 >
 > "There's also a Report button in Outlook for suspicious emails — use it when you see
-> something. It helps train the spam filter and protects everyone."
+> something. It helps us train our phishing and spam detection and protects everyone."
 
-### 5b. Quarantine
+### 7b. Quarantine
 
 > "Sometimes legitimate emails end up in quarantine — our spam filter is aggressive.
-> You'll get automated notifications when a message is held. Open the notification,
-> review it, and if it's legitimate, release it and mark it as not spam so future
-> emails from that sender come through normally."
+> You'll get an email telling you there's a message in quarantine. Open it, review it,
+> and if it's legitimate, release it and mark it as not spam so future emails from that
+> sender come through normally."
 
-### 5c. IT Service Portal
+### 7c. IT Service Portal
 
-> "You may have some follow-up technical questions after this onboarding — to get IT
-> assistance, submitting a TR ticket is the way to go. Bookmark this:
+> "You may have some follow-up technical questions after this onboarding — submitting
+> a TR ticket is the way to go. Bookmark this:
 > sodahealth.atlassian.net/servicedesk/customer/portal/3 — that's our IT service
 > portal. Here's what you can request there:"
 >
@@ -327,20 +326,44 @@ Once they're in, orient them to the key channels they're already in:
 > "For anything urgent, `#it-sec` in Slack is faster. Use the portal for non-urgent
 > requests."
 
-### 5d. Security Basics
+---
 
-> "Two quick rules that cover 90% of our security requirements:"
->
-> "First: use 1Password for all your passwords. Let it generate them. Never reuse
-> passwords across sites. And IT will never ask you for your password — if anyone
-> does, that's a red flag."
->
-> "Second: HIPAA. We handle protected health information for health plan members,
-> so HIPAA applies to your work. In practice: don't share member data outside
-> approved systems, use company tools (not personal Gmail or Dropbox), and if
-> anything looks suspicious, post in `#it-sec`."
+## Phase 8 — Finish 1Password (~5 min)
 
-### 5e. Policies
+> "Let's check if that 1Password confirmation email has come through."
+
+- **If yes:**
+  > "Great — press Command+Space to open Spotlight, type '1Password', and open the
+  > desktop app. Sign in with your username, your Secret Key from the Emergency Kit
+  > PDF, and your master password. Let me know when you're in."
+
+  Then:
+
+  1. "It'll ask you to set up an authenticator for 1Password itself — follow those
+     prompts on your phone. This is a second layer of security just for your vault."
+  2. "You'll see an 'Employee' vault in the sidebar — that's your personal vault
+     where you save all your credentials. Any password you save to 1Password goes
+     here unless you're explicitly working with a shared vault."
+  3. "As you log into new tools and create accounts, save your passwords in 1Password
+     as you go — it'll prompt you automatically most of the time."
+
+- **If not arrived yet:**
+  > "Still waiting on it — let's finish the rest and come back to this."
+
+### Chrome Extension
+
+After 1Password desktop is set up:
+
+> "Let's pin 1Password in Chrome so it's always one click away. Click the puzzle piece
+> icon in Chrome's toolbar — that's Extensions. Find 1Password, click it, then click
+> the pin icon to keep it visible. Once it's pinned, sign in to 1Password from the
+> extension."
+
+---
+
+## Phase 9 — Policies and Mobile (~5 min)
+
+### 9a. Acceptable Use Policy
 
 > "As a reminder, here at evermore we trust everyone to use their company laptops
 > appropriately — which means we trust you not to use them for things like viewing
@@ -348,7 +371,7 @@ Once they're in, orient them to the key channels they're already in:
 > out of bounds, the full Acceptable Use Policy is here:
 > sodahealth.atlassian.net/wiki/spaces/POL/pages/1408598085/Acceptable+Use+Policy"
 
-### 5f. Mobile Setup (Optional)
+### 9b. Mobile Setup (Optional)
 
 > "Last thing — and this is completely optional. If you want work email on your
 > personal phone, here's what's involved:"
@@ -371,17 +394,17 @@ When all phases are complete:
 
 > "You're all set! Here's the quick version of what we covered:
 >
-> ✅ Microsoft Authenticator — your sign-in is secure
-> ✅ 1Password — your password vault is ready
-> ✅ Chrome — set up with your work profile
 > ✅ Zoom — configured and verified
+> ✅ 1Password — your password vault is ready
+> ✅ Microsoft Authenticator — your sign-in is secure
 > ✅ Iru — device management is running
+> ✅ Chrome — signed in with your work profile
 > ✅ App access — Atlassian and SSO verified
 > ✅ Slack — you're in the workspace and know your channels
 > ✅ Security basics — you know what to watch for and where to get help
 >
 > If anything stops working or you need something, post in `#it-sec` on Slack or
-> submit a ticket at the portal. IT will jump in.
+> submit a TR ticket at the portal. IT will jump in.
 >
 > Now let's take a look at the platform and what it can do for you."
 
@@ -399,18 +422,18 @@ After each phase completes, write progress to enrichment:
 {
   "preferences": {
     "it_onboarding_phase": "3",
-    "it_onboarding_items": "authenticator,zoom,1password_started,chrome,kandji_explained"
+    "it_onboarding_items": "zoom,1password_started,authenticator,kandji_explained"
   }
 }
 ```
 
-Phase values: `"1"` through `"5"`. On full completion: `"complete"`.
+Phase values: `"1"` through `"9"`. On full completion: `"complete"`.
 
 Items to track as they're done:
-`authenticator`, `macos_tips`, `1password_started`, `1password_secret_key_saved`,
-`zoom`, `chrome`, `kandji_explained`, `sso`, `apps_atlassian`,
-`1password_complete`, `1password_extension`, `slack`, `phishing`, `quarantine`,
-`it_portal`, `security_basics`, `policies`, `mobile`
+`macos_tips`, `zoom`, `1password_started`, `1password_emergency_kit_saved`,
+`authenticator`, `kandji_explained`, `chrome`, `sso`, `apps_atlassian`,
+`slack`, `phishing`, `quarantine`, `it_portal`, `1password_complete`,
+`1password_extension`, `policies`, `mobile`
 
 ### Resuming mid-checklist
 
