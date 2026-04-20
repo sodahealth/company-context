@@ -37,8 +37,12 @@ The IT setup walk-through happens before the platform orientation. Transition in
 > "One quick thing to know before we dive in: evermore completed a rebrand from
 > Soda Health in October 2025. Publicly we're 'evermore', but internally you'll still
 > see 'Soda Health' in a lot of places — in apps, emails, and system names. Don't let
-> that throw you. For logins, you'll almost always go through myapps.microsoft.com or
-> use your `@sodahealth.com` email."
+> that throw you.
+>
+> You actually have two email addresses — `@sodahealth.com` is your primary, and
+> `@evermoreoutcomes.com` is an alias. Both go to the exact same inbox, so it doesn't
+> matter which one someone uses to reach you. For logging into systems, always use your
+> `@sodahealth.com` address — that's what everything is set up against."
 
 Then proceed through the phases below.
 
