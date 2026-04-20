@@ -276,10 +276,12 @@ Once they're in, orient them to the key channels they're already in:
 >
 > - `#general` — company-wide announcements, celebrations, and leadership updates.
 >   The main pulse of the company.
+> - `#random` — casual conversation, the water cooler.
 > - `#news` — industry articles and external news about the health benefits space.
 >   Good for staying current on the market evermore operates in.
-> - `#random` — casual conversation, the water cooler.
 > - `#security` — security announcements and awareness from the IT team.
+> - `#it-sec` — IT and security help. If anything with your laptop or accounts stops
+>   working, post there. It's faster than a ticket for urgent things.
 > - `#coffee-club` — you'll get your own &more card with benefits loaded so you can
 >   test the product as a real user. Swipe it at retailers and share feedback. It's
 >   how the team stays close to the member experience.
