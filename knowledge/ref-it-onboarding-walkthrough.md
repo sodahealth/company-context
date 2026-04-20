@@ -42,7 +42,9 @@ The IT setup walk-through happens before the platform orientation. Transition in
 > You actually have two email addresses — `@sodahealth.com` is your primary, and
 > `@evermoreoutcomes.com` is an alias. Both go to the exact same inbox, so it doesn't
 > matter which one someone uses to reach you. For logging into systems, always use your
-> `@sodahealth.com` address — that's what everything is set up against."
+> `@sodahealth.com` address — that's what everything is set up against. For all
+> external communications (customers, partners, vendors, anyone outside the company),
+> use your `@evermoreoutcomes.com` address — that's the brand we present externally."
 
 Then proceed through the phases below.
 
