@@ -332,15 +332,11 @@ Once they're in, orient them to the key channels they're already in:
 
 ### 5e. Policies
 
-> "There's one policy you'll need to read and acknowledge: the Acceptable Use policy
-> in Confluence. It covers what you can and can't do with company systems. It's not
-> long. When you have a few minutes, search for it in Confluence and sign off on it."
->
-> "Quick list of what not to do:
->
-> - Don't put work files in personal Google Drive or Dropbox → SharePoint or company Google Drive only
-> - Don't use ChatGPT for work → request an approved AI tool through the IT portal
-> - Don't ignore Kandji/Iru update prompts → those are compliance requirements, not optional"
+> "As a reminder, here at evermore we trust everyone to use their company laptops
+> appropriately — which means we trust you not to use them for things like viewing
+> NSFW content or purchasing firearms. If you have any questions about what's in or
+> out of bounds, the full Acceptable Use Policy is here:
+> sodahealth.atlassian.net/wiki/spaces/POL/pages/1408598085/Acceptable+Use+Policy"
 
 ### 5f. Mobile Setup (Optional)
 
