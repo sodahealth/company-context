@@ -125,16 +125,21 @@ Walk them through:
 2. "Click the link in the email — it opens in your browser. Follow the setup steps
    to create your master password."
 
-3. **Secret Key — this is important:**
-   > "At some point it will show you a PDF with your Secret Key. Save that PDF somewhere
-   > safe — not just your desktop. Think of it like a backup key to your vault. If you
-   > lose it, recovery is a pain. Where are you thinking of saving it?"
+3. **Emergency Kit — this is important:**
+   > "During setup, 1Password will automatically download a PDF called your 'Emergency
+   > Kit' — that contains your Secret Key and account details. It'll just land in your
+   > Downloads folder without showing you a preview. Make sure you know where it saved
+   > and can open it later. The Emergency Kit is your ONLY way back into 1Password if
+   > you ever get locked out — if you lose it, there's no recovery. Where are you going
+   > to make sure it's saved? (Downloads folder is fine, just know where it is.)"
 
-   (Wherever they say is fine. Just get them to save it before moving on.)
+   (Wherever they say is fine. Just get them to confirm they know where the Emergency
+   Kit lives before moving on.)
 
-4. "Once you've set your password and saved the Secret Key, that's all we do in the
-   browser for now. A confirmation email will arrive within about 5 minutes — that's
-   when we'll finish setting up the desktop app. Let's keep going while we wait."
+4. "Once you've set your master password and know where your Emergency Kit is saved,
+   that's all we do in the browser for now. A confirmation email will arrive within
+   about 5 minutes — that's when we'll finish setting up the desktop app. Let's keep
+   going while we wait."
 
 ✅ **Park Phase 2 and move to Phase 3.**
 
@@ -323,8 +328,8 @@ Once they're in, orient them to the key channels they're already in:
 
 - **If yes:**
   > "Great — press Command+Space to open Spotlight, type '1Password', and open the
-  > desktop app. Sign in with your username, your Secret Key from the PDF you saved,
-  > and your master password. Let me know when you're in."
+  > desktop app. Sign in with your username, your Secret Key from the Emergency Kit
+  > PDF, and your master password. Let me know when you're in."
 
   Then:
 
@@ -418,7 +423,7 @@ After each phase completes, write progress to enrichment:
 Phase values: `"1"` through `"9"`. On full completion: `"complete"`.
 
 Items to track as they're done:
-`macos_tips`, `zoom`, `1password_started`, `1password_secret_key_saved`,
+`macos_tips`, `zoom`, `1password_started`, `1password_emergency_kit_saved`,
 `authenticator`, `kandji_explained`, `chrome`, `sso`, `apps_atlassian`,
 `slack`, `phishing`, `quarantine`, `it_portal`, `1password_complete`,
 `1password_extension`, `policies`, `mobile`
