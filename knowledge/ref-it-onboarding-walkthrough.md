@@ -341,8 +341,9 @@ Once they're in, orient them to the key channels they're already in:
 
   1. "It'll ask you to set up an authenticator for 1Password itself — follow those
      prompts on your phone. This is a second layer of security just for your vault."
-  2. "Once you're in, you'll see an Employee vault — that's where company-shared
-     credentials live. Your Personal vault is for your own logins."
+  2. "You'll see an 'Employee' vault in the sidebar — that's your personal vault
+     where you save all your credentials. Any password you save to 1Password goes
+     here unless you're explicitly working with a shared vault."
   3. "As you log into new tools and create accounts, save your passwords in 1Password
      as you go — it'll prompt you automatically most of the time."
 
