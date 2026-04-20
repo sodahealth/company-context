@@ -50,6 +50,25 @@ Then proceed through the phases below.
 
 ---
 
+## Known Provisioning Gaps to Flag for IT
+
+Some items aren't automatic for every new hire. If you notice any of these during
+the walkthrough, flag them in enrichment `friction_points` so IT can follow up:
+
+- **Claude license missing.** If the new hire opens Claude Desktop and there's no
+  Evermore workspace after SSO (just a blank sign-in or "other" options), they're
+  not in the Claude license group. IT needs to add them manually.
+- **1Password invite never arrived.** Not in inbox, not in spam — needs an admin
+  console resend.
+- **Atlassian tile missing from myapps.** Provisioning may still be running (can
+  take a few hours from start date).
+- **Slack membership didn't auto-add.** If the workspace tile isn't in myapps.
+
+Surface these as early observations, keep moving, and capture them for IT — don't
+block the walkthrough.
+
+---
+
 ## Phase 1 — macOS and Zoom (~5 min)
 
 ### 1a. macOS Quick Tips
@@ -119,8 +138,9 @@ Walk them through:
 
 1. "Open Outlook and look for an invite from 1Password. If it's not in your inbox,
    check Spam or Junk."
-   - **If missing after checking spam:** "It may need to be resent — post in `#it-sec`
-     on Slack and IT can resend it from the admin console."
+   - **If missing:** Don't spend too long looking. Invites often need a manual
+     resend from the admin console — post in `#it-sec` and ask IT to resend.
+     This is common enough that it should be the first fallback, not the last.
 
 2. "Click the link in the email — it opens in your browser. Follow the setup steps
    to create your master password."
@@ -148,8 +168,11 @@ Walk them through:
 ## Phase 3 — Microsoft Authenticator (~5 min)
 
 > "Let's make sure Microsoft Authenticator is set up on your phone — this is how
-> you'll approve sign-ins going forward. Instead of a password, your phone taps to
-> confirm it's you. Is the Soda Health tile showing in your Authenticator app?"
+> you'll approve sign-ins going forward. When you sign in to a work app, Microsoft
+> shows you a 2-digit number on the sign-in page. You enter that number into the
+> Authenticator app on your phone to confirm it's you — that's number matching,
+> and it's required by our security policy. Is the Soda Health tile showing in
+> your Authenticator app?"
 
 - **If yes:** "Great — tap the Soda Health tile. Do you see a 'Passwordless Sign-in'
   option?"
@@ -166,8 +189,9 @@ Walk them through:
   3. "Enter your `@sodahealth.com` email and follow the prompts."
   4. "Let me know when the Soda Health tile appears in the app."
   5. "Tap the Soda Health tile, then tap 'Passwordless Sign-in' and follow the
-     instructions. This lets you approve sign-ins with a tap on your phone instead
-     of typing a password — it's the recommended method."
+     instructions. With this enabled, you'll sign in without a password — you'll
+     just enter the 2-digit number shown on the sign-in page into the Authenticator
+     app when prompted."
 
 - **If push notifications aren't working:**
   > "No worries — use the 6-digit code method for now. Open the app, tap the Soda Health
@@ -260,6 +284,21 @@ Walk them through:
 2. "In the browser, you'll see 'Soda Health' in the upper left — click it and choose
    'Launch in Slack App'. This opens the desktop app with SSO already connected."
 3. "Let me know when you can see the Slack workspace."
+
+**Common stuck state — wrong account or browser keeps looping:**
+
+If they end up in the wrong Slack workspace (personal account, old employer's
+workspace) or Slack keeps bouncing between browser and app without landing them
+in Soda Health:
+
+1. "Sign out of Slack in whichever window it's showing, then right-click the
+   Slack icon in your dock and hit 'Quit' to fully close the app."
+2. "Go back to myapps.microsoft.com, click the Slack tile again, and this time
+   click 'View details' on the Soda Health workspace → 'Join' → 'Launch in
+   Slack App'. That should put you in the right place."
+
+If the browser wizard asks about team/role preferences during the Slack join,
+tell them to just hit "Skip for now" — none of it matters.
 
 Once they're in, orient them to the key channels they're already in:
 
