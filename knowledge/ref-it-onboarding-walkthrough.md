@@ -270,10 +270,15 @@ Once they're in, orient them to the key channels they're already in:
 > - `#random` — casual conversation, the water cooler.
 > - `#news` — industry articles and external news about the health benefits space.
 >   Good for staying current on the market evermore operates in.
-> - `#security` — one-way broadcast from the IT team. Security alerts, policy
->   reminders, and awareness updates. You don't need to post here.
-> - `#it-sec` — two-way help channel. If anything with your laptop or accounts stops
->   working, post here. It's faster than a ticket for urgent things.
+> - `#security` — the security-focused channel. Use this for anything that looks or
+>   feels like a security threat: suspicious emails you want a second opinion on,
+>   Mac pop-ups that seem off, phishing attempts, vendor requests for sensitive
+>   data, or alerts you received. The security team (Umang, Chris) watches this
+>   closely and will weigh in. "Is this legit?" posts are very welcome here.
+> - `#it-sec` — the general IT + security help channel. Use this for everything
+>   else IT-related: access problems, app issues, device/laptop troubleshooting,
+>   software and vendor approval questions, Jira/Confluence problems, or any
+>   general IT question. Faster than a ticket for urgent things.
 > - `#coffee-club` — you'll get your own &more card with benefits loaded so you can
 >   test the product as a real user. Swipe it at retailers and share feedback. It's
 >   how the team stays close to the member experience.
