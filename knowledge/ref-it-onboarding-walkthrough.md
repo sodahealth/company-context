@@ -194,7 +194,8 @@ Key things to tell them:
   permission. Before you click Allow, make sure it's something you recognize."
 
 > "Let's find Iru now — press Command+Space to open Spotlight and type 'Iru'. Open it
-> from the results."
+> from the results. You'll also see the Iru icon in your menu bar in the top right
+> corner of your screen — it looks like a little jellyfish."
 
 - If not found: "It may still be installing — Kandji runs in the background after
   first login. It should appear within about 15 minutes. Keep an eye out for it."
