@@ -1,6 +1,6 @@
 ---
 name: getstarted
-version: "3.1.0"
+version: "3.2.0"
 description: Platform front door — detects mode (first-time, returning, new hire) and routes to the appropriate onboarding or session flow
 ---
 
@@ -419,6 +419,52 @@ After writing CLAUDE.md, confirm briefly:
 
 Do NOT dump the contents of what you wrote.
 
+### Step 5b — Platform Authentication (visible)
+
+Check the `entra_authenticated` status from Phase 0 preflight (Check 5). This step
+requires user action, unlike Step 5 which is silent.
+
+**If already authenticated (`entra_authenticated = true`):** Skip this step silently.
+The user already has a cached identity — no action needed.
+
+**If not authenticated (`entra_authenticated = false`):**
+
+> "One more thing — let's connect your identity to the platform so your sessions are
+> personalized."
+
+Then guide them based on their environment:
+
+1. **macOS with browser available (default):**
+
+   > "Run this in your terminal:"
+   >
+   > ```bash
+   > evermore-agent auth
+   > ```
+   >
+   > "It'll open your browser for a quick sign-in."
+
+2. **Headless or SSH session (no browser):**
+
+   > "Run this in your terminal:"
+   >
+   > ```bash
+   > evermore-agent auth
+   > ```
+   >
+   > "It'll give you a code to enter at microsoft.com/devicelogin on any device."
+
+Wait for the user to confirm they have completed sign-in. Then verify:
+
+> "You're connected as [UPN from token claims]. All set."
+
+**If auth fails or the user wants to skip:**
+
+> "No problem — you can do this later. Just run `evermore-agent auth` whenever you're
+> ready. The platform works without it, but some features need your identity."
+
+Continue to Step 6. Do not block onboarding on auth.
+
 ### Step 6 — "What Would You Like to Try?"
 
 Hand control to the employee. This is the transition from demo to real work.
@@ -728,15 +774,16 @@ The key change from the previous design: the live demo comes BEFORE the company
 introduction, not after. New hires should see what the platform can do first, then
 get oriented to the company.
 
-### Steps 1-5: Same as Mode 1
+### Steps 1-5b: Same as Mode 1
 
-Run Mode 1 Steps 1 through 5 exactly as described:
+Run Mode 1 Steps 1 through 5b exactly as described:
 
 1. Personalized greeting (or cold-start greeting for new hires)
 2. Brief intro ("Every session comes pre-loaded with context...")
 3. "Watch This" moment — live demo of platform knowledge
 4. What's available — concrete examples tailored to their department
 5. Environment setup — silent CLAUDE.md configuration
+5b. Platform authentication — guide user through `evermore-agent auth` (skip if already authenticated)
 
 ### Step 6 — Company Introduction
 
