@@ -438,7 +438,7 @@ Then guide them based on their environment:
 
    > "Run this in your terminal:"
    >
-   > ```
+   > ```bash
    > evermore-agent auth
    > ```
    >
@@ -448,7 +448,7 @@ Then guide them based on their environment:
 
    > "Run this in your terminal:"
    >
-   > ```
+   > ```bash
    > evermore-agent auth
    > ```
    >
