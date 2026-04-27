@@ -31,7 +31,7 @@ registries and configuration data.
 `ever-the-helper` reads these files via the GitHub Contents API using its GitHub App
 credentials. The canonical path is:
 
-```
+```http
 GET /repos/{owner}/company-context/contents/data/onboarded-users.json
 ```
 
