@@ -1,0 +1,26 @@
+{
+  "$schema": "#onboarded-users",
+  "version": 1,
+  "description": "Registry of users who received structured platform onboarding. Used by the Usage Analyst (ADR-e069ca3d) for audience classification: onboarded users get retention tracking, regression detection, and proactive support.",
+  "updated_at": "2026-04-27",
+  "users": [
+    {
+      "upn": "alex.kochanik@evermoreoutcomes.com",
+      "display_name": "Alex Kochanik",
+      "department": "Growth",
+      "onboarded_by": "umang.kapadia",
+      "onboarded_date": "2026-03-15",
+      "onboarding_type": "engagement_session",
+      "notes": "First non-IT onboarded user. Running BQ queries, Outlook MCP, custom skills."
+    },
+    {
+      "upn": "carey.willson@evermoreoutcomes.com",
+      "display_name": "Carey Willson",
+      "department": "Leadership",
+      "onboarded_by": "umang.kapadia",
+      "onboarded_date": "2026-04-17",
+      "onboarding_type": "it_walkthrough",
+      "notes": "COO. Onboarded via /getstarted IT walkthrough."
+    }
+  ]
+}

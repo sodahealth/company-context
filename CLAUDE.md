@@ -10,6 +10,7 @@ All Evermore employees. This is not an IT-internal or department-specific repo. 
 
 ```text
 company-context/
+├── data/            # Machine-readable JSON registries consumed by ever-the-helper
 ├── departments/     # Department-specific context (access-controlled via frontmatter)
 │   └── hps/         # Health Plan Solutions department
 ├── knowledge/       # Company-wide reference docs (policies, org structure, shared guides)
@@ -22,6 +23,7 @@ company-context/
 
 | Directory | What goes here |
 |-----------|---------------|
+| `data/` | Machine-readable JSON registries and configuration consumed by `ever-the-helper` at runtime (not served via Knowledge Gateway) |
 | `departments/` | Department-specific knowledge, prompts, and people profiles — scoped by frontmatter metadata |
 | `knowledge/` | Company-wide reference documents — policies, org structure, product context, shared playbooks |
 | `skills/` | Claude skills invoked via `/command` — each skill lives in its own subdirectory with a `SKILL.md` |
