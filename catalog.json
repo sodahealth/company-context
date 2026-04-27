@@ -2483,6 +2483,39 @@
       "related": [],
       "word_count": 730,
       "has_access_markers": false
+    },
+    {
+      "path": "data/README.md",
+      "title": "Data Directory — Structured Data Files",
+      "summary": "Machine-readable JSON data files consumed by ever-the-helper at runtime. Not knowledge docs — these are registries and configuration data.",
+      "topics": [
+        "data",
+        "registry",
+        "automation",
+        "usage-intelligence"
+      ],
+      "systems": [
+        "ever-the-helper"
+      ],
+      "people": [],
+      "content_type": "reference",
+      "departments": [
+        "all"
+      ],
+      "roles": [
+        "it"
+      ],
+      "classification": "internal",
+      "source_of_truth_for": [
+        "onboarded-users-schema"
+      ],
+      "last_verified": "2026-04-27",
+      "review_cycle_days": 90,
+      "related": [
+        "ADR-e069ca3d"
+      ],
+      "word_count": 450,
+      "has_access_markers": false
     }
   ]
 }
